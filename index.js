@@ -99,7 +99,7 @@ function handleMessage(sender_psid, received_message) {
                             {
                                 "type": "postback",
                                 "title": "Sim!",
-                                "payload": "Sim",
+                                "payload": "sim",
                             },
                             {
                                 "type": "postback",
@@ -126,9 +126,9 @@ function handlePostback(sender_psid, received_postback) {
     console.log(payload);
 
     // Set the response based on the postback payload
-    if (payload === 'sim') {
+    if (payload === 'sim' || "Sim" || "Sim!" || 'sim!' || "s") {
         response = { "text": "Obrigado!" }
-    } else if (payload === 'nao') {
+    } else if (payload === 'nao' || "Não" || "não" || "n") {
         response = { "text": "Mande outra." }
     }
     // Send the message to acknowledge the postback
