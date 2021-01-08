@@ -133,9 +133,9 @@ function handlePostback(sender_psid, received_postback) {
 
     // Set the response based on the postback payload
     if (payload === 'sim' || "Sim" || "Sim!" || 'sim!' || "s") {
-        response = { "text": "Obrigado!" }
+        response = { "text": "Obrigado !!!!!" }
     } else if (payload === 'nao' || "Não" || "Não!" || "não" || "n") {
-        response = { "text": "Mande outra." }
+        response = { "text": "Tente enviar outra." }
     }
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
