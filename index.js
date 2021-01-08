@@ -104,7 +104,7 @@ function handleMessage(sender_psid, received_message) {
                             {
                                 "type": "postback",
                                 "title": "Não!",
-                                "payload": "não",
+                                "payload": "nao",
                             }
                         ],
                     }]
@@ -123,11 +123,12 @@ function handlePostback(sender_psid, received_postback) {
     // Get the payload for the postback
     let payload = received_postback.payload;
     console.log('chegou')
+    console.log(payload);
 
     // Set the response based on the postback payload
-    if (payload === 'yes') {
+    if (payload === 'sim') {
         response = { "text": "Obrigado!" }
-    } else if (payload === 'no') {
+    } else if (payload === 'nao') {
         response = { "text": "Mande outra." }
     }
     // Send the message to acknowledge the postback
