@@ -1,12 +1,14 @@
 'use strict';
-
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const
     express = require('express'),
     bodyParser = require('body-parser'),
-    app = express().use(bodyParser.json());
+    app = express().use(bodyParser.json()),
+    request = require('request'),
+    storage = require('node-persist');//storage local
 
-const request = require('request');
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+const iniciarBanco = async () => await storage.init(); //função que inicia o banco local
+
 console.log(PAGE_ACCESS_TOKEN);
 
 app.post('/webhook', (req, res) => {
@@ -78,11 +80,15 @@ function handleMessage(sender_psid, received_message) {
 
     // Checks if the message contains text
     if (received_message.text) {
-        // Create the payload for a basic text message, which
-        // will be added to the body of our request to the Send API
+
+        const ultimaMsg = await storage.getItem(`${sender_psid}_ultimaMsg`) || 'nada'; //recupera o que falou na msg anterior
+
         response = {
-            "text": `Voce me mandou isso: "${received_message.text}". agora me mande um anexo!`
+            "text": `Voce me mandou isso: "${received_message.text}", antes voce disse ${ultimaMsg}. agora me mande um anexo!`
         }
+
+        await storage.setItem(`${sender_psid}_ultimaMsg`, received_message.text); //salva o que disse atualemnte para ser consultado depois
+
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
@@ -128,7 +134,7 @@ function handlePostback(sender_psid, received_postback) {
     // Set the response based on the postback payload
     if (payload === 'sim' || "Sim" || "Sim!" || 'sim!' || "s") {
         response = { "text": "Obrigado!" }
-    } else if (payload === 'nao' || "Não" || "não" || "n") {
+    } else if (payload === 'nao' || "Não" || "Não!" || "não" || "n") {
         response = { "text": "Mande outra." }
     }
     // Send the message to acknowledge the postback
@@ -160,3 +166,5 @@ function callSendAPI(sender_psid, response) {
 }
 
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
+
+iniciarBanco();
