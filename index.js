@@ -116,17 +116,19 @@ function handleMessage(sender_psid, received_message) {
     // Send the response message
     callSendAPI(sender_psid, response);
 }
+
 function handlePostback(sender_psid, received_postback) {
     let response;
 
     // Get the payload for the postback
     let payload = received_postback.payload;
+    console.log('chegou')
 
     // Set the response based on the postback payload
     if (payload === 'yes') {
-        response = { "text": "Thanks!" }
+        response = { "text": "Obrigado!" }
     } else if (payload === 'no') {
-        response = { "text": "Oops, try sending another image." }
+        response = { "text": "Mande outra." }
     }
     // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
