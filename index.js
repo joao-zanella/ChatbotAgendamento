@@ -5,7 +5,9 @@ const
     bodyParser = require('body-parser'),
     app = express().use(bodyParser.json());
 
+const request = require('request');
 const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
+console.log(PAGE_ACCESS_TOKEN);
 
 app.post('/webhook', (req, res) => {
 
@@ -24,6 +26,14 @@ app.post('/webhook', (req, res) => {
             // Get the sender PSID
             let sender_psid = webhook_event.sender.id;
             console.log('Sender PSID: ' + sender_psid);
+
+            // Check if the event is a message or postback and
+            // pass the event to the appropriate handler function
+            if (webhook_event.message) {
+                handleMessage(sender_psid, webhook_event.message);
+            } else if (webhook_event.postback) {
+                handlePostback(sender_psid, webhook_event.postback);
+            }
 
         });
 
@@ -65,6 +75,16 @@ app.get('/webhook', (req, res) => {
 
 function handleMessage(sender_psid, received_message) {
 
+    let response;
+
+    if (received_message.text) {
+
+        response = {
+            "text": `Você digitou isso: ${received_message.text}!`
+        }
+    }
+
+    callSendAPI(sender_psid, response);
 }
 
 function handlePostback(sender_psid, received_postback) {
@@ -72,7 +92,27 @@ function handlePostback(sender_psid, received_postback) {
 }
 
 function callSendAPI(sender_psid, response) {
+    // Construct the message body
+    let request_body = {
+        "recipient": {
+            "id": sender_psid
+        },
+        "message": response
+    }
 
+    // Send the HTTP request to the Messenger Platform
+    request({
+        "uri": "https://graph.facebook.com/v2.6/me/messages",
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('message sent!')
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
 }
 
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
