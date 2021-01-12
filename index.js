@@ -235,11 +235,23 @@ async function handleMessage(sender_psid, received_message) {
     if (received_message.text === "12/01/2021") {
 
         response = {
-            "content_type": "text",
-            "title": "<BUTTON_TEXT>",
-            "image_url": "http://example.com/img/red.png",
-            "payload": "<DEVELOPER_DEFINED_PAYLOAD>"
-        }
+            "message": {
+                "text": "Pick a color:",
+                "quick_replies": [
+                    {
+                        "content_type": "text",
+                        "title": "Red",
+                        "payload": "<POSTBACK_PAYLOAD>",
+                        "image_url": "http://example.com/img/red.png"
+                    }, {
+                        "content_type": "text",
+                        "title": "Green",
+                        "payload": "<POSTBACK_PAYLOAD>",
+                        "image_url": "http://example.com/img/green.png"
+                    }
+                ]
+            }
+        };
 
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
