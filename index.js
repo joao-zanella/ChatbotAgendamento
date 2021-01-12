@@ -217,7 +217,7 @@ async function handleMessage(sender_psid, received_message) {
     const ultimaMsg = await storage.getItem(`${sender_psid}_ultimaMsg`) || 'nada'; //recupera o que falou na msg anterior
 
     // Checks if the message contains text
-    if (received_message.text === "Oi") {
+    if (received_message.text === "Oi" || "oi") {
 
         response = {
             "text": `Olá! Informe seu nome para iniciarmos seu agendamento.`
@@ -225,7 +225,7 @@ async function handleMessage(sender_psid, received_message) {
 
         await storage.setItem(`${sender_psid}_ultimaMsg`, received_message.text); //salva o que disse atualemnte para ser consultado depois
 
-    } else if (received_message.text = "joao") {
+    } else if (received_message.text === "joao") {
 
         response = {
             "text": `Bem vindo ${ultimaMsg}, selecione um dia para iniciarmos`
