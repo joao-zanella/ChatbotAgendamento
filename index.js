@@ -217,21 +217,22 @@ async function handleMessage(sender_psid, received_message) {
     const ultimaMsg = await storage.getItem(`${sender_psid}_ultimaMsg`) || 'nada'; //recupera o que falou na msg anterior
 
     // Checks if the message contains text
-    if (received_message.text === "Oi" || "oi") {
+    // if (received_message.text === "Oi" || "oi") {
 
-        response = {
-            "text": `Olá! Informe seu nome para iniciarmos seu agendamento.`
-        }
+    //     response = {
+    //         "text": `Olá! Informe seu nome para iniciarmos seu agendamento.`
+    //     }
 
-        await storage.setItem(`${sender_psid}_ultimaMsg`, received_message.text); //salva o que disse atualemnte para ser consultado depois
+    //     await storage.setItem(`${sender_psid}_ultimaMsg`, received_message.text); //salva o que disse atualemnte para ser consultado depois
 
-    } else if (received_message.text === "joao") {
+    // } else if (received_message.text == "joao") {
 
-        response = {
-            "text": `Bem vindo ${ultimaMsg}, selecione um dia para iniciarmos`
-        }
+    //     response = {
+    //         "text": `Bem vindo ${ultimaMsg}, selecione um dia para iniciarmos`
+    //     }
 
-    } else if (received_message.text === "12/01/2021") {
+    // } else 
+    if (received_message.text === "12/01/2021") {
 
         response = {
             "messaging_type": "RESPONSE",
