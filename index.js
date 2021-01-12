@@ -235,23 +235,10 @@ async function handleMessage(sender_psid, received_message) {
     if (received_message.text === "12/01/2021") {
 
         response = {
-            "messaging_type": "RESPONSE",
-            "message": {
-                "text": "Selecione uma hora:",
-                "quick_replies": [
-                    {
-                        "content_type": "text",
-                        "title": "11:30",
-                        "payload": "<POSTBACK_PAYLOAD>",
-                        "image_url": "http://example.com/img/red.png"
-                    }, {
-                        "content_type": "text",
-                        "title": "12:30",
-                        "payload": "<POSTBACK_PAYLOAD>",
-                        "image_url": "http://example.com/img/green.png"
-                    }
-                ]
-            }
+            "content_type": "text",
+            "title": "<BUTTON_TEXT>",
+            "image_url": "http://example.com/img/red.png",
+            "payload": "<DEVELOPER_DEFINED_PAYLOAD>"
         }
 
     } else if (received_message.attachments) {
