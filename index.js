@@ -68,6 +68,7 @@ const proximos10dias = () => new Promise((resolve, reject) => {
             if (diasDisponiveis.length >= 10) break;
         }
         console.log('dias disponiveis ' + diasDisponiveis);
+        console.log(diasDisponiveis);
         resolve(diasDisponiveis);
     });
 });
