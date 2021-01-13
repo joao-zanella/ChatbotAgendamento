@@ -218,12 +218,17 @@ async function handleMessage(sender_psid, received_message) {
 
     if (received_message.text == 'oi') {
 
-        console.log(received_message.text);
         response = {
             "text": `Olá! Informe seu nome para iniciarmos seu agendamento. ${ultimaMsg}`
-        }
+        };
 
         await storage.setItem(`${sender_psid}_ultimaMsg`, received_message.text); //salva o que disse atualemnte para ser consultado depois
+
+    } else if (received_message.text == 'joao' || 'João') {
+
+        response = {
+            "text": `OK ${ultimaMsg} por favor informe o dia para sua consulta.`
+        };
 
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
