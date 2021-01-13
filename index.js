@@ -58,12 +58,15 @@ const proximos10dias = () => new Promise((resolve, reject) => {
 
     }, (err, calendarResponse) => {
         const lista = calendarResponse.data.items;
+        console.log(lista);
 
         let diasDisponiveis = [];
 
         for (let i = 0; i < lista.length; i++) {
             const vlSplit = lista[i].start.dateTime.substr(0, 10).split('-');
+            console.log(vlSplit);
             const strAux = `${vlSplit[2]}/${vlSplit[1]}/${vlSplit[0]}`;
+            console.log(strAux);
             if (diasDisponiveis.length < 10 && !diasDisponiveis.includes(strAux)) diasDisponiveis.push(strAux);
             if (diasDisponiveis.length >= 10) break;
         }
