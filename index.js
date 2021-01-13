@@ -227,25 +227,24 @@ async function handleMessage(sender_psid, received_message) {
     } else if (received_message.text == 'joao' || 'João') {
 
         response = {
-            "recipient": {
-                "id": "<PSID>"
-            },
-            "messaging_type": "RESPONSE",
-            "message": {
-                "text": "Pick a color:",
-                "quick_replies": [
-                    {
-                        "content_type": "text",
-                        "title": "Red",
-                        "payload": "<POSTBACK_PAYLOAD>",
-                        "image_url": "http://example.com/img/red.png"
-                    }, {
-                        "content_type": "text",
-                        "title": "Green",
-                        "payload": "<POSTBACK_PAYLOAD>",
-                        "image_url": "http://example.com/img/green.png"
-                    }
-                ]
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "button",
+                    "text": "Por favor selecione um horário:",
+                    "buttons": [
+                        {
+                            "type": "postback",
+                            "title": "09:15",
+                            "payload": "1",
+                        },
+                        {
+                            "type": "postback",
+                            "title": "10:15",
+                            "payload": "2",
+                        }
+                    ]
+                }
             }
         };
 
