@@ -58,7 +58,7 @@ const proximos10dias = () => new Promise((resolve, reject) => {
 
     }, (err, calendarResponse) => {
         const lista = calendarResponse.data.items;
-        console.log(lista);
+        console.log(`lista ${lista}`);
 
         let diasDisponiveis = [];
 
