@@ -227,8 +227,28 @@ async function handleMessage(sender_psid, received_message) {
     } else if (received_message.text == 'joao' || 'João') {
 
         response = {
-            "text": `OK ${ultimaMsg} por favor informe o dia para sua consulta.`
+            "recipient": {
+                "id": "<PSID>"
+            },
+            "messaging_type": "RESPONSE",
+            "message": {
+                "text": "Pick a color:",
+                "quick_replies": [
+                    {
+                        "content_type": "text",
+                        "title": "Red",
+                        "payload": "<POSTBACK_PAYLOAD>",
+                        "image_url": "http://example.com/img/red.png"
+                    }, {
+                        "content_type": "text",
+                        "title": "Green",
+                        "payload": "<POSTBACK_PAYLOAD>",
+                        "image_url": "http://example.com/img/green.png"
+                    }
+                ]
+            }
         };
+
 
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
