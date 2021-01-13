@@ -57,6 +57,7 @@ const proximos10dias = () => new Promise((resolve, reject) => {
         orderBy: 'startTime',
 
     }, (err, calendarResponse) => {
+        console.log(calendarResponse);
         const lista = calendarResponse.data.items;
         console.log(`lista ${lista}`);
 
