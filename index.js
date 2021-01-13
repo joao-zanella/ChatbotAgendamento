@@ -227,25 +227,10 @@ async function handleMessage(sender_psid, received_message) {
     } else if (received_message.text == 'joao' || 'João') {
 
         response = {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "button",
-                    "text": "Por favor selecione um horário:",
-                    "buttons": [
-                        {
-                            "type": "postback",
-                            "title": "09:15",
-                            "payload": "1",
-                        },
-                        {
-                            "type": "postback",
-                            "title": "10:15",
-                            "payload": "2",
-                        }
-                    ]
-                }
-            }
+            "content_type": "text",
+            "title": "Teste quick reply",
+            "image_url": "http://example.com/img/red.png",
+            "payload": "<DEVELOPER_DEFINED_PAYLOAD>"
         };
 
 
