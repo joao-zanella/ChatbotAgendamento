@@ -216,42 +216,14 @@ async function handleMessage(sender_psid, received_message) {
 
     const ultimaMsg = await storage.getItem(`${sender_psid}_ultimaMsg`) || 'nada'; //recupera o que falou na msg anterior
 
-    // Checks if the message contains text
-    // if (received_message.text === "Oi" || "oi") {
+    if (received_message.text) {
 
-    //     response = {
-    //         "text": `Olá! Informe seu nome para iniciarmos seu agendamento.`
-    //     }
-
-    //     await storage.setItem(`${sender_psid}_ultimaMsg`, received_message.text); //salva o que disse atualemnte para ser consultado depois
-
-    // } else if (received_message.text == "joao") {
-
-    //     response = {
-    //         "text": `Bem vindo ${ultimaMsg}, selecione um dia para iniciarmos`
-    //     }
-
-    // } else 
-    if (received_message.text === "12/01/2021") {
-
+        console.log(received_message.text);
         response = {
-            "message": {
-                "text": "Pick a color:",
-                "quick_replies": [
-                    {
-                        "content_type": "text",
-                        "title": "Red",
-                        "payload": "<POSTBACK_PAYLOAD>",
-                        "image_url": "http://example.com/img/red.png"
-                    }, {
-                        "content_type": "text",
-                        "title": "Green",
-                        "payload": "<POSTBACK_PAYLOAD>",
-                        "image_url": "http://example.com/img/green.png"
-                    }
-                ]
-            }
-        };
+            "text": `Olá! Informe seu nome para iniciarmos seu agendamento. ${ultimaMsg}`
+        }
+
+        await storage.setItem(`${sender_psid}_ultimaMsg`, received_message.text); //salva o que disse atualemnte para ser consultado depois
 
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
