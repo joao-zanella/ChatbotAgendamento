@@ -33,6 +33,8 @@ const iniciarBanco = async () => await storage.init(); //função que inicia o b
 
 const proximos10dias = () => new Promise((resolve, reject) => {
 
+    console.log('Executando função proximos10dias');
+
     const serviceAccountAuth = new google.auth.JWT({
         email: serviceAccount.client_email,
         key: serviceAccount.private_key,
@@ -227,6 +229,7 @@ async function handleMessage(sender_psid, received_message) {
     } else if (received_message.text == 'joao' || 'João') {
 
         var img = 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=748&q=80'
+        proximos10dias();
         response = {
             "attachment": {
                 "type": "template",
