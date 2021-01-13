@@ -216,7 +216,7 @@ async function handleMessage(sender_psid, received_message) {
 
     const ultimaMsg = await storage.getItem(`${sender_psid}_ultimaMsg`) || 'nada'; //recupera o que falou na msg anterior
 
-    if (received_message.text) {
+    if (received_message.text == 'oi') {
 
         console.log(received_message.text);
         response = {
