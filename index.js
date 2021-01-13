@@ -227,19 +227,26 @@ async function handleMessage(sender_psid, received_message) {
     } else if (received_message.text == 'joao' || 'João') {
 
         response = {
-            "sender": {
+            "recipient": {
                 "id": "<PSID>"
             },
-            "recipient": {
-                "id": "<PAGE_ID>"
-            },
-            "timestamp": 1458692752478,
+            "messaging_type": "RESPONSE",
             "message": {
-                "mid": "mid.1457764197618:41d102a3e1ae206a38",
-                "text": "hello, world!",
-                "quick_reply": {
-                    "payload": "hello world"
-                }
+                "text": "Pick a color:",
+                "quick_replies": [
+                    {
+                        "content_type": "text",
+                        "title": "Dia 1",
+                        "image_url": "http://example.com/img/red.png",
+                        "payload": "<DEVELOPER_DEFINED_PAYLOAD>"
+                    },
+                    {
+                        "content_type": "text",
+                        "title": "Dia 2",
+                        "image_url": "http://example.com/img/red.png",
+                        "payload": "<DEVELOPER_DEFINED_PAYLOAD>"
+                    }
+                ]
             }
         }
 
