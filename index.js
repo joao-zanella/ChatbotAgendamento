@@ -227,6 +227,7 @@ async function handleMessage(sender_psid, received_message) {
     } else if (received_message.text == 'joao' || 'João') {
 
         response = {
+            "messaging_type": "RESPONSE",
             "message": {
                 "text": "Pick a color:",
                 "quick_replies": [
