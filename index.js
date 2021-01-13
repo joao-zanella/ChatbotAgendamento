@@ -227,11 +227,32 @@ async function handleMessage(sender_psid, received_message) {
     } else if (received_message.text == 'joao' || 'João') {
 
         response = {
-            "content_type": "text",
-            "title": "Teste quick reply",
-            "image_url": "http://example.com/img/red.png",
-            "payload": "<DEVELOPER_DEFINED_PAYLOAD>"
-        };
+            "object": "page",
+            "entry": [
+                {
+                    "id": "<PAGE_ID>",
+                    "time": 1502905976963,
+                    "messaging": [
+                        {
+                            "sender": {
+                                "id": "1254459154682919"
+                            },
+                            "recipient": {
+                                "id": "682498171943165"
+                            },
+                            "timestamp": 1502905976377,
+                            "message": {
+                                "quick_reply": {
+                                    "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
+                                },
+                                "mid": "m_AG5Hz2Uq7tuwNEhXfYYKj8mJEM_QPpz5jdCK48PnKAjSdjfipqxqMvK8ma6AC8fplwlqLP_5cgXIbu7I3rBN0P",
+                                "text": "Green"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
 
 
     } else if (received_message.attachments) {
