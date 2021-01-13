@@ -226,24 +226,30 @@ async function handleMessage(sender_psid, received_message) {
 
     } else if (received_message.text == 'joao' || 'João') {
 
+        var img = 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=748&q=80'
         response = {
-            "messaging_type": "RESPONSE",
-            "message": {
-                "text": "Pick a color:",
-                "quick_replies": [
-                    {
-                        "content_type": "text",
-                        "title": "Dia 1",
-                        "image_url": "http://example.com/img/red.png",
-                        "payload": "<DEVELOPER_DEFINED_PAYLOAD>"
-                    },
-                    {
-                        "content_type": "text",
-                        "title": "Dia 2",
-                        "image_url": "http://example.com/img/red.png",
-                        "payload": "<DEVELOPER_DEFINED_PAYLOAD>"
-                    }
-                ]
+            "attachment": {
+                "type": "template",
+                "payload": {
+                    "template_type": "generic",
+                    "elements": [{
+                        "title": "Selecione a data desejada:",
+                        "subtitle": "Selecione o botão para selecionar a data.",
+                        "image_url": img,
+                        "buttons": [
+                            {
+                                "type": "postback",
+                                "title": "10:30",
+                                "payload": "10:30",
+                            },
+                            {
+                                "type": "postback",
+                                "title": "11:30",
+                                "payload": "11:30",
+                            }
+                        ],
+                    }]
+                }
             }
         }
 
