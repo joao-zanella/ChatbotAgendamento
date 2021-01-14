@@ -33,8 +33,6 @@ const iniciarBanco = async () => await storage.init(); //função que inicia o b
 
 const proximos10dias = () => new Promise((resolve, reject) => {
 
-    console.log('Executando função proximos10dias');
-
     const serviceAccountAuth = new google.auth.JWT({
         email: serviceAccount.client_email,
         key: serviceAccount.private_key,
@@ -43,6 +41,8 @@ const proximos10dias = () => new Promise((resolve, reject) => {
 
     const agoraMais1hora = new Date(((new Date()).getTime()) + (1000 * 60 * 60));
     const agoraMais30dias = new Date(((new Date()).getTime()) + (1000 * 60 * 60 * 24 * 30));
+
+    console.log('Executando função proximos10dias');
 
     calendar.events.list({
         auth: serviceAccountAuth,
@@ -57,7 +57,6 @@ const proximos10dias = () => new Promise((resolve, reject) => {
         orderBy: 'startTime',
 
     }, (err, calendarResponse) => {
-        console.log(calendarResponse.data);
         const lista = calendarResponse.data.items;
         console.log(`lista ${lista}`);
 
@@ -71,7 +70,6 @@ const proximos10dias = () => new Promise((resolve, reject) => {
             if (diasDisponiveis.length < 10 && !diasDisponiveis.includes(strAux)) diasDisponiveis.push(strAux);
             if (diasDisponiveis.length >= 10) break;
         }
-        console.log('dias disponiveis ' + diasDisponiveis);
         console.log(diasDisponiveis);
         resolve(diasDisponiveis);
     });
@@ -265,30 +263,29 @@ async function handleMessage(sender_psid, received_message) {
                 }
             }
         }
-
-
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
+        horariosLivresDiaEspecifico();
         response = {
             "attachment": {
                 "type": "template",
                 "payload": {
                     "template_type": "generic",
                     "elements": [{
-                        "title": "está é a imagem correta?",
-                        "subtitle": "selecione o botão para responder.",
+                        "title": "Agora selecione a hora desejada",
+                        "subtitle": "Estás são as horas disponiveis.",
                         "image_url": attachment_url,
                         "buttons": [
                             {
                                 "type": "postback",
-                                "title": "Sim!",
-                                "payload": "sim",
+                                "title": "09:00",
+                                "payload": "09:00",
                             },
                             {
                                 "type": "postback",
-                                "title": "Não!",
-                                "payload": "nao",
+                                "title": "10:00",
+                                "payload": "10:00",
                             }
                         ],
                     }]
@@ -305,18 +302,15 @@ function handlePostback(sender_psid, received_postback) {
 
     // Get the payload for the postback
     let payload = received_postback.payload;
+    let message = received_postback.text;
     if (payload) {
         console.log(payload);
     }
-
-
-    // Set the response based on the postback payload
     if (payload === 'sim' || "Sim" || "Sim!" || 'sim!' || "s") {
         response = { "text": "Obrigado !!!!!" }
     } else if (payload === 'nao' || "Não" || "Não!" || "não" || "n") {
         response = { "text": "Tente enviar outra." }
     }
-    // Send the message to acknowledge the postback
     callSendAPI(sender_psid, response);
 }
 
