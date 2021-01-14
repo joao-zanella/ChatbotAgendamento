@@ -233,36 +233,27 @@ async function handleMessage(sender_psid, received_message) {
 
         var img = 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=748&q=80'
         proximos10dias();
+        console.log(diasDisponiveis);
         response = {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                        "title": "Selecione a data desejada:",
-                        "subtitle": "Selecione o botão para selecionar a data.",
-                        "image_url": img,
-                        "buttons": [
-                            {
-                                "type": "postback",
-                                "title": diasDisponiveis[0],
-                                "payload": "13/01",
-                            },
-                            {
-                                "type": "postback",
-                                "title": diasDisponiveis[1],
-                                "payload": "14/01",
-                            },
-                            {
-                                "type": "postback",
-                                "title": diasDisponiveis[2],
-                                "payload": "15/01",
-                            }
-                        ],
-                    }]
+            "text": "Escolha uma das opções abaixo:",
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": "Blue",
+                    "payload": "BLUE ID OU QUALQUER OUTRA COISA"
+                },
+                {
+                    "content_type": "text",
+                    "title": "Green",
+                    "payload": "GREEN ID OU QUALQUER OUTRA COISA",
+                },
+                {
+                    "content_type": "text",
+                    "title": "Red",
+                    "payload": "Red ID OU QUALQUER OUTRA COISA",
                 }
-            }
-        }
+            ]
+        };
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
