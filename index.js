@@ -241,18 +241,18 @@ async function handleMessage(sender_psid, received_message) {
             "quick_replies": [
                 {
                     "content_type": "text",
-                    "title": `14/01`,
-                    "payload": `14/01`
+                    "title": `${diasLivres[0]}`,
+                    "payload": `${diasLivres[0]}`
                 },
                 {
                     "content_type": "text",
-                    "title": "15/01",
-                    "payload": "GREEN ID OU QUALQUER OUTRA COISA",
+                    "title": `${diasLivres[1]}`,
+                    "payload": `${diasLivres[1]}`,
                 },
                 {
                     "content_type": "text",
-                    "title": "Red",
-                    "payload": "Red ID OU QUALQUER OUTRA COISA",
+                    "title": `${diasLivres[2]}`,
+                    "payload": `${diasLivres[2]}`,
                 }
             ]
         };
