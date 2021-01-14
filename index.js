@@ -226,12 +226,18 @@ async function handleMessage(sender_psid, received_message) {
     if (received_message.text == 'oi') {
 
         response = {
-            "text": `Olá! Informe seu nome para iniciarmos seu agendamento. ${ultimaMsg}`
+            "text": `Olá! Informe seu nome para iniciarmos seu agendamento.`
         };
 
         await storage.setItem(`${sender_psid}_ultimaMsg`, received_message.text); //salva o que disse atualemnte para ser consultado depois
 
-    } else if (received_message.text == 'joao') {
+    } else if (received_message.text === 'joao') {
+
+        response = {
+            "text": `Olá ${ultimaMsg}, por favor informe seu número de telefone.`
+        };
+
+    } else if (received_message.text == '99873996' || '9987-3996') {
 
         // var img = 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=748&q=80'
         const retornoDias = await proximos13dias();
@@ -307,11 +313,12 @@ async function handleMessage(sender_psid, received_message) {
                 }
             ]
         };
-    } else if (received_message.text == '14/01/2021') {
+    } else if (received_message.text == '14/01/2021' || '15/01/2021') {
 
         const pegaHoras = await horariosLivresDiaEspecifico(received_message.text);
         console.log(pegaHoras.horas);
         console.log(pegaHoras.ids);
+
         response = {
             "text": `Os horários disponíveis para o dia ${received_message.text} são:`,
             "quick_replies": [
