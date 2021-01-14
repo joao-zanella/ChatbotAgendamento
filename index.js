@@ -253,6 +253,56 @@ async function handleMessage(sender_psid, received_message) {
                     "content_type": "text",
                     "title": `${diasLivres[2]}`,
                     "payload": `${diasLivres[2]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[3]}`,
+                    "payload": `${diasLivres[3]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[4]}`,
+                    "payload": `${diasLivres[4]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[5]}`,
+                    "payload": `${diasLivres[5]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[6]}`,
+                    "payload": `${diasLivres[6]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[7]}`,
+                    "payload": `${diasLivres[7]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[8]}`,
+                    "payload": `${diasLivres[8]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[9]}`,
+                    "payload": `${diasLivres[9]}`,
+                }
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[10]}`,
+                    "payload": `${diasLivres[10]}`,
+                }
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[11]}`,
+                    "payload": `${diasLivres[11]}`,
+                }
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[12]}`,
+                    "payload": `${diasLivres[12]}`,
                 }
             ]
         };
