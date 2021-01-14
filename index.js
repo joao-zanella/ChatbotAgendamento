@@ -245,17 +245,17 @@ async function handleMessage(sender_psid, received_message) {
                         "buttons": [
                             {
                                 "type": "postback",
-                                "title": "13/01",
+                                "title": diasDisponiveis[0],
                                 "payload": "13/01",
                             },
                             {
                                 "type": "postback",
-                                "title": "14/01",
+                                "title": diasDisponiveis[1],
                                 "payload": "14/01",
                             },
                             {
                                 "type": "postback",
-                                "title": "15/01",
+                                "title": diasDisponiveis[2],
                                 "payload": "15/01",
                             }
                         ],
