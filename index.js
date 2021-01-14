@@ -232,18 +232,20 @@ async function handleMessage(sender_psid, received_message) {
     } else if (received_message.text == 'joao' || 'João') {
 
         // var img = 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=748&q=80'
-        proximos10dias();
+        const retornoDias = await proximos10dias();
+        const diasLivres = retornoDias;
+        console.log(diasLivres);
         response = {
-            "text": "Escolha uma das opções abaixo:",
+            "text": "Selecione uma data para executar o agendamento:",
             "quick_replies": [
                 {
                     "content_type": "text",
-                    "title": "Blue",
-                    "payload": "BLUE ID OU QUALQUER OUTRA COISA"
+                    "title": `${diasDisponiveis[0]}`,
+                    "payload": `${diasDisponiveis[0]}`
                 },
                 {
                     "content_type": "text",
-                    "title": "Green",
+                    "title": "15/01",
                     "payload": "GREEN ID OU QUALQUER OUTRA COISA",
                 },
                 {
