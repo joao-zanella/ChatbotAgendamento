@@ -78,6 +78,7 @@ const proximos13dias = () => new Promise((resolve, reject) => {
 
 const horariosLivresDiaEspecifico = (escolhido) => new Promise((resolve, reject) => {
 
+    console.log('Executando horariosLivresDiaEspecifico');
     const hoje = new Date().toISOString();
     const hojeStr = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
     const agoraMais1hora = new Date(((new Date()).getTime()) + (1000 * 60 * 60));
@@ -308,6 +309,7 @@ async function handleMessage(sender_psid, received_message) {
         };
     } else if (received_message.text == '15/01/2021') {
 
+        horariosLivresDiaEspecifico();
         response = {
             "text": `Os horários disponíveis para o dia ${received_message.text} são:`,
             "quick_replies": [
@@ -332,7 +334,6 @@ async function handleMessage(sender_psid, received_message) {
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
-        horariosLivresDiaEspecifico();
         response = {
             "attachment": {
                 "type": "template",
