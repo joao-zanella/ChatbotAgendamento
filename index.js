@@ -32,7 +32,7 @@ const serviceAccountAuth = new google.auth.JWT({
 
 const iniciarBanco = async () => await storage.init(); //função que inicia o banco local
 
-const proximos10dias = () => new Promise((resolve, reject) => {
+const proximos13dias = () => new Promise((resolve, reject) => {
 
     const serviceAccountAuth = new google.auth.JWT({
         email: serviceAccount.client_email,
@@ -43,7 +43,7 @@ const proximos10dias = () => new Promise((resolve, reject) => {
     const agoraMais1hora = new Date(((new Date()).getTime()) + (1000 * 60 * 60));
     const agoraMais30dias = new Date(((new Date()).getTime()) + (1000 * 60 * 60 * 24 * 30));
 
-    console.log('Executando função proximos10dias');
+    console.log('Executando função proximos13dias');
 
     calendar.events.list({
         auth: serviceAccountAuth,
@@ -68,8 +68,8 @@ const proximos10dias = () => new Promise((resolve, reject) => {
             console.log(vlSplit);
             const strAux = `${vlSplit[2]}/${vlSplit[1]}/${vlSplit[0]}`;
             console.log(strAux);
-            if (diasDisponiveis.length < 10 && !diasDisponiveis.includes(strAux)) diasDisponiveis.push(strAux);
-            if (diasDisponiveis.length >= 10) break;
+            if (diasDisponiveis.length < 13 && !diasDisponiveis.includes(strAux)) diasDisponiveis.push(strAux);
+            if (diasDisponiveis.length >= 13) break;
         }
         console.log('dias disponiveis ' + diasDisponiveis);
         resolve(diasDisponiveis);
@@ -233,7 +233,7 @@ async function handleMessage(sender_psid, received_message) {
     } else if (received_message.text == 'joao' || 'João') {
 
         // var img = 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=748&q=80'
-        const retornoDias = await proximos10dias();
+        const retornoDias = await proximos13dias();
         diasLivres = retornoDias;
         console.log(`Dias livres ${diasLivres}`);
         response = {
@@ -291,21 +291,26 @@ async function handleMessage(sender_psid, received_message) {
                 },
                 {
                     "content_type": "text",
-                    "title": `teste 1`,
-                    "payload": `teste 1`,
+                    "title": `${diasLivres[10]}`,
+                    "payload": `${diasLivres[10]}`,
                 },
                 {
                     "content_type": "text",
-                    "title": `teste 2`,
-                    "payload": `teste 2`,
+                    "title": `${diasLivres[11]}`,
+                    "payload": `${diasLivres[11]}`,
                 },
                 {
                     "content_type": "text",
-                    "title": `teste 3`,
-                    "payload": `teste 3`,
+                    "title": `${diasLivres[12]}`,
+                    "payload": `${diasLivres[12]}`,
                 }
             ]
         };
+    } else if (received_message.attachments == '15/01') {
+
+        response = {
+            'text': 'retorna o horario aqui.'
+        }
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
