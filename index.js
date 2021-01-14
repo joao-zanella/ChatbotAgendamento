@@ -230,7 +230,7 @@ async function handleMessage(sender_psid, received_message) {
 
         await storage.setItem(`${sender_psid}_ultimaMsg`, received_message.text); //salva o que disse atualemnte para ser consultado depois
 
-    } else if (received_message.text == 'joao' || 'João') {
+    } else if (received_message.text == 'joao') {
 
         // var img = 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=748&q=80'
         const retornoDias = await proximos13dias();
@@ -306,11 +306,12 @@ async function handleMessage(sender_psid, received_message) {
                 }
             ]
         };
-    } else if (received_message.attachments == '15/01') {
+    } else if (received_message.attachments == '15/01/2021') {
 
         response = {
             'text': 'retorna o horario aqui.'
-        }
+        };
+
     } else if (received_message.attachments) {
         // Get the URL of the message attachment
         let attachment_url = received_message.attachments[0].payload.url;
