@@ -247,13 +247,18 @@ async function handleMessage(sender_psid, received_message) {
                         "buttons": [
                             {
                                 "type": "postback",
-                                "title": "10:30",
-                                "payload": "10:30",
+                                "title": "13/01",
+                                "payload": "13/01",
                             },
                             {
                                 "type": "postback",
-                                "title": "11:30",
-                                "payload": "11:30",
+                                "title": "14/01",
+                                "payload": "14/01",
+                            },
+                            {
+                                "type": "postback",
+                                "title": "15/01",
+                                "payload": "15/01",
                             }
                         ],
                     }]
@@ -291,7 +296,6 @@ async function handleMessage(sender_psid, received_message) {
             }
         }
     }
-
     // Send the response message
     callSendAPI(sender_psid, response);
 }
