@@ -288,21 +288,21 @@ async function handleMessage(sender_psid, received_message) {
                     "content_type": "text",
                     "title": `${diasLivres[9]}`,
                     "payload": `${diasLivres[9]}`,
-                }
+                },
                 {
                     "content_type": "text",
-                    "title": `${diasLivres[10]}`,
-                    "payload": `${diasLivres[10]}`,
-                }
+                    "title": `teste 1`,
+                    "payload": `teste 1`,
+                },
                 {
                     "content_type": "text",
-                    "title": `${diasLivres[11]}`,
-                    "payload": `${diasLivres[11]}`,
-                }
+                    "title": `teste 2`,
+                    "payload": `teste 2`,
+                },
                 {
                     "content_type": "text",
-                    "title": `${diasLivres[12]}`,
-                    "payload": `${diasLivres[12]}`,
+                    "title": `teste 3`,
+                    "payload": `teste 3`,
                 }
             ]
         };
