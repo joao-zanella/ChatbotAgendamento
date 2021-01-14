@@ -309,7 +309,7 @@ async function handleMessage(sender_psid, received_message) {
         };
     } else if (received_message.text == '15/01/2021') {
 
-        horariosLivresDiaEspecifico();
+        await horariosLivresDiaEspecifico(received_message.text);
         response = {
             "text": `Os horários disponíveis para o dia ${received_message.text} são:`,
             "quick_replies": [
