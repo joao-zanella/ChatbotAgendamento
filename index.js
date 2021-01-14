@@ -306,10 +306,27 @@ async function handleMessage(sender_psid, received_message) {
                 }
             ]
         };
-    } else if (received_message.attachments == '15/01/2021') {
+    } else if (received_message.text == '15/01/2021') {
 
         response = {
-            'text': 'retorna o horario aqui.'
+            "text": `Os horários disponíveis para o dia ${received_message.text} são:`,
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": `11:00`,
+                    "payload": `11:00`
+                },
+                {
+                    "content_type": "text",
+                    "title": `12:00`,
+                    "payload": `12:00`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `13:00`,
+                    "payload": `13:00`,
+                },
+            ]
         };
 
     } else if (received_message.attachments) {
