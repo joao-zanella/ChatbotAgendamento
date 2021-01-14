@@ -9,6 +9,7 @@ const
     { google } = require('googleapis'),
     calendar = google.calendar('v3');
 
+let diasLivres = [];
 const calendarId = "i2hsubk3ooci8b7ifnmse397lc@group.calendar.google.com";
 const serviceAccount = {
     "type": "service_account",
@@ -233,15 +234,15 @@ async function handleMessage(sender_psid, received_message) {
 
         // var img = 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=748&q=80'
         const retornoDias = await proximos10dias();
-        const diasLivres = retornoDias;
-        console.log(diasLivres);
+        diasLivres = retornoDias;
+        console.log(`Dias livres ${diasLivres}`);
         response = {
             "text": "Selecione uma data para executar o agendamento:",
             "quick_replies": [
                 {
                     "content_type": "text",
-                    "title": `${diasDisponiveis[0]}`,
-                    "payload": `${diasDisponiveis[0]}`
+                    "title": `14/01`,
+                    "payload": `14/01`
                 },
                 {
                     "content_type": "text",
