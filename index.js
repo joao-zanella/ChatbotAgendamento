@@ -70,7 +70,7 @@ const proximos10dias = () => new Promise((resolve, reject) => {
             if (diasDisponiveis.length < 10 && !diasDisponiveis.includes(strAux)) diasDisponiveis.push(strAux);
             if (diasDisponiveis.length >= 10) break;
         }
-        console.log(diasDisponiveis);
+        console.log('dias disponiveis ' + diasDisponiveis);
         resolve(diasDisponiveis);
     });
 });
