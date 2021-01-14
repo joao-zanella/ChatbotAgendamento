@@ -310,7 +310,8 @@ async function handleMessage(sender_psid, received_message) {
     } else if (received_message.text == '15/01/2021') {
 
         const pegaHoras = await horariosLivresDiaEspecifico(received_message.text);
-        console.log(pegaHoras);
+        console.log(pegaHoras.horas);
+        console.log(pegaHoras.ids);
         response = {
             "text": `Os horários disponíveis para o dia ${received_message.text} são:`,
             "quick_replies": [
