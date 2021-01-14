@@ -307,7 +307,7 @@ async function handleMessage(sender_psid, received_message) {
                 }
             ]
         };
-    } else if (received_message.text == '15/01/2021') {
+    } else if (received_message.text == '14/01/2021') {
 
         const pegaHoras = await horariosLivresDiaEspecifico(received_message.text);
         console.log(pegaHoras.horas);
