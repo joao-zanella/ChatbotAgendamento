@@ -317,18 +317,23 @@ async function handleMessage(sender_psid, received_message) {
             "quick_replies": [
                 {
                     "content_type": "text",
-                    "title": `11:00`,
-                    "payload": `11:00`
+                    "title": `${pegaHoras.horas[0]}`,
+                    "payload": `${pegaHoras.horas[0]}`
                 },
                 {
                     "content_type": "text",
-                    "title": `12:00`,
-                    "payload": `12:00`,
+                    "title": `${pegaHoras.horas[1]}`,
+                    "payload": `${pegaHoras.horas[1]}`,
                 },
                 {
                     "content_type": "text",
-                    "title": `13:00`,
-                    "payload": `13:00`,
+                    "title": `${pegaHoras.horas[2]}`,
+                    "payload": `${pegaHoras.horas[2]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[3]}`,
+                    "payload": `${pegaHoras.horas[3]}`,
                 },
             ]
         };
