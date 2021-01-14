@@ -234,7 +234,7 @@ async function handleMessage(sender_psid, received_message) {
     } else if (received_message.text === 'joao') {
 
         response = {
-            "text": `Olá ${ultimaMsg}, por favor informe seu número de telefone.`
+            "text": `Olá ${received_message.text}, por favor informe seu número de telefone.`
         };
 
     } else if (received_message.text == '99873996' || '9987-3996') {
