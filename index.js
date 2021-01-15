@@ -30,8 +30,15 @@ const serviceAccountAuth = new google.auth.JWT({
     scopes: 'https://www.googleapis.com/auth/calendar'
 });
 
+// STATES
+const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, AGENDAMENTOS = 5;
 let diasLivres = [];
-let ndPersist = "";
+let turno = await storage.getItem(`u_${sender_psid}_turno`) || OLA;
+let msg = "";
+const retProcessar = await processar(msg, turno, sender_psid);
+
+callSendAPI(sender_psid, retProcessar.response);
+await storage.setItem(`u_${sender_psid}_turno`, `${retProcessar.turnoSave}`);
 
 const iniciarBanco = async () => await storage.init(); //função que inicia o banco local
 
@@ -220,33 +227,22 @@ app.get('/webhook', (req, res) => {
     }
 });
 
-async function handleMessage(sender_psid, received_message) {
-    let response;
+async function processar(msg, turno, userID) {
 
-    if (received_message.text == 'oi') {
+    let response, turnoSave;
 
+    if (turno == OLA || SAUDACOES.includes(msg.toLowerCase())) {
+        turnoSave = NOME;
         response = {
             "text": `Olá! Informe seu nome para iniciarmos seu agendamento.`
         };
-
-    } else if (received_message.text === 'joao') {
-
-        const ultimaMsg = await storage.getItem(`${sender_psid}_ultimaMsg`) || 'nada'; //recupera o que falou na msg anterior
-        console.log(ultimaMsg);
-        ndPersist = ultimaMsg;
+    } else if (turno == NOME) {
+        turnoSave = TELEFONE;
         response = {
-            "text": `Olá ${received_message.text}, por favor informe seu número de telefone.`
+            "text": `Olá ${msg}, por favor informe seu número de telefone.`
         };
-
-        await storage.setItem(`${sender_psid}_ultimaMsg`, received_message.text); //salva o que disse atualemnte para ser consultado depois
-
-    } else if (received_message.text == '99873996' || '9987-3996') {
-        console.log(ndPersist);
-
-        // var img = 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=748&q=80'
-        const retornoDias = await proximos13dias();
-        diasLivres = retornoDias;
-
+    } else if (turno == TELEFONE) {
+        turnoSave = DATA;
         response = {
             "text": "Selecione uma data para executar o agendamento:",
             "quick_replies": [
@@ -317,10 +313,8 @@ async function handleMessage(sender_psid, received_message) {
                 }
             ]
         };
-    } else if (received_message.quick_replies.payload == '15/01/2021' || '16/01/2021') {
-
-        console.log(ndPersist);
-
+    } else if (turno == DATA) {
+        turnoSave = HORA;
         const pegaHoras = await horariosLivresDiaEspecifico(received_message.text);
         console.log(pegaHoras.horas);
         console.log(pegaHoras.ids);
@@ -350,49 +344,174 @@ async function handleMessage(sender_psid, received_message) {
                 },
             ]
         };
-
-    } else if (received_message.text) {
-
-        console.log(ndPersist);
-
-        const agendamento = await agendar(nome, numero, eventId);
-
-        let response = {
-            "text": "agendamento"
-        };
-
-    } else if (received_message.attachments) {
-        // Get the URL of the message attachment
-        let attachment_url = received_message.attachments[0].payload.url;
-        response = {
-            "attachment": {
-                "type": "template",
-                "payload": {
-                    "template_type": "generic",
-                    "elements": [{
-                        "title": "Agora selecione a hora desejada",
-                        "subtitle": "Estás são as horas disponiveis.",
-                        "image_url": attachment_url,
-                        "buttons": [
-                            {
-                                "type": "postback",
-                                "title": "09:00",
-                                "payload": "09:00",
-                            },
-                            {
-                                "type": "postback",
-                                "title": "10:00",
-                                "payload": "10:00",
-                            }
-                        ],
-                    }]
-                }
-            }
-        }
     }
-    // Send the response message
-    callSendAPI(sender_psid, response);
+    return { response, turnoSave };
 }
+
+// async function handleMessage(sender_psid, received_message) {
+//     let response;
+
+//     if (received_message.text == 'oi') {
+
+//         response = {
+//             "text": `Olá! Informe seu nome para iniciarmos seu agendamento.`
+//         };
+
+//     } else if (received_message.text === 'joao') {
+
+//         response = {
+//             "text": `Olá ${received_message.text}, por favor informe seu número de telefone.`
+//         };
+
+
+//     } else if (received_message.text == '99873996' || '9987-3996') {
+
+//         const retornoDias = await proximos13dias();
+
+//         response = {
+//             "text": "Selecione uma data para executar o agendamento:",
+//             "quick_replies": [
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[0]}`,
+//                     "payload": `${diasLivres[0]}`
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[1]}`,
+//                     "payload": `${diasLivres[1]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[2]}`,
+//                     "payload": `${diasLivres[2]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[3]}`,
+//                     "payload": `${diasLivres[3]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[4]}`,
+//                     "payload": `${diasLivres[4]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[5]}`,
+//                     "payload": `${diasLivres[5]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[6]}`,
+//                     "payload": `${diasLivres[6]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[7]}`,
+//                     "payload": `${diasLivres[7]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[8]}`,
+//                     "payload": `${diasLivres[8]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[9]}`,
+//                     "payload": `${diasLivres[9]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[10]}`,
+//                     "payload": `${diasLivres[10]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[11]}`,
+//                     "payload": `${diasLivres[11]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${diasLivres[12]}`,
+//                     "payload": `${diasLivres[12]}`,
+//                 }
+//             ]
+//         };
+//     } else if (received_message.quick_replies.payload == '15/01/2021' || '16/01/2021') {
+
+//         const pegaHoras = await horariosLivresDiaEspecifico(received_message.text);
+//         console.log(pegaHoras.horas);
+//         console.log(pegaHoras.ids);
+
+//         response = {
+//             "text": `Os horários disponíveis para o dia ${received_message.text} são:`,
+//             "quick_replies": [
+//                 {
+//                     "content_type": "text",
+//                     "title": `${pegaHoras.horas[0]}`,
+//                     "payload": `${pegaHoras.horas[0]}`
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${pegaHoras.horas[1]}`,
+//                     "payload": `${pegaHoras.horas[1]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${pegaHoras.horas[2]}`,
+//                     "payload": `${pegaHoras.horas[2]}`,
+//                 },
+//                 {
+//                     "content_type": "text",
+//                     "title": `${pegaHoras.horas[3]}`,
+//                     "payload": `${pegaHoras.horas[3]}`,
+//                 },
+//             ]
+//         };
+
+//     } else if (received_message.text) {
+
+//         console.log(ndPersist);
+
+//         const agendamento = await agendar(nome, numero, eventId);
+
+//         let response = {
+//             "text": "agendamento"
+//         };
+
+//     } else if (received_message.attachments) {
+//         // Get the URL of the message attachment
+//         let attachment_url = received_message.attachments[0].payload.url;
+//         response = {
+//             "attachment": {
+//                 "type": "template",
+//                 "payload": {
+//                     "template_type": "generic",
+//                     "elements": [{
+//                         "title": "Agora selecione a hora desejada",
+//                         "subtitle": "Estás são as horas disponiveis.",
+//                         "image_url": attachment_url,
+//                         "buttons": [
+//                             {
+//                                 "type": "postback",
+//                                 "title": "09:00",
+//                                 "payload": "09:00",
+//                             },
+//                             {
+//                                 "type": "postback",
+//                                 "title": "10:00",
+//                                 "payload": "10:00",
+//                             }
+//                         ],
+//                     }]
+//                 }
+//             }
+//         }
+//     }
+//     // Send the response message
+//     callSendAPI(sender_psid, response);
+// }
 
 function handlePostback(sender_psid, received_postback) {
     let response;
@@ -437,4 +556,4 @@ function callSendAPI(sender_psid, response) {
 
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
-iniciarBanco();
+iniciarBanco(); a
