@@ -9,7 +9,7 @@ const
     { google } = require('googleapis'),
     calendar = google.calendar('v3');
 
-let diasLivres = [];
+
 const calendarId = "i2hsubk3ooci8b7ifnmse397lc@group.calendar.google.com";
 const serviceAccount = {
     "type": "service_account",
@@ -29,6 +29,9 @@ const serviceAccountAuth = new google.auth.JWT({
     key: serviceAccount.private_key,
     scopes: 'https://www.googleapis.com/auth/calendar'
 });
+
+let diasLivres = [];
+let ndPersist = "";
 
 const iniciarBanco = async () => await storage.init(); //função que inicia o banco local
 
@@ -59,7 +62,6 @@ const proximos13dias = () => new Promise((resolve, reject) => {
 
     }, (err, calendarResponse) => {
         const lista = calendarResponse.data.items;
-        console.log(`lista ${lista}`);
 
         let diasDisponiveis = [];
 
@@ -221,28 +223,30 @@ app.get('/webhook', (req, res) => {
 async function handleMessage(sender_psid, received_message) {
     let response;
 
-    const ultimaMsg = await storage.getItem(`${sender_psid}_ultimaMsg`) || 'nada'; //recupera o que falou na msg anterior
-
     if (received_message.text == 'oi') {
 
         response = {
             "text": `Olá! Informe seu nome para iniciarmos seu agendamento.`
         };
 
-        await storage.setItem(`${sender_psid}_ultimaMsg`, received_message.text); //salva o que disse atualemnte para ser consultado depois
-
     } else if (received_message.text === 'joao') {
 
+        const ultimaMsg = await storage.getItem(`${sender_psid}_ultimaMsg`) || 'nada'; //recupera o que falou na msg anterior
+        console.log(ultimaMsg);
+        ndPersist = ultimaMsg;
         response = {
             "text": `Olá ${received_message.text}, por favor informe seu número de telefone.`
         };
 
+        await storage.setItem(`${sender_psid}_ultimaMsg`, received_message.text); //salva o que disse atualemnte para ser consultado depois
+
     } else if (received_message.text == '99873996' || '9987-3996') {
+        console.log(ndPersist);
 
         // var img = 'https://images.unsplash.com/photo-1506784365847-bbad939e9335?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=748&q=80'
         const retornoDias = await proximos13dias();
         diasLivres = retornoDias;
-        console.log(`Dias livres ${diasLivres}`);
+
         response = {
             "text": "Selecione uma data para executar o agendamento:",
             "quick_replies": [
@@ -313,7 +317,9 @@ async function handleMessage(sender_psid, received_message) {
                 }
             ]
         };
-    } else if (received_message.payload == '14/01/2021' || '15/01/2021') {
+    } else if (received_message.quick_replies.payload == '15/01/2021' || '16/01/2021') {
+
+        console.log(ndPersist);
 
         const pegaHoras = await horariosLivresDiaEspecifico(received_message.text);
         console.log(pegaHoras.horas);
@@ -343,6 +349,16 @@ async function handleMessage(sender_psid, received_message) {
                     "payload": `${pegaHoras.horas[3]}`,
                 },
             ]
+        };
+
+    } else if (received_message.text) {
+
+        console.log(ndPersist);
+
+        const agendamento = await agendar(nome, numero, eventId);
+
+        let response = {
+            "text": "agendamento"
         };
 
     } else if (received_message.attachments) {
