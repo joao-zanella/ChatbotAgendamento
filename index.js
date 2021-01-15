@@ -7,8 +7,8 @@ const
     request = require('request'),
     storage = require('node-persist'), //storage local
     { google } = require('googleapis'),
-    calendar = google.calendar('v3');
-
+    calendar = google.calendar('v3'),
+    storage = require('node-persist');
 
 const calendarId = "i2hsubk3ooci8b7ifnmse397lc@group.calendar.google.com";
 const serviceAccount = {
