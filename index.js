@@ -172,7 +172,7 @@ app.post('/webhook', async (req, res) => {
             let msg = "";
             if (webhook_event.message) msg = webhook_event.message.text;
             else if (webhook_event.postback) msg = webhook_event.postback.payload;
-            let turno = storage.getItem(`u_${sender_psid}_turno`) || OLA; // await
+            let turno = await storage.getItem(`u_${sender_psid}_turno`) || OLA; // await
 
             const retProcessar = await processar(msg, turno, sender_psid);
 
