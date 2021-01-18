@@ -7,7 +7,7 @@ const
     request = require('request'),
     storage = require('node-persist'), //storage local
     { google } = require('googleapis'),
-    calendar = google.calendar('v3'),
+    calendar = google.calendar('v3');
 
 const calendarId = "i2hsubk3ooci8b7ifnmse397lc@group.calendar.google.com";
 const serviceAccount = {
@@ -242,6 +242,9 @@ async function processar(msg, turno, userID) {
         };
     } else if (turno == TELEFONE) {
         turnoSave = DATA;
+
+        const retornoDias = await proximos13dias();
+        diasLivres = retornoDias;
         response = {
             "text": "Selecione uma data para executar o agendamento:",
             "quick_replies": [
@@ -314,6 +317,7 @@ async function processar(msg, turno, userID) {
         };
     } else if (turno == DATA) {
         turnoSave = HORA;
+
         const pegaHoras = await horariosLivresDiaEspecifico(received_message.text);
         console.log(pegaHoras.horas);
         console.log(pegaHoras.ids);
