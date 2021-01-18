@@ -160,7 +160,7 @@ app.post('/webhook', async (req, res) => {
     if (body.object === 'page') {
 
         // Iterates over each entry - there may be multiple if batched
-        body.entry.forEach(function (entry) {
+        body.entry.forEach(async function (entry) {
 
             // Gets the body of the webhook event
             let webhook_event = entry.messaging[0];
