@@ -342,9 +342,10 @@ async function processar(msg, turno, userID) {
         };
     } else if (turno == HORA) {
         turnoSave = FINALIZAR;
-        const agendamentos = await agendar(hora, fone, eventId, userID);
-        let dia = '18/01';
-        let horas = '10:00';
+        let nome = 'Felipe';
+        let numero = '54 99873996';
+        console.log(nome, hora, eventId, userId);
+        const agendamentos = await agendar(nome, numero, eventId, userID);
 
         response = {
             'text': `Seu horário para o dia ${dia} as ${horas} horas foi agendado com sucesso!`
