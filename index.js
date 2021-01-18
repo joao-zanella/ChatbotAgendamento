@@ -33,14 +33,6 @@ const serviceAccountAuth = new google.auth.JWT({
 // STATES
 const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, AGENDAMENTOS = 5;
 let diasLivres = [];
-let turno = await storage.getItem(`u_${sender_psid}_turno`) || OLA;
-let msg = "";
-const retProcessar = await processar(msg, turno, sender_psid);
-
-callSendAPI(sender_psid, retProcessar.response);
-await storage.setItem(`u_${sender_psid}_turno`, `${retProcessar.turnoSave}`);
-
-
 
 const proximos13dias = () => new Promise((resolve, reject) => {
 
@@ -187,7 +179,7 @@ app.post('/webhook', (req, res) => {
 
             const retProcessar = await processar(msg, turno, sender_psid);
 
-            callSendAPI(sender_psid, retProcessar.resposta);
+            callSendAPI(sender_psid, retProcessar.response);
             await storage.setItem(`u_${sender_psid}_turno`, `${retProcessar.turnoSave}`);
 
         });
@@ -239,7 +231,7 @@ async function processar(msg, turno, userID) {
     } else if (turno == NOME) {
         turnoSave = TELEFONE;
         response = {
-            "text": `Olá ${msg}, por favor informe seu número de telefone.`
+            "text": `Ok ${msg}, por favor informe seu número de telefone.`
         };
     } else if (turno == TELEFONE) {
         turnoSave = DATA;
@@ -348,6 +340,15 @@ async function processar(msg, turno, userID) {
                 },
             ]
         };
+    } else if (turno == HORA) {
+        turnoSave = AGENDAMENTOS;
+        const agendamentos = await agendar(hora, fone, eventId);
+        let dia = '18/01';
+        let horas = '10:00'
+
+        response = {
+            'text': `Seu horário para o dia ${dia} as ${horas} horas foi agendado com sucesso!`
+        }
     }
     return { response, turnoSave };
 }
