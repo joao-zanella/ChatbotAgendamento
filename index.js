@@ -9,7 +9,7 @@ const
     { google } = require('googleapis'),
     calendar = google.calendar('v3');
 
-const iniciarBanco = async () => await storage.init(); //função que inicia o banco local
+
 const calendarId = "i2hsubk3ooci8b7ifnmse397lc@group.calendar.google.com";
 const serviceAccount = {
     "type": "service_account",
@@ -23,6 +23,9 @@ const serviceAccount = {
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/lorobot-611%40lorobot.iam.gserviceaccount.com"
 };
+const iniciarBanco = async () => await storage.init(); //função que inicia o banco local
+
+app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
 // STATES
 const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, AGENDAMENTOS = 5;
@@ -149,7 +152,7 @@ const agendar = (nome, numero, eventId) => new Promise((resolve, reject) => {
     });
 });
 
-app.post('/webhook', (req, res) => {
+app.post('/webhook', async (req, res) => {
 
     let body = req.body;
 
@@ -169,7 +172,7 @@ app.post('/webhook', (req, res) => {
             let msg = "";
             if (webhook_event.message) msg = webhook_event.message.text;
             else if (webhook_event.postback) msg = webhook_event.postback.payload;
-            let turno = storage.getItem(`u_${sender_psid}_turno`) || OLA;
+            let turno = storage.getItem(`u_${sender_psid}_turno`) || OLA; // await
 
             const retProcessar = await processar(msg, turno, sender_psid);
 
@@ -553,6 +556,4 @@ function callSendAPI(sender_psid, response) {
     });
 }
 
-app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
-
-iniciarBanco(); a
+iniciarBanco();
