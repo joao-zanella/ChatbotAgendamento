@@ -9,6 +9,7 @@ const
     { google } = require('googleapis'),
     calendar = google.calendar('v3');
 
+const iniciarBanco = async () => await storage.init(); //função que inicia o banco local
 const calendarId = "i2hsubk3ooci8b7ifnmse397lc@group.calendar.google.com";
 const serviceAccount = {
     "type": "service_account",
@@ -39,7 +40,7 @@ const retProcessar = await processar(msg, turno, sender_psid);
 callSendAPI(sender_psid, retProcessar.response);
 await storage.setItem(`u_${sender_psid}_turno`, `${retProcessar.turnoSave}`);
 
-const iniciarBanco = async () => await storage.init(); //função que inicia o banco local
+
 
 const proximos13dias = () => new Promise((resolve, reject) => {
 
