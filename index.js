@@ -29,6 +29,7 @@ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
 // STATES
 const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, AGENDAMENTOS = 5;
+const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa'];
 let diasLivres = [];
 
 const proximos13dias = () => new Promise((resolve, reject) => {
@@ -172,7 +173,7 @@ app.post('/webhook', async (req, res) => {
             let msg = "";
             if (webhook_event.message) msg = webhook_event.message.text;
             else if (webhook_event.postback) msg = webhook_event.postback.payload;
-            let turno = await storage.getItem(`u_${sender_psid}_turno`) || OLA; // await
+            let turno = await storage.getItem(`u_${sender_psid}_turno`) || OLA;
 
             const retProcessar = await processar(msg, turno, sender_psid);
 
@@ -347,6 +348,7 @@ async function processar(msg, turno, userID) {
             'text': `Seu horário para o dia ${dia} as ${horas} horas foi agendado com sucesso!`
         }
     }
+    console.log({ response, turnoSave });
     return { response, turnoSave };
 }
 
