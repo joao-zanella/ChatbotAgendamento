@@ -344,11 +344,11 @@ async function processar(msg, turno, userID) {
         turnoSave = FINALIZAR;
         let nome = 'Felipe';
         let numero = '54 99873996';
-        console.log(nome, hora, eventId, userId);
+        console.log(nome, numero, eventId, userId);
         const agendamentos = await agendar(nome, numero, eventId, userID);
 
         response = {
-            'text': `Seu horário para o dia ${dia} as ${horas} horas foi agendado com sucesso!`
+            'text': `Seu horário foi agendado com sucesso!`
         }
     }
     console.log({ response, turnoSave });
