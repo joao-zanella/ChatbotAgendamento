@@ -28,7 +28,7 @@ const iniciarBanco = async () => await storage.init(); //função que inicia o b
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
 // STATES
-const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, AGENDAMENTOS = 5;
+const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5;
 const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa'];
 let diasLivres = [];
 
@@ -127,7 +127,7 @@ const horariosLivresDiaEspecifico = (escolhido) => new Promise((resolve, reject)
     });
 });
 
-const agendar = (nome, numero, eventId) => new Promise((resolve, reject) => {
+const agendar = (nome, numero, eventId, userID) => new Promise((resolve, reject) => {
 
     const serviceAccountAuth = new google.auth.JWT({
         email: serviceAccount.client_email,
@@ -137,7 +137,7 @@ const agendar = (nome, numero, eventId) => new Promise((resolve, reject) => {
 
     const event = {
         summary: "AGENDADO",
-        description: `Cliente: ${nome}\ Telefone: ${numero.replace("telefone:", "")}`,
+        description: `Cliente: ${nome}\ Telefone: ${numero.replace("telefone:", "")} \n Código do cliente: ${userID}`,
         colorId: 9
     };
 
@@ -314,7 +314,7 @@ async function processar(msg, turno, userID) {
         console.log(pegaHoras.ids);
 
         response = {
-            "text": `Os horários disponíveis para o dia ${received_message.text} são:`,
+            "text": `Os horários disponíveis para o dia selecionado são:`,
             "quick_replies": [
                 {
                     "content_type": "text",
@@ -339,10 +339,10 @@ async function processar(msg, turno, userID) {
             ]
         };
     } else if (turno == HORA) {
-        turnoSave = AGENDAMENTOS;
-        const agendamentos = await agendar(hora, fone, eventId);
+        turnoSave = FINALIZAR;
+        const agendamentos = await agendar(hora, fone, eventId, userID);
         let dia = '18/01';
-        let horas = '10:00'
+        let horas = '10:00';
 
         response = {
             'text': `Seu horário para o dia ${dia} as ${horas} horas foi agendado com sucesso!`
