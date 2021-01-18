@@ -179,17 +179,17 @@ app.post('/webhook', (req, res) => {
             // Get the sender PSID
             let sender_psid = webhook_event.sender.id;
             console.log('Sender PSID: ' + sender_psid);
+            let msg = "";
+            if (webhook_event.message) msg = webhook_event.message.text;
+            else if (webhook_event.postback) msg = webhook_event.postback.payload;
+            let turno = await storage.getItem(`u_${sender_psid}_turno`) || OLA;
 
-            // Check if the event is a message or postback and
-            // pass the event to the appropriate handler function
-            if (webhook_event.message) {
-                handleMessage(sender_psid, webhook_event.message);
-            } else if (webhook_event.postback) {
-                handlePostback(sender_psid, webhook_event.postback);
-            }
+            const retProcessar = await processar(msg, turno, sender_psid);
+
+            callSendAPI(sender_psid, retProcessar.resposta);
+            await storage.setItem(`u_${sender_psid}_turno`, `${retProcessar.turnoSave}`);
 
         });
-
         // Returns a '200 OK' response to all requests
         res.status(200).send('EVENT_RECEIVED');
     } else {
