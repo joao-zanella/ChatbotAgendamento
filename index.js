@@ -309,7 +309,7 @@ async function processar(msg, turno, userID) {
     } else if (turno == DATA) {
         turnoSave = HORA;
 
-        const pegaHoras = await horariosLivresDiaEspecifico(received_message.text);
+        const pegaHoras = await horariosLivresDiaEspecifico(response);
         console.log(pegaHoras.horas);
         console.log(pegaHoras.ids);
 
