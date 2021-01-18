@@ -24,12 +24,6 @@ const serviceAccount = {
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/lorobot-611%40lorobot.iam.gserviceaccount.com"
 };
 
-const serviceAccountAuth = new google.auth.JWT({
-    email: serviceAccount.client_email,
-    key: serviceAccount.private_key,
-    scopes: 'https://www.googleapis.com/auth/calendar'
-});
-
 // STATES
 const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, AGENDAMENTOS = 5;
 let diasLivres = [];
@@ -175,7 +169,7 @@ app.post('/webhook', (req, res) => {
             let msg = "";
             if (webhook_event.message) msg = webhook_event.message.text;
             else if (webhook_event.postback) msg = webhook_event.postback.payload;
-            let turno = await storage.getItem(`u_${sender_psid}_turno`) || OLA;
+            let turno = storage.getItem(`u_${sender_psid}_turno`) || OLA;
 
             const retProcessar = await processar(msg, turno, sender_psid);
 
