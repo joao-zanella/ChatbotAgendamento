@@ -218,6 +218,7 @@ app.get('/webhook', (req, res) => {
 });
 
 async function processar(msg, turno, userID) {
+    console.log(' UserId: ' + userId);
 
     let response, turnoSave;
 
