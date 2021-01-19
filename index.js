@@ -135,6 +135,10 @@ const agendar = (nome, numero, eventId, sender_psid) => new Promise((resolve, re
         scopes: 'https://www.googleapis.com/auth/calendar'
     });
 
+    console.log('\n \n \n');
+    console.log(eventId);
+    console.log('\n \n \n');
+
     const event = {
         summary: "AGENDADO",
         description: `Cliente: ${nome}\ Telefone: ${numero.replace("telefone:", "")} \n Código do cliente: ${sender_psid}`,
