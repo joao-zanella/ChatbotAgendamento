@@ -28,7 +28,10 @@ const iniciarBanco = async () => await storage.init(); //função que inicia o b
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
 // STATES
+// caminho feliz
 const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5;
+//
+const SEL_DIA = 6, CANCELAMENTO = 7;
 const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa'];
 let diasLivres = [];
 
@@ -307,11 +310,19 @@ async function processar(msg, turno, sender_psid) {
                 },
                 {
                     "content_type": "text",
-                    "title": `${diasLivres[12]}`,
-                    "payload": `${diasLivres[12]}`,
+                    "title": `Selecionar outro dia`,
+                    "payload": `mudar intent`,
                 }
             ]
         };
+
+        if (msg == `Selecionar outro dia`) {
+            turnoSave = SEL_DIA;
+            response = {
+                "text": `Por favor informe o dia que você deseja e verificaremos se é possivel`
+            };
+        };
+
     } else if (turno == DATA) {
         turnoSave = HORA;
 
@@ -350,10 +361,12 @@ async function processar(msg, turno, sender_psid) {
         turnoSave = FINALIZAR;
         let nome = 'Felipe';
         let numero = '54 99873996';
+
         console.log('\n \n \n');
         console.log({ nome, numero, msg, sender_psid });
         console.log('\n \n \n');
-        const agendamentos = await agendar(nome, numero, msg, sender_psid);
+
+        await agendar(nome, numero, msg, sender_psid);
         response = {
             'text': `Seu horário foi agendado com sucesso!`
         }
