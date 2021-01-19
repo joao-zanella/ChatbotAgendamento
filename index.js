@@ -127,7 +127,7 @@ const horariosLivresDiaEspecifico = (escolhido) => new Promise((resolve, reject)
     });
 });
 
-const agendar = (nome, numero, eventId, userID) => new Promise((resolve, reject) => {
+const agendar = (nome, numero, eventId, sender_psid) => new Promise((resolve, reject) => {
 
     const serviceAccountAuth = new google.auth.JWT({
         email: serviceAccount.client_email,
@@ -137,7 +137,7 @@ const agendar = (nome, numero, eventId, userID) => new Promise((resolve, reject)
 
     const event = {
         summary: "AGENDADO",
-        description: `Cliente: ${nome}\ Telefone: ${numero.replace("telefone:", "")} \n Código do cliente: ${userID}`,
+        description: `Cliente: ${nome}\ Telefone: ${numero.replace("telefone:", "")} \n Código do cliente: ${sender_psid}`,
         colorId: 9
     };
 
@@ -217,8 +217,8 @@ app.get('/webhook', (req, res) => {
     }
 });
 
-async function processar(msg, turno, userID) {
-    console.log(' UserId: ' + userId);
+async function processar(msg, turno, sender_psid) {
+    console.log('SENDER_PSID:' + sender_psid);
 
     let response, turnoSave;
 
@@ -346,8 +346,8 @@ async function processar(msg, turno, userID) {
         let nome = 'Felipe';
         let numero = '54 99873996';
 
-        console.log(nome, numero, msg, userId);
-        const agendamentos = await agendar(nome, numero, msg, userID);
+        console.log({ nome, numero, msg, sender_psid });
+        const agendamentos = await agendar(nome, numero, msg, sender_psid);
         response = {
             'text': `Seu horário foi agendado com sucesso!`
         }
