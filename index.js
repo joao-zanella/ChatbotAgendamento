@@ -242,7 +242,7 @@ async function processar(msg, turno, sender_psid) {
         };
     } else if (turno == TELEFONE) {
         turnoSave = DATA;
-
+        console.log(msg);
         if (msg == 'Selecionar outro dia') {
             turnoSave = SEL_DIA;
             response = {
