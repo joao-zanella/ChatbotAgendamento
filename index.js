@@ -243,7 +243,7 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == TELEFONE) {
         turnoSave = DATA;
 
-        if (msg == `Selecionar outro dia`) {
+        if (msg == 'Selecionar outro dia') {
             turnoSave = SEL_DIA;
             response = {
                 "text": `Por favor informe o dia que você deseja e verificaremos se é possivel`
