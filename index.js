@@ -248,6 +248,7 @@ async function processar(msg, turno, sender_psid) {
             response = {
                 "text": `Por favor informe o dia que você deseja e verificaremos se é possivel`
             };
+            console.log(' Caiu no if ');
         } else {
             const retornoDias = await proximos13dias();
             diasLivres = retornoDias;
@@ -321,6 +322,7 @@ async function processar(msg, turno, sender_psid) {
                     }
                 ]
             };
+            console.log(' Caiu no else ');
         }
     } else if (turno == DATA) {
         turnoSave = HORA;
