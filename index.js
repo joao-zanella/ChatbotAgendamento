@@ -347,7 +347,6 @@ async function processar(msg, turno, userID) {
 
         console.log(nome, numero, msg, userId);
         const agendamentos = await agendar(nome, numero, msg, userID);
-
         response = {
             'text': `Seu horário foi agendado com sucesso!`
         }
