@@ -243,86 +243,85 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == TELEFONE) {
         turnoSave = DATA;
 
-        const retornoDias = await proximos13dias();
-        diasLivres = retornoDias;
-        response = {
-            "text": "Selecione uma data para executar o agendamento:",
-            "quick_replies": [
-                {
-                    "content_type": "text",
-                    "title": `${diasLivres[0]}`,
-                    "payload": `${diasLivres[0]}`
-                },
-                {
-                    "content_type": "text",
-                    "title": `${diasLivres[1]}`,
-                    "payload": `${diasLivres[1]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${diasLivres[2]}`,
-                    "payload": `${diasLivres[2]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${diasLivres[3]}`,
-                    "payload": `${diasLivres[3]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${diasLivres[4]}`,
-                    "payload": `${diasLivres[4]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${diasLivres[5]}`,
-                    "payload": `${diasLivres[5]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${diasLivres[6]}`,
-                    "payload": `${diasLivres[6]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${diasLivres[7]}`,
-                    "payload": `${diasLivres[7]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${diasLivres[8]}`,
-                    "payload": `${diasLivres[8]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${diasLivres[9]}`,
-                    "payload": `${diasLivres[9]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${diasLivres[10]}`,
-                    "payload": `${diasLivres[10]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${diasLivres[11]}`,
-                    "payload": `${diasLivres[11]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `Selecionar outro dia`,
-                    "payload": `mudar intent`,
-                }
-            ]
-        };
-
         if (msg == `Selecionar outro dia`) {
             turnoSave = SEL_DIA;
             response = {
                 "text": `Por favor informe o dia que você deseja e verificaremos se é possivel`
             };
-        };
-
+        } else {
+            const retornoDias = await proximos13dias();
+            diasLivres = retornoDias;
+            response = {
+                "text": "Selecione uma data para executar o agendamento:",
+                "quick_replies": [
+                    {
+                        "content_type": "text",
+                        "title": `${diasLivres[0]}`,
+                        "payload": `${diasLivres[0]}`
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${diasLivres[1]}`,
+                        "payload": `${diasLivres[1]}`,
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${diasLivres[2]}`,
+                        "payload": `${diasLivres[2]}`,
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${diasLivres[3]}`,
+                        "payload": `${diasLivres[3]}`,
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${diasLivres[4]}`,
+                        "payload": `${diasLivres[4]}`,
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${diasLivres[5]}`,
+                        "payload": `${diasLivres[5]}`,
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${diasLivres[6]}`,
+                        "payload": `${diasLivres[6]}`,
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${diasLivres[7]}`,
+                        "payload": `${diasLivres[7]}`,
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${diasLivres[8]}`,
+                        "payload": `${diasLivres[8]}`,
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${diasLivres[9]}`,
+                        "payload": `${diasLivres[9]}`,
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${diasLivres[10]}`,
+                        "payload": `${diasLivres[10]}`,
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${diasLivres[11]}`,
+                        "payload": `${diasLivres[11]}`,
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `Selecionar outro dia`,
+                        "payload": `mudar intent`,
+                    }
+                ]
+            };
+        }
     } else if (turno == DATA) {
         turnoSave = HORA;
 
