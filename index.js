@@ -321,22 +321,22 @@ async function processar(msg, turno, userID) {
                 {
                     "content_type": "text",
                     "title": `${pegaHoras.horas[0]}`,
-                    "payload": `${pegaHoras.horas[0]}`
+                    "payload": `${pegaHoras.ids[0]}`
                 },
                 {
                     "content_type": "text",
                     "title": `${pegaHoras.horas[1]}`,
-                    "payload": `${pegaHoras.horas[1]}`,
+                    "payload": `${pegaHoras.ids[1]}`,
                 },
                 {
                     "content_type": "text",
                     "title": `${pegaHoras.horas[2]}`,
-                    "payload": `${pegaHoras.horas[2]}`,
+                    "payload": `${pegaHoras.ids[2]}`,
                 },
                 {
                     "content_type": "text",
                     "title": `${pegaHoras.horas[3]}`,
-                    "payload": `${pegaHoras.horas[3]}`,
+                    "payload": `${pegaHoras.ids[3]}`,
                 },
             ]
         };
@@ -344,8 +344,9 @@ async function processar(msg, turno, userID) {
         turnoSave = FINALIZAR;
         let nome = 'Felipe';
         let numero = '54 99873996';
-        console.log(nome, numero, eventId, userId);
-        const agendamentos = await agendar(nome, numero, eventId, userID);
+
+        console.log(nome, numero, msg, userId);
+        const agendamentos = await agendar(nome, numero, msg, userID);
 
         response = {
             'text': `Seu horário foi agendado com sucesso!`
@@ -354,171 +355,6 @@ async function processar(msg, turno, userID) {
     console.log({ response, turnoSave });
     return { response, turnoSave };
 }
-
-// async function handleMessage(sender_psid, received_message) {
-//     let response;
-
-//     if (received_message.text == 'oi') {
-
-//         response = {
-//             "text": `Olá! Informe seu nome para iniciarmos seu agendamento.`
-//         };
-
-//     } else if (received_message.text === 'joao') {
-
-//         response = {
-//             "text": `Olá ${received_message.text}, por favor informe seu número de telefone.`
-//         };
-
-
-//     } else if (received_message.text == '99873996' || '9987-3996') {
-
-//         const retornoDias = await proximos13dias();
-
-//         response = {
-//             "text": "Selecione uma data para executar o agendamento:",
-//             "quick_replies": [
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[0]}`,
-//                     "payload": `${diasLivres[0]}`
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[1]}`,
-//                     "payload": `${diasLivres[1]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[2]}`,
-//                     "payload": `${diasLivres[2]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[3]}`,
-//                     "payload": `${diasLivres[3]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[4]}`,
-//                     "payload": `${diasLivres[4]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[5]}`,
-//                     "payload": `${diasLivres[5]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[6]}`,
-//                     "payload": `${diasLivres[6]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[7]}`,
-//                     "payload": `${diasLivres[7]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[8]}`,
-//                     "payload": `${diasLivres[8]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[9]}`,
-//                     "payload": `${diasLivres[9]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[10]}`,
-//                     "payload": `${diasLivres[10]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[11]}`,
-//                     "payload": `${diasLivres[11]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${diasLivres[12]}`,
-//                     "payload": `${diasLivres[12]}`,
-//                 }
-//             ]
-//         };
-//     } else if (received_message.quick_replies.payload == '15/01/2021' || '16/01/2021') {
-
-//         const pegaHoras = await horariosLivresDiaEspecifico(received_message.text);
-//         console.log(pegaHoras.horas);
-//         console.log(pegaHoras.ids);
-
-//         response = {
-//             "text": `Os horários disponíveis para o dia ${received_message.text} são:`,
-//             "quick_replies": [
-//                 {
-//                     "content_type": "text",
-//                     "title": `${pegaHoras.horas[0]}`,
-//                     "payload": `${pegaHoras.horas[0]}`
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${pegaHoras.horas[1]}`,
-//                     "payload": `${pegaHoras.horas[1]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${pegaHoras.horas[2]}`,
-//                     "payload": `${pegaHoras.horas[2]}`,
-//                 },
-//                 {
-//                     "content_type": "text",
-//                     "title": `${pegaHoras.horas[3]}`,
-//                     "payload": `${pegaHoras.horas[3]}`,
-//                 },
-//             ]
-//         };
-
-//     } else if (received_message.text) {
-
-//         console.log(ndPersist);
-
-//         const agendamento = await agendar(nome, numero, eventId);
-
-//         let response = {
-//             "text": "agendamento"
-//         };
-
-//     } else if (received_message.attachments) {
-//         // Get the URL of the message attachment
-//         let attachment_url = received_message.attachments[0].payload.url;
-//         response = {
-//             "attachment": {
-//                 "type": "template",
-//                 "payload": {
-//                     "template_type": "generic",
-//                     "elements": [{
-//                         "title": "Agora selecione a hora desejada",
-//                         "subtitle": "Estás são as horas disponiveis.",
-//                         "image_url": attachment_url,
-//                         "buttons": [
-//                             {
-//                                 "type": "postback",
-//                                 "title": "09:00",
-//                                 "payload": "09:00",
-//                             },
-//                             {
-//                                 "type": "postback",
-//                                 "title": "10:00",
-//                                 "payload": "10:00",
-//                             }
-//                         ],
-//                     }]
-//                 }
-//             }
-//         }
-//     }
-//     // Send the response message
-//     callSendAPI(sender_psid, response);
-// }
 
 function handlePostback(sender_psid, received_postback) {
     let response;
