@@ -317,7 +317,7 @@ async function processar(msg, turno, sender_psid) {
             ]
         };
     } else if (msg == 'Selecionar outro dia') {
-        turnoSave = HORA;
+        turnoSave = DATA;
 
         response = {
             "text": "Por favor informe o dia desejado"
