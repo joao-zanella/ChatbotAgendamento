@@ -316,7 +316,10 @@ async function processar(msg, turno, sender_psid) {
                 }
             ]
         };
-    } else if (msg == 'Selecionar outro dia') {
+
+        { msg == 'Selecionar outro dia' ? turnoSave = SEL_DIA : turnoSave = DATA };
+
+    } else if (msg == 'Selecionar outro dia' && turno == SEL_DIA) {
         turnoSave = DATA;
 
         response = {
