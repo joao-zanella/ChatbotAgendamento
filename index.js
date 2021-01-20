@@ -36,9 +36,6 @@ const SEL_DIA = 6, CANCELAMENTO = 7;
 const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa'];
 let diasLivres = [];
 
-let nome = '';
-let phone = '';
-
 const proximos13dias = () => new Promise((resolve, reject) => {
 
     const serviceAccountAuth = new google.auth.JWT({
@@ -181,12 +178,12 @@ app.post('/webhook', async (req, res) => {
             if (webhook_event.message) msg = webhook_event.message.text;
             else if (webhook_event.postback) msg = webhook_event.postback.payload;
             let turno = await storage.getItem(`u_${sender_psid}_turno`) || OLA;
-            // console.log('MSG AQUI \n \n \n');
-            // console.log(msg);
-            // console.log(' AQUI WEM \n \n \n');
-            // console.log(webhook_event.message);
-            // console.log(' AQUI WEP \n \n \n');
-            // console.log(webhook_event.postback);
+            console.log('MSG AQUI \n \n \n');
+            console.log(msg);
+            console.log(' AQUI WEM \n \n \n');
+            console.log(webhook_event.message);
+            console.log(' AQUI WEP \n \n \n');
+            console.log(webhook_event.postback);
             const retProcessar = await processar(msg, turno, sender_psid);
 
             callSendAPI(sender_psid, retProcessar.response);
@@ -336,8 +333,6 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == DATA) {
         turnoSave = HORA;
 
-        console.log(msg);
-
         const pegaHoras = await horariosLivresDiaEspecifico(msg);
         console.log(pegaHoras.horas);
         console.log(pegaHoras.ids);
@@ -369,6 +364,9 @@ async function processar(msg, turno, sender_psid) {
         };
     } else if (turno == HORA) {
         turnoSave = FINALIZAR;
+
+        let nome = 'Felipe';
+        let phone = '54 99873996'
 
         console.log('\n \n \n');
         console.log({ nome, phone, msg, sender_psid });
