@@ -35,6 +35,8 @@ const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5;
 const SEL_DIA = 6, CANCELAMENTO = 7;
 const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa'];
 let diasLivres = [];
+const nome = '';
+const phone = '';
 
 const proximos13dias = () => new Promise((resolve, reject) => {
 
@@ -238,9 +240,13 @@ async function processar(msg, turno, sender_psid) {
         };
     } else if (turno == NOME) {
         turnoSave = TELEFONE;
+
         response = {
             "text": `Ok ${msg}, por favor informe seu número de telefone.`
         };
+
+        nome += msg;
+
     } else if (turno == TELEFONE) {
         turnoSave = DATA;
 
@@ -311,15 +317,15 @@ async function processar(msg, turno, sender_psid) {
                 },
                 {
                     "content_type": "text",
-                    "title": `Selecionar outro dia`,
-                    "payload": `mudar intent`,
+                    "title": 'Selecionar outro dia',
+                    "payload": 'mudar intent',
                 }
             ]
         };
 
-        { msg == 'Selecionar outro dia' ? turnoSave = SEL_DIA : turnoSave = DATA };
+        phone += msg;
 
-    } else if (msg == 'Selecionar outro dia' && turno == SEL_DIA) {
+    } else if (msg == 'Selecionar outro dia') {
         turnoSave = DATA;
 
         response = {
@@ -362,7 +368,8 @@ async function processar(msg, turno, sender_psid) {
         };
     } else if (turno == HORA) {
         turnoSave = FINALIZAR;
-        let nome = 'Felipe';
+
+        console.log(nome);
         let numero = '54 99873996';
 
         console.log('\n \n \n');
