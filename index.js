@@ -365,11 +365,6 @@ async function processar(msg, turno, sender_psid) {
         let nome = 'Felipe';
         let phone = '54 99873996'
 
-        console.log('\n \n \n');
-        console.log({ nome, phone, msg, sender_psid });
-        console.log('\n \n \n');
-        console.log(msg.quick_reply.payload);
-
         await agendar({ nome, phone, msg, sender_psid });
         response = {
             'text': `Seu horário foi agendado com sucesso!`
