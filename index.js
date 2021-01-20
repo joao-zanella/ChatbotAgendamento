@@ -28,6 +28,7 @@ const iniciarBanco = async () => await storage.init(); //função que inicia o b
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
 // STATES
+
 // caminho feliz
 const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5;
 //
@@ -242,15 +243,6 @@ async function processar(msg, turno, sender_psid) {
         };
     } else if (turno == TELEFONE) {
         turnoSave = DATA;
-        console.log('AQUI ESTÁ MSG' + msg);
-
-        if (msg == 'Selecionar outro dia') {
-            turnoSave = SEL_DIA;
-            response = {
-                "text": `Por favor informe o dia que você deseja e verificaremos se é possivel`
-            };
-            console.log(' Caiu no if ');
-        }
 
         const retornoDias = await proximos13dias();
         diasLivres = retornoDias;
@@ -324,7 +316,13 @@ async function processar(msg, turno, sender_psid) {
                 }
             ]
         };
-        console.log(' Caiu no else ');
+    } else if (msg == 'Selecionar outro dia') {
+        turnoSave = HORA;
+
+        response = {
+            "text": "Por favor informe o dia desejado"
+        };
+
     } else if (turno == DATA) {
         turnoSave = HORA;
 
