@@ -176,6 +176,7 @@ app.post('/webhook', async (req, res) => {
             console.log('Sender PSID: ' + sender_psid);
             let msg = "";
             if (webhook_event.message) msg = webhook_event.message.text;
+            else if (webhook_event.message.quick_reply.payload) msg = webhook_event.message.quick_reply.payload;
             else if (webhook_event.postback) msg = webhook_event.postback.payload;
             let turno = await storage.getItem(`u_${sender_psid}_turno`) || OLA;
             console.log('MSG AQUI \n \n \n');
@@ -367,6 +368,7 @@ async function processar(msg, turno, sender_psid) {
         console.log('\n \n \n');
         console.log({ nome, phone, msg, sender_psid });
         console.log('\n \n \n');
+        console.log(msg.quick_reply.payload);
 
         await agendar({ nome, phone, msg, sender_psid });
         response = {
