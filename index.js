@@ -36,7 +36,8 @@ const SEL_DIA = 6, CANCELAMENTO = 7;
 const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa'];
 let diasLivres = [];
 
-let nome, phone = '';
+let nome = '';
+let phone = '';
 
 const proximos13dias = () => new Promise((resolve, reject) => {
 
@@ -133,7 +134,7 @@ const horariosLivresDiaEspecifico = (escolhido) => new Promise((resolve, reject)
     });
 });
 
-const agendar = (nome, numero, eventId, sender_psid) => new Promise((resolve, reject) => {
+const agendar = ({ nome, phone, eventId, sender_psid }) => new Promise((resolve, reject) => {
 
     const serviceAccountAuth = new google.auth.JWT({
         email: serviceAccount.client_email,
@@ -143,7 +144,7 @@ const agendar = (nome, numero, eventId, sender_psid) => new Promise((resolve, re
 
     const event = {
         summary: "AGENDADO",
-        description: `Cliente: ${nome}\ Telefone: ${numero.replace("telefone:", "")} \n Código do cliente: ${sender_psid}`,
+        description: `Cliente: ${nome}\ Telefone: ${phone.replace("telefone:", "")} \n Código do cliente: ${sender_psid}`,
         colorId: 9
     };
 
@@ -369,14 +370,11 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == HORA) {
         turnoSave = FINALIZAR;
 
-        console.log(nome);
-        let numero = '54 99873996';
-
         console.log('\n \n \n');
-        console.log({ nome, numero, msg, sender_psid });
+        console.log({ nome, phone, msg, sender_psid });
         console.log('\n \n \n');
 
-        await agendar(nome, numero, msg, sender_psid);
+        await agendar({ nome, phone, msg, sender_psid });
         response = {
             'text': `Seu horário foi agendado com sucesso!`
         }
