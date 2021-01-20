@@ -243,8 +243,6 @@ async function processar(msg, turno, sender_psid) {
             "text": `Ok ${msg}, por favor informe seu número de telefone.`
         };
 
-        nome += msg;
-
     } else if (turno == TELEFONE) {
         turnoSave = DATA;
 
@@ -320,8 +318,6 @@ async function processar(msg, turno, sender_psid) {
                 }
             ]
         };
-
-        phone += msg;
 
     } else if (msg == 'Selecionar outro dia') {
         turnoSave = DATA;
