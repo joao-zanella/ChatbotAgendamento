@@ -35,8 +35,8 @@ const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5;
 const SEL_DIA = 6, CANCELAMENTO = 7;
 const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa'];
 let diasLivres = [];
-const nome = '';
-const phone = '';
+
+let nome, phone = '';
 
 const proximos13dias = () => new Promise((resolve, reject) => {
 
