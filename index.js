@@ -175,7 +175,7 @@ app.post('/webhook', async (req, res) => {
             let sender_psid = webhook_event.sender.id;
             console.log('Sender PSID: ' + sender_psid);
             let msg = "";
-            if (webhook_event.message.quick_reply.payload) msg = webhook_event.message.quick_reply.payload;
+            if (webhook_event.message.quick_reply && webhook_event.message.quick_reply.payload) msg = webhook_event.message.quick_reply.payload;
             else if (webhook_event.message) msg = webhook_event.message.text;
             else if (webhook_event.postback) msg = webhook_event.postback.payload;
 
