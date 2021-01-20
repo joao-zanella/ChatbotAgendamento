@@ -131,7 +131,7 @@ const horariosLivresDiaEspecifico = (escolhido) => new Promise((resolve, reject)
     });
 });
 
-const agendar = ({ nome, phone, eventId, sender_psid }) => new Promise((resolve, reject) => {
+const agendar = (nome, phone, eventId, sender_psid) => new Promise((resolve, reject) => {
     console.log('ESTE É O EVENTID ' + eventId);
     const serviceAccountAuth = new google.auth.JWT({
         email: serviceAccount.client_email,
@@ -360,7 +360,7 @@ async function processar(msg, turno, sender_psid) {
         let nome = 'Felipe';
         let phone = '54 99873996'
 
-        await agendar({ nome, phone, msg, sender_psid });
+        await agendar(nome, phone, msg, sender_psid);
         response = {
             'text': `Seu horário foi agendado com sucesso!`
         }
