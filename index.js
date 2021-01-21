@@ -242,7 +242,7 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == NOME) {
         turnoSave = TELEFONE;
 
-        await storage.setItem('name', 'yourname')
+        await storage.setItem('name', msg)
 
         response = {
             "text": `Ok ${msg}, por favor informe seu número de telefone.`
@@ -369,7 +369,7 @@ async function processar(msg, turno, sender_psid) {
         let nome = 'Felipe';
         let phone = '54 99873996'
 
-        console.log(await storage.getItem('name')); // yourname
+        console.log(await storage.getItem('name')); // msg
 
         await agendar(nome, phone, msg, sender_psid);
         response = {
