@@ -251,6 +251,8 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == TELEFONE) {
         turnoSave = DATA;
 
+        await storage.setItem('phone', msg);
+
         const retornoDias = await proximos13dias();
         diasLivres = retornoDias;
         response = {
@@ -366,10 +368,10 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == HORA) {
         turnoSave = FINALIZAR;
 
-        let nome = 'Felipe';
-        let phone = '54 99873996'
+        let nome = await storage.getItem('name'); // msg
+        let phone = await storage.getItem('phone'); // msg
 
-        console.log(await storage.getItem('name')); // msg
+        console.log({ nome, phone });
 
         await agendar(nome, phone, msg, sender_psid);
         response = {
