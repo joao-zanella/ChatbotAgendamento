@@ -38,9 +38,8 @@ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 // STATES
 
 // caminho feliz
-const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5;
-//
-const SEL_DIA = 6, CANCELAMENTO = 7;
+const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5, CANCELAMENTO = 6;
+
 const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa'];
 let diasLivres = [];
 
@@ -243,6 +242,8 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == NOME) {
         turnoSave = TELEFONE;
 
+        await storage.setItem('name', 'yourname')
+
         response = {
             "text": `Ok ${msg}, por favor informe seu número de telefone.`
         };
@@ -367,6 +368,8 @@ async function processar(msg, turno, sender_psid) {
 
         let nome = 'Felipe';
         let phone = '54 99873996'
+
+        console.log(await storage.getItem('name')); // yourname
 
         await agendar(nome, phone, msg, sender_psid);
         response = {
