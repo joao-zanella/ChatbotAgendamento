@@ -255,6 +255,11 @@ async function processar(msg, turno, sender_psid) {
 
         const retornoDias = await proximos13dias();
         diasLivres = retornoDias;
+
+        console.log('\n\n\n');
+        console.log(diasLivres);
+        console.log('\n\n\n');
+
         response = {
             "text": "Selecione uma data para executar o agendamento:",
             "quick_replies": [
@@ -371,13 +376,12 @@ async function processar(msg, turno, sender_psid) {
         let nome = await storage.getItem('name'); // msg
         let phone = await storage.getItem('phone'); // msg
 
-        console.log({ nome, phone });
-
         await agendar(nome, phone, msg, sender_psid);
         response = {
-            'text': `Seu horário foi agendado com sucesso!`
+            'text': `Obrigado ${nome} seu horário foi agendado com sucesso!`
         }
     }
+
     console.log({ response, turnoSave });
     return { response, turnoSave };
 }
