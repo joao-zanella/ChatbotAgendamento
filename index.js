@@ -256,9 +256,13 @@ async function processar(msg, turno, sender_psid) {
         const retornoDias = await proximos13dias();
         diasLivres = retornoDias;
 
-        const mostraDiasValidos = (dia) => {
-            console.log('\n\n\n');
-            console.log(`${dia} é um dia disponivel`);
+        const mostraDiasValidos = (dia, index) => {
+            if (dia == undefined) {
+                console.log(index + ' é undefined')
+            } else {
+                console.log(`${dia} é um dia disponivel`);
+            }
+
         }
 
         diasLivres.forEach((item) => {
