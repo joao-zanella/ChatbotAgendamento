@@ -6,16 +6,15 @@ const
     app = express().use(bodyParser.json()),
     request = require('request'),
     storage = require('node-persist'), //storage local
-    { google } = require('googleapis'),
-    calendar = google.calendar('v3');
+    { google } = require('googleapis');
 
 
-const calendarId = "i2hsubk3ooci8b7ifnmse397lc@group.calendar.google.com";
+const calendarId = "aane1epaq3vhc6a9iggmvp7tv4@group.calendar.google.com";
 const serviceAccount = {
     "type": "service_account",
     "project_id": "lorobot",
-    "private_key_id": "3d6363ac7d3dff45696e11b072166155af11328e",
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDci8FxLRC8eU1e\nNp2wc9/5s4+TczqXgOqQpBOenRfjPQHO3zlwweChXG8dHDVQ+GDfTERhmSeJC8o6\nDkRBwjNkdGLMtCKFaxlimjkBKdOJ20UKQxoSHMKkgpDA8AdFQlo1W2R67NH06ECb\nWYTA8nzcM0xnDEAcb9y6maAGWf9juKDWiM5ddYPTi3VgrMTgIGDjpMSey2xi5y5A\nEGdtwaWVgnfybIO5bFXlx/JH0cscKfAHx7ZOwWjQFK+EfYszkoP2qngxo+NlTVEi\niWSz4nTlse4zPnM/4zbb+5RqL6hLENNHIcSH30ttctRuE8KUgy6MBDfM6MaRtEhn\nGH8EXKq5AgMBAAECggEADwyaTpa8pZ/BX8RqTjgZ+HgAPBeIz/3EA8qubAxcLO1k\nyjEBQmh4Y4pjKqFaIgRQ1+vkXqSMxhU/32ZJ0hLmXtxyQXWpRWFhghD0AthPzwBf\nXavmg4Xi4kbmicPXOyqj7TAnUxwF16hhgDhDjsb9Lilx9TYoycf4T+NbwBM0EiHO\nqAnb2T0DLadKKwPyzIU1Wr9CYN5hRUNBk8AFGEoN/zF0Z+IF42bExymJPcOyUbQE\n5R5PqA5pk37ImhfcVbP8MPF5UWQJTw+V1ojjdKsGY7xj37PKxkkF+0l1jdSC2XAC\ny8L+UaCdzkQJ58EAGqv8Z1uzPrWXKm5pd8ElIDDu4QKBgQDzJlQIzZ+riIRP59TH\n6L28GWFua1YbPZDlIzG4YEacsg3vjv77EZnHCGODHE0z5OjNugCSwL3w7+IVxv+d\n9VQeFMkKVPqqTWQxUPwwSut34DDDHyZ+s/1BgHgeh2lIcT+C4OLbAk2/k5nu9MEw\nPpiQENPRAokkuyDBUAVdJQDluwKBgQDoM5yBmzws3PngMCLCx0yN5QTCuvihFJdh\n5kf3ZIq0GCbub+H7wEko26gweCwzEkE22NB7k56fm/DgrIVYFmICrkPC4O8i7xnY\ne/xgDmAk710DAGueyfaooZ0O4qgcMKqaX4C9SwKx7PncGPwGcoirHNfduOxZBW1L\nM8bU285QGwKBgG+vgFQW1yu8ZkIp09QLdPNsmRNWHFQg4GhP1SvClUyugLYz8a0z\ndXY1xTfZDSE0GTc+I7tE6zo7hZbJNGrC4GN82qdzRzxolggNEfnAwA3tHZjSuyTh\n2gd3UjV7r4GF+01LrQg6M6o2yzM2m3JknkE2aYUM7B/CEJabAgu5zoK3AoGAX07v\n6nLhXDjHh7G6UuCjF4rtTVCZROTCzjhLScxG8m0Hbc8WntLqNI8UlfB9k+jmQ7Dy\nwgZxkWnckRu/D80AJcGJpq/U+C3UGfuqN3MvG3n0X4sIoYCccdMEOFvoTMnc/Mg+\ne3QSgx2V4TWQHMVeO333TNbejBuiJL/32N7v7AkCgYEAxB2qP3rm53QW8YD+z/3w\nisGsY8YtF1xQf5Yf0aH9FxKSaUdzZ/AUVPgS9v/WUyp4fhZqpCkSkoYYLQQbjQO8\nQYQnYlKbFTtHZ9whbFpTUoo3kNsILj6FfYkE9Bygze/wHpdwbeYL3gOevZDdIy33\nKKD3K2AoDr6Gs7Jlz3i4IxI=\n-----END PRIVATE KEY-----\n",
+    "private_key_id": "ab7fd67f109f3da23c4017c56b2e7dac35417c3a",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCzAQt8Oh+0WwtT\n1w8VsvQbj3BT0SIZDiPb4+kyZlJUhUFTD23zw8qUhGDaHf18OuJkR9tX2UPZXWTr\nQm8pvu3ErubJykPhyDDqj1uOsHyVH0gvTNiohDF6+By4nj4tYTJclmDgp+fDTQU5\nHw1BAOTt2ZkXTM9awrJ2EXzfUlrP/+qaIcmVwrjiHjvUQi7t61rFK6S6jok5thMx\nzFHRwcCnkLDZvsM8u/fZtRq7mtUKKonvg0QSqTuKi4bjvqL1guiHP+zsaQizaNX5\nXN0o+a+CHXzSCKBIkhI5lJbXWmNqGW1uP9VYLACF8/FyHHugvQz3WaDmC6uz4z0q\nIuVSOcszAgMBAAECggEAAceLYS9EvGrBSJKVPE58nb+FyteD4sLguWFhIpagz+VJ\nOnWnTqqOG37bZZ+xsuf08zFBrXRj98e1Zp9Q8pXK0E86zRu9JAP09If7TYZUnrji\nY1H8v2QdB89qna05CgNy2DfIe8M/ixH7cM9tts02+WRV4MTrNMhFtOXEm4W6kGHD\nI/vCEBPKSu8PJyMxd/qXav2b+4gcguLmt9mMzRh6Cg5qNjiMp4EaDDFwsz6mSPgG\n/RA1vVQDrBpXZeOpQSQ3ikAe5q3zoJ8oFJSnMCh8olrCtbOtdGyOZ07j9ielXMnS\nnmcku82MhtV7cXMghBhr9sQ37u4h+YrVTGOZub4C/QKBgQDkMmrtaC5BHKtwKZkd\neCVCOu6V0DUUXs2AtgcPuKjP/YABqriJi4YLbivWi3Mmhq7MClN5r2xqf3wkFimV\n4dMVzjzP2tNj/521Pj4uAoI/muOsl+Y1kOHeQtSa+6IjMjrKKpUwaKV3U+skzv9j\nqN3H3PRKNCva8u8eSGP1jHBZPQKBgQDI0EaoX+8XacFZcMMoLtMaePA/x+4qyXUB\nyHwctin63iXMNTVtV7dgavOZL9I0p+dshW2PPDyes23jNB28zGEp99G9d2noEAXK\n+hhKocff9AmnLf9iOrqvAdVLBIsOVztobmTYCfAbajihDDKFtRjP7ueFANRC1XY/\nA/inVkudLwKBgQCoV5VQPEnbGOZUISvmdIqv+D+n32g49dMOf7pn26cVgQJcuG/Y\ncEhbyFOou0kgg70RoxB/tWz6h7+x83OMMYMCFBoCkIDfxWO3oApI8OrbN018NrbK\nj25BA/ZJuxaadmSuXYmfo6Nli0/t4JLBF4M8/QBueVxc8lh6c5biP09mVQKBgFm5\nRXjBtHA/nlY6Hdh8Y3I2ixHUYMPZU2BClcG2WrduPnEpbP+364U3BDRzu3YvdyVz\n0GnpPiSigvy7MnZC0z8PLTV8f2NilVQFvojKFCYqQY3i7XKUTwkWxphIJWF49GBK\nwuAMQK3fHgJHEuPO8JEna2Zv4mciPT0WpykNU6edAoGAH0nemf+M7NlpT8pkZgez\nOiddeN6BSMrAP60T2rzHY87hU0YV6V2gdUMIS2r06olx58xdMXtnNHpfsAa1Ew9u\nbufieUf0Pq7AO0TanAPrP/ch4jhhuPG84bTlWjCVyQ7welH/HEgQGuwHIkwkgPIN\nBaTCuHZMdH0IHnx0BKOi/W4=\n-----END PRIVATE KEY-----\n",
     "client_email": "lorobot-611@lorobot.iam.gserviceaccount.com",
     "client_id": "105835705991210877621",
     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
@@ -23,6 +22,15 @@ const serviceAccount = {
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/lorobot-611%40lorobot.iam.gserviceaccount.com"
 };
+
+const serviceAccountAuth = new google.auth.JWT({
+    email: serviceAccount.client_email,
+    key: serviceAccount.private_key,
+    scopes: 'https://www.googleapis.com/auth/calendar'
+});
+
+const calendar = google.calendar('v3');
+
 const iniciarBanco = async () => await storage.init(); //função que inicia o banco local
 
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
