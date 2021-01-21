@@ -256,10 +256,6 @@ async function processar(msg, turno, sender_psid) {
         const retornoDias = await proximos13dias();
         diasLivres = retornoDias;
 
-        console.log('\n\n\n');
-        console.log(diasLivres);
-        console.log('\n\n\n');
-
         response = {
             "text": "Selecione uma data para executar o agendamento:",
             "quick_replies": [
@@ -344,6 +340,12 @@ async function processar(msg, turno, sender_psid) {
         const pegaHoras = await horariosLivresDiaEspecifico(msg);
         console.log(pegaHoras.horas);
         console.log(pegaHoras.ids);
+
+        if (pegaHoras.horas.includes(undefined)) {
+            console.log('Existe undefined');
+        } else {
+            console.log('Não existe undefined');
+        };
 
         response = {
             "text": `Os horários disponíveis para o dia selecionado são:`,
