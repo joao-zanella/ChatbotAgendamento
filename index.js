@@ -345,42 +345,52 @@ async function processar(msg, turno, sender_psid) {
         console.log(pegaHoras.horas);
         console.log(pegaHoras.ids);
 
-        pegaHoras.horas.forEach((item) => {
-            console.log('HORAS: ' + item);
-        });
+        let horaIndefinida = [];
+        let j = 0;
+        for (let i = 0; i < pegaHoras.horas.length; i++) {
+            if (pegaHoras.horas[i] == undefined || null) {
+                horaIndefinida[j] = pegaHoras.horas[i];
+                j++;
+            }
+
+        }
+        do {
+            pegaHoras.horas.splice(horaIndefinida[0], 1)
+            horaIndefinida.pop();
+        } while (horaIndefinida.length > 0)
 
         response = {
             "text": `Os horários disponíveis para o dia selecionado são:`,
             "quick_replies": [
                 {
                     "content_type": "text",
-                    "title": `${pegaHoras.horas[i]}`,
-                    "payload": `${pegaHoras.ids[i]}`
+                    "title": `${pegaHoras.horas[j]}`,
+                    "payload": `${pegaHoras.ids[j]}`
                 },
                 {
                     "content_type": "text",
-                    "title": `${pegaHoras.horas[i]}`,
-                    "payload": `${pegaHoras.ids[i]}`
+                    "title": `${pegaHoras.horas[j]}`,
+                    "payload": `${pegaHoras.ids[j]}`
                 },
                 {
                     "content_type": "text",
-                    "title": `${pegaHoras.horas[i]}`,
-                    "payload": `${pegaHoras.ids[i]}`
+                    "title": `${pegaHoras.horas[j]}`,
+                    "payload": `${pegaHoras.ids[j]}`
                 },
                 {
                     "content_type": "text",
-                    "title": `${pegaHoras.horas[i]}`,
-                    "payload": `${pegaHoras.ids[i]}`
+                    "title": `${pegaHoras.horas[j]}`,
+                    "payload": `${pegaHoras.ids[j]}`
                 },
                 {
                     "content_type": "text",
-                    "title": `${pegaHoras.horas[i]}`,
-                    "payload": `${pegaHoras.ids[i]}`
+                    "title": `${pegaHoras.horas[j]}`,
+                    "payload": `${pegaHoras.ids[j]}`
                 },
                 {
                     "content_type": "text",
-                    "title": `${pegaHoras.horas[i]}`,
-                    "payload": `${pegaHoras.ids[i]}`
+                    "title": `${pegaHoras.horas[j]}`,
+                    "payload": `${pegaHoras.ids[j]}`
                 },
             ]
         };
