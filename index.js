@@ -345,34 +345,21 @@ async function processar(msg, turno, sender_psid) {
         console.log(pegaHoras.horas);
         console.log(pegaHoras.ids);
 
-        var i = 0;
-        for (i; pegaHoras.horas.length; i++) {
-            console.log(i);
-        };
+        var hora = {}
+
+        for (var i = 0; pegaHoras.horas.length; i++) {
+            hora = {
+                "content_type": "text",
+                "title": `${pegaHoras.horas[i]}`,
+                "payload": `${pegaHoras.ids[i]}`
+            }
+            return hora;
+        }
 
         response = {
             "text": `Os horários disponíveis para o dia selecionado são:`,
             "quick_replies": [
-                {
-                    "content_type": "text",
-                    "title": `${pegaHoras.horas[0]}`,
-                    "payload": `${pegaHoras.ids[0]}`
-                },
-                {
-                    "content_type": "text",
-                    "title": `${pegaHoras.horas[1]}`,
-                    "payload": `${pegaHoras.ids[1]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${pegaHoras.horas[2]}`,
-                    "payload": `${pegaHoras.ids[2]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${pegaHoras.horas[3]}`,
-                    "payload": `${pegaHoras.ids[3]}`,
-                },
+                hora
             ]
         };
 
