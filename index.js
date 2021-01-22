@@ -242,12 +242,12 @@ async function processar(msg, turno, sender_psid) {
             "quick_replies": [
                 {
                     "content_type": "text",
-                    "title": "Agende minha consulta.",
+                    "title": "Agendar consulta.",
                     "payload": "0"
                 },
                 {
                     "content_type": "text",
-                    "title": "Cancele minha consulta.",
+                    "title": "Cancelar consulta.",
                     "payload": "1"
                 },
             ]
@@ -404,7 +404,7 @@ async function processar(msg, turno, sender_psid) {
         response = {
             'text': `Obrigado ${nome} seu horário foi agendado com sucesso!`
         }
-    } else if (msg == 'Cancele minha consulta.' && received_postback.payload === '1') {
+    } else if (msg == 'Cancelar consulta.') {
 
         let horasMarcadas = [];
         let verifHora = '13:30';
