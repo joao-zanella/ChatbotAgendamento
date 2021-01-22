@@ -345,23 +345,23 @@ async function processar(msg, turno, sender_psid) {
         console.log(pegaHoras.horas);
         console.log(pegaHoras.ids);
 
-        var hora = {}
+        // var hora = {}
 
-        for (var i = 0; pegaHoras.horas.length; i++) {
-            hora = {
-                "content_type": "text",
-                "title": `${pegaHoras.horas[i]}`,
-                "payload": `${pegaHoras.ids[i]}`
-            }
-            return hora;
-        }
+        // for (var i = 0; pegaHoras.horas.length; i++) {
+        //     hora = {
+        //         "content_type": "text",
+        //         "title": `${pegaHoras.horas[i]}`,
+        //         "payload": `${pegaHoras.ids[i]}`
+        //     }
+        //     return hora;
+        // }
 
-        response = {
-            "text": `Os horários disponíveis para o dia selecionado são:`,
-            "quick_replies": [
-                hora
-            ]
-        };
+        // response = {
+        //     "text": `Os horários disponíveis para o dia selecionado são:`,
+        //     "quick_replies": [
+        //         hora
+        //     ]
+        // };
 
     } else if (turno == HORA) {
         turnoSave = FINALIZAR;
