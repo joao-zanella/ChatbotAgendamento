@@ -256,17 +256,8 @@ async function processar(msg, turno, sender_psid) {
         const retornoDias = await proximos13dias();
         diasLivres = retornoDias;
 
-        const mostraDiasValidos = (dia, index) => {
-            if (dia == undefined) {
-                console.log(index + ' é undefined')
-            } else {
-                console.log(`${dia} é um dia disponivel`);
-            }
-
-        }
-
         diasLivres.forEach((item) => {
-            mostraDiasValidos(item);
+            console.log(item);
         });
 
         response = {
@@ -361,34 +352,43 @@ async function processar(msg, turno, sender_psid) {
 
 
         pegaHoras.horas.forEach((item) => {
-            mostrarHorasVálidas(item);
+            response = {
+                "text": `Os horários disponíveis para o dia selecionado são:`,
+                "quick_replies": [
+                    {
+                        "content_type": "text",
+                        "title": `${pegaHoras.horas[item]}`,
+                        "payload": `${pegaHoras.ids[item]}`
+                    },
+                ]
+            }
         });
 
-        response = {
-            "text": `Os horários disponíveis para o dia selecionado são:`,
-            "quick_replies": [
-                {
-                    "content_type": "text",
-                    "title": `${pegaHoras.horas[0]}`,
-                    "payload": `${pegaHoras.ids[0]}`
-                },
-                {
-                    "content_type": "text",
-                    "title": `${pegaHoras.horas[1]}`,
-                    "payload": `${pegaHoras.ids[1]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${pegaHoras.horas[2]}`,
-                    "payload": `${pegaHoras.ids[2]}`,
-                },
-                {
-                    "content_type": "text",
-                    "title": `${pegaHoras.horas[3]}`,
-                    "payload": `${pegaHoras.ids[3]}`,
-                },
-            ]
-        };
+        // response = {
+        //     "text": `Os horários disponíveis para o dia selecionado são:`,
+        //     "quick_replies": [
+        //         {
+        //             "content_type": "text",
+        //             "title": `${pegaHoras.horas[0]}`,
+        //             "payload": `${pegaHoras.ids[0]}`
+        //         },
+        //         {
+        //             "content_type": "text",
+        //             "title": `${pegaHoras.horas[1]}`,
+        //             "payload": `${pegaHoras.ids[1]}`,
+        //         },
+        //         {
+        //             "content_type": "text",
+        //             "title": `${pegaHoras.horas[2]}`,
+        //             "payload": `${pegaHoras.ids[2]}`,
+        //         },
+        //         {
+        //             "content_type": "text",
+        //             "title": `${pegaHoras.horas[3]}`,
+        //             "payload": `${pegaHoras.ids[3]}`,
+        //         },
+        //     ]
+        // };
     } else if (turno == HORA) {
         turnoSave = FINALIZAR;
 
@@ -401,7 +401,6 @@ async function processar(msg, turno, sender_psid) {
         }
     }
 
-    console.log({ response, turnoSave });
     return { response, turnoSave };
 }
 
