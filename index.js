@@ -345,23 +345,47 @@ async function processar(msg, turno, sender_psid) {
         console.log(pegaHoras.horas);
         console.log(pegaHoras.ids);
 
-        // var hora = {}
+        pegaHoras.horas.forEach((item) => {
+            console.log('\n\n\n');
+            console.log('HORAS: ' + item);
+            console.log('\n\n\n');
+        });
 
-        // for (var i = 0; pegaHoras.horas.length; i++) {
-        //     hora = {
-        //         "content_type": "text",
-        //         "title": `${pegaHoras.horas[i]}`,
-        //         "payload": `${pegaHoras.ids[i]}`
-        //     }
-        //     return hora;
-        // }
-
-        // response = {
-        //     "text": `Os horários disponíveis para o dia selecionado são:`,
-        //     "quick_replies": [
-        //         hora
-        //     ]
-        // };
+        response = {
+            "text": `Os horários disponíveis para o dia selecionado são:`,
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[i]}`,
+                    "payload": `${pegaHoras.ids[i]}`
+                },
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[i]}`,
+                    "payload": `${pegaHoras.ids[i]}`
+                },
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[i]}`,
+                    "payload": `${pegaHoras.ids[i]}`
+                },
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[i]}`,
+                    "payload": `${pegaHoras.ids[i]}`
+                },
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[i]}`,
+                    "payload": `${pegaHoras.ids[i]}`
+                },
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[i]}`,
+                    "payload": `${pegaHoras.ids[i]}`
+                },
+            ]
+        };
 
     } else if (turno == HORA) {
         turnoSave = FINALIZAR;
