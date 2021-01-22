@@ -252,6 +252,38 @@ async function processar(msg, turno, sender_psid) {
                 },
             ]
         };
+    } else if (msg == 'Cancelar consulta.') {
+
+        let horasMarcadas = [];
+        let verifHora = '13:30';
+        let verifDia = '22/01/2021';
+
+        if (horasMarcadas.length > 2) {
+            response = {
+                "text": 'Você tem horários marcados para os seguintes dias: ',
+                quick_replies: [
+                    {
+                        "content_type": "text",
+                        "title": `${verifDia} - ${verifHora}`,
+                        "payload": `${verifDia} - ${verifHora}`
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${verifDia} - ${verifHora}`,
+                        "payload": `${verifDia} - ${verifHora}`
+                    },
+                ]
+            };
+        } else if (horasMarcadas.length < 2) {
+            response = {
+                "text": `Seu horário marcado para dia ${verifDia} e ${verifHora} foi cancelado.`
+            };
+        } else {
+            response = {
+                "text": 'Desculpe, não encontramos horários agendados em seu nome.\n Certifique-se de estar logado na mesma conta que o senhor(a) fez o agendamento.'
+            };
+        }
+
     } else if (turno == NOME) {
         turnoSave = TELEFONE;
 
@@ -404,83 +436,50 @@ async function processar(msg, turno, sender_psid) {
         response = {
             'text': `Obrigado ${nome} seu horário foi agendado com sucesso!`
         }
-    } else if (msg == 'Cancelar consulta.') {
 
-        let horasMarcadas = [];
-        let verifHora = '13:30';
-        let verifDia = '22/01/2021';
 
-        if (horasMarcadas.length > 2) {
-            response = {
-                "text": 'Você tem horários marcados para os seguintes dias: ',
-                quick_replies: [
-                    {
-                        "content_type": "text",
-                        "title": `${verifDia} - ${verifHora}`,
-                        "payload": `${verifDia} - ${verifHora}`
-                    },
-                    {
-                        "content_type": "text",
-                        "title": `${verifDia} - ${verifHora}`,
-                        "payload": `${verifDia} - ${verifHora}`
-                    },
-                ]
-            };
+        return { response, turnoSave };
+    }
+
+    function handlePostback(sender_psid, received_postback) {
+        let response;
+
+        // Get the payload for the postback
+        let payload = received_postback.payload;
+        let message = received_postback.text;
+        if (payload) {
+            console.log(payload);
         }
-        else if (horasMarcadas.length < 2) {
-            response = {
-                "text": `Seu horário marcado para dia ${verifDia} e ${verifHora} foi cancelado.`
-            };
-        } else {
-            response = {
-                "text": 'Desculpe, não encontramos horários agendados em seu nome.\n Certifique-se de estar logado na mesma conta que o senhor(a) fez o agendamento.'
-            };
+        if (payload === 'sim' || "Sim" || "Sim!" || 'sim!' || "s") {
+            response = { "text": "Obrigado !!!!!" }
+        } else if (payload === 'nao' || "Não" || "Não!" || "não" || "n") {
+            response = { "text": "Tente enviar outra." }
+        }
+        callSendAPI(sender_psid, response);
+    }
+
+    function callSendAPI(sender_psid, response) {
+        // Construct the message body
+        let request_body = {
+            "recipient": {
+                "id": sender_psid
+            },
+            "message": response
         }
 
+        // Send the HTTP request to the Messenger Platform
+        request({
+            "uri": "https://graph.facebook.com/v2.6/me/messages",
+            "qs": { "access_token": PAGE_ACCESS_TOKEN },
+            "method": "POST",
+            "json": request_body
+        }, (err, res, body) => {
+            if (!err) {
+                console.log('message sent!')
+            } else {
+                console.error("Unable to send message:" + err);
+            }
+        });
     }
 
-    return { response, turnoSave };
-}
-
-function handlePostback(sender_psid, received_postback) {
-    let response;
-
-    // Get the payload for the postback
-    let payload = received_postback.payload;
-    let message = received_postback.text;
-    if (payload) {
-        console.log(payload);
-    }
-    if (payload === 'sim' || "Sim" || "Sim!" || 'sim!' || "s") {
-        response = { "text": "Obrigado !!!!!" }
-    } else if (payload === 'nao' || "Não" || "Não!" || "não" || "n") {
-        response = { "text": "Tente enviar outra." }
-    }
-    callSendAPI(sender_psid, response);
-}
-
-function callSendAPI(sender_psid, response) {
-    // Construct the message body
-    let request_body = {
-        "recipient": {
-            "id": sender_psid
-        },
-        "message": response
-    }
-
-    // Send the HTTP request to the Messenger Platform
-    request({
-        "uri": "https://graph.facebook.com/v2.6/me/messages",
-        "qs": { "access_token": PAGE_ACCESS_TOKEN },
-        "method": "POST",
-        "json": request_body
-    }, (err, res, body) => {
-        if (!err) {
-            console.log('message sent!')
-        } else {
-            console.error("Unable to send message:" + err);
-        }
-    });
-}
-
-iniciarBanco();
+    iniciarBanco();
