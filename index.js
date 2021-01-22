@@ -236,8 +236,21 @@ async function processar(msg, turno, sender_psid) {
 
     if (turno == OLA || SAUDACOES.includes(msg.toLowerCase())) {
         turnoSave = NOME;
+
         response = {
-            "text": `Olá! Informe seu nome para iniciarmos seu agendamento.`
+            "text": `Olá! Bem vindo a Clínica Portal, como podemos ajudar?`,
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": "Agende minha consulta.",
+                    "payload": "0"
+                },
+                {
+                    "content_type": "text",
+                    "title": "Cancele minha consulta.",
+                    "payload": "1"
+                },
+            ]
         };
     } else if (turno == NOME) {
         turnoSave = TELEFONE;
@@ -345,52 +358,38 @@ async function processar(msg, turno, sender_psid) {
         console.log(pegaHoras.horas);
         console.log(pegaHoras.ids);
 
-        let horaIndefinida = [];
-        let j = 0;
-        for (let i = 0; i < pegaHoras.horas.length; i++) {
-            if (pegaHoras.horas[i] == undefined || null) {
-                horaIndefinida[j] = pegaHoras.horas[i];
-                j++;
-            }
-
-        }
-        do {
-            pegaHoras.horas.splice(horaIndefinida[0], 1)
-            horaIndefinida.pop();
-        } while (horaIndefinida.length > 0)
-
         response = {
             "text": `Os horários disponíveis para o dia selecionado são:`,
             "quick_replies": [
                 {
                     "content_type": "text",
-                    "title": `${pegaHoras.horas[j]}`,
-                    "payload": `${pegaHoras.ids[j]}`
+                    "title": `${pegaHoras.horas[0]}`,
+                    "payload": `${pegaHoras.ids[0]}`
                 },
                 {
                     "content_type": "text",
-                    "title": `${pegaHoras.horas[j]}`,
-                    "payload": `${pegaHoras.ids[j]}`
+                    "title": `${pegaHoras.horas[1]}`,
+                    "payload": `${pegaHoras.ids[1]}`
                 },
                 {
                     "content_type": "text",
-                    "title": `${pegaHoras.horas[j]}`,
-                    "payload": `${pegaHoras.ids[j]}`
+                    "title": `${pegaHoras.horas[2]}`,
+                    "payload": `${pegaHoras.ids[2]}`
                 },
                 {
                     "content_type": "text",
-                    "title": `${pegaHoras.horas[j]}`,
-                    "payload": `${pegaHoras.ids[j]}`
+                    "title": `${pegaHoras.horas[3]}`,
+                    "payload": `${pegaHoras.ids[3]}`
                 },
                 {
                     "content_type": "text",
-                    "title": `${pegaHoras.horas[j]}`,
-                    "payload": `${pegaHoras.ids[j]}`
+                    "title": `${pegaHoras.horas[4]}`,
+                    "payload": `${pegaHoras.ids[4]}`
                 },
                 {
                     "content_type": "text",
-                    "title": `${pegaHoras.horas[j]}`,
-                    "payload": `${pegaHoras.ids[j]}`
+                    "title": `${pegaHoras.horas[5]}`,
+                    "payload": `${pegaHoras.ids[5]}`
                 },
             ]
         };
@@ -405,6 +404,39 @@ async function processar(msg, turno, sender_psid) {
         response = {
             'text': `Obrigado ${nome} seu horário foi agendado com sucesso!`
         }
+    } else if (msg == 'Cancele minha consulta.' && received_postback.payload === '1') {
+
+        let horasMarcadas = [];
+        let verifHora = '13:30';
+        let verifDia = '22/01/2021';
+
+        if (horasMarcadas.length > 2) {
+            response = {
+                "text": 'Você tem horários marcados para os seguintes dias: ',
+                quick_replies: [
+                    {
+                        "content_type": "text",
+                        "title": `${verifDia} - ${verifHora}`,
+                        "payload": `${verifDia} - ${verifHora}`
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${verifDia} - ${verifHora}`,
+                        "payload": `${verifDia} - ${verifHora}`
+                    },
+                ]
+            };
+        }
+        else if (horasMarcadas.length < 2) {
+            response = {
+                "text": `Seu horário marcado para dia ${verifDia} e ${verifHora} foi cancelado.`
+            };
+        } else {
+            response = {
+                "text": 'Desculpe, não encontramos horários agendados em seu nome.\n Certifique-se de estar logado na mesma conta que o senhor(a) fez o agendamento.'
+            };
+        }
+
     }
 
     return { response, turnoSave };
