@@ -345,11 +345,9 @@ async function processar(msg, turno, sender_psid) {
         console.log(pegaHoras.horas);
         console.log(pegaHoras.ids);
 
-        let i = pegaHoras.horas.forEach((item) => {
+        pegaHoras.horas.forEach((item) => {
             console.log('HORAS: ' + item);
         });
-
-        console.log('Rodando ' + i);
 
         response = {
             "text": `Os horários disponíveis para o dia selecionado são:`,
