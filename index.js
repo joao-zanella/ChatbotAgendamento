@@ -255,9 +255,7 @@ async function processar(msg, turno, sender_psid) {
         console.log(msg);
     } else if (turno == NOME && msg == 'Cancelar consulta') {
 
-        let horasMarcadas = [
-            '1', '2'
-        ];
+        let horasMarcadas = ['1', '2'];
         let verifHora = '13:30';
         let verifDia = '22/01/2021';
 
