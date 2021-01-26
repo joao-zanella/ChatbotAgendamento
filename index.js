@@ -38,7 +38,7 @@ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 // STATES
 
 // caminho feliz
-const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5, CANCELAMENTO = 6;
+const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5, CANCELAMENTO = 6, INICIO = 7;
 
 const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa'];
 let diasLivres = [];
@@ -233,25 +233,43 @@ async function processar(msg, turno, sender_psid) {
     console.log('SENDER_PSID:' + sender_psid);
 
     let response, turnoSave;
-
-    if (turno == OLA || SAUDACOES.includes(msg.toLowerCase())) {
-        turnoSave = NOME;
+    if (turno == INICIO || SAUDACOES.includes(msg.toLowerCase())) {
+        turnoSave = NOME
 
         response = {
-            "text": `Olá! Bem vindo a Clínica Portal, como podemos ajudar?`,
+            "text": `Bem vindo a Clínica Portal, selecione uma das opções abaixo para iniciar:`,
             "quick_replies": [
                 {
                     "content_type": "text",
-                    "title": "Agendar consulta.",
-                    "payload": "0"
+                    "title": `Agendar consulta`,
+                    "payload": 'Agendar consulta'
                 },
                 {
                     "content_type": "text",
-                    "title": "Cancelar.",
-                    "payload": "1"
-                },
+                    "title": `Cancelar consulta`,
+                    "payload": 'Cancelar consulta'
+                }
             ]
         };
+
+        console.log(msg);
+    } else if (turno == NOME && msg == 'Cancelar consulta') {
+        console.log('Entrou no cancelamento');
+        console.log(msg);
+
+        response = {
+            "text": `Qual horário deseja cancelar?`,
+        };
+
+    } else if (turno == NOME && msg == 'Agendar consulta') {
+        console.log('Entrou no caminho feliz');
+        console.log(msg);
+        turnoSave = NOME;
+
+        response = {
+            "text": `Olá! Bem vindo a Clínica Portal, informe seu nome para iniciarmos?`,
+        };
+
     } else if (turno == NOME) {
         turnoSave = TELEFONE;
 
@@ -262,6 +280,7 @@ async function processar(msg, turno, sender_psid) {
         };
 
     } else if (turno == TELEFONE) {
+
         turnoSave = DATA;
 
         await storage.setItem('phone', msg);
@@ -404,39 +423,6 @@ async function processar(msg, turno, sender_psid) {
         response = {
             'text': `Obrigado ${nome} seu horário foi agendado com sucesso!`
         }
-    } else if (msg == 'Cancelar consulta.') {
-
-        let horasMarcadas = [];
-        let verifHora = '13:30';
-        let verifDia = '22/01/2021';
-
-        if (horasMarcadas.length > 2) {
-            response = {
-                "text": 'Você tem horários marcados para os seguintes dias: ',
-                quick_replies: [
-                    {
-                        "content_type": "text",
-                        "title": `${verifDia} - ${verifHora}`,
-                        "payload": `${verifDia} - ${verifHora}`
-                    },
-                    {
-                        "content_type": "text",
-                        "title": `${verifDia} - ${verifHora}`,
-                        "payload": `${verifDia} - ${verifHora}`
-                    },
-                ]
-            };
-        }
-        else if (horasMarcadas.length < 2) {
-            response = {
-                "text": `Seu horário marcado para dia ${verifDia} e ${verifHora} foi cancelado.`
-            };
-        } else {
-            response = {
-                "text": 'Desculpe, não encontramos horários agendados em seu nome.\n Certifique-se de estar logado na mesma conta que o senhor(a) fez o agendamento.'
-            };
-        }
-
     }
 
     return { response, turnoSave };
