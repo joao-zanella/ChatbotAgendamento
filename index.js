@@ -254,7 +254,8 @@ async function processar(msg, turno, sender_psid) {
 
         console.log(msg);
     } else if (turno == NOME && msg == 'Cancelar consulta') {
-
+        // comparar sender_psid
+        turnoSave = CANCELAMENTO
         let horasMarcadas = ['1', '2'];
         let verifHora = '13:30';
         let verifDia = '22/01/2021';
@@ -265,13 +266,13 @@ async function processar(msg, turno, sender_psid) {
                 quick_replies: [
                     {
                         "content_type": "text",
-                        "title": `${verifDia} - ${verifHora}`,
-                        "payload": `${verifDia} - ${verifHora}`
+                        "title": `${verifDia} - ${verifHora} - ${horasMarcadas[0]}`,
+                        "payload": `${verifDia} - ${verifHora} - ${horasMarcadas[0]}`
                     },
                     {
                         "content_type": "text",
-                        "title": `${verifDia} - ${verifHora}`,
-                        "payload": `${verifDia} - ${verifHora}`
+                        "title": `${verifDia} - ${verifHora} - ${horasMarcadas[1]}`,
+                        "payload": `${verifDia} - ${verifHora} - ${horasMarcadas[1]}`
                     },
                 ]
             };
