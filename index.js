@@ -259,7 +259,7 @@ async function processar(msg, turno, sender_psid) {
         let verifHora = '13:30';
         let verifDia = '22/01/2021';
 
-        if (horasMarcadas.length > 2) {
+        if (horasMarcadas.length > 1) {
             response = {
                 "text": 'Você tem horários marcados para os seguintes dias: ',
                 quick_replies: [
@@ -276,7 +276,7 @@ async function processar(msg, turno, sender_psid) {
                 ]
             };
         }
-        else if (horasMarcadas.length < 2) {
+        else if (horasMarcadas.length == 1) {
             response = {
                 "text": `Seu horário marcado para dia ${verifDia} e ${verifHora} foi cancelado.`
             };
