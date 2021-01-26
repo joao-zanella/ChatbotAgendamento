@@ -34,6 +34,39 @@ await storage.init({
     // storage dir, i.e. Google Drive, make this true if you'd like to ignore these files and not throw an error
     forgiveParseErrors: false
 
-});
+});else if (msg == 'Cancelar consulta.') {
+
+        let horasMarcadas = [];
+        let verifHora = '13:30';
+        let verifDia = '22/01/2021';
+
+        if (horasMarcadas.length > 2) {
+            response = {
+                "text": 'Você tem horários marcados para os seguintes dias: ',
+                quick_replies: [
+                    {
+                        "content_type": "text",
+                        "title": `${verifDia} - ${verifHora}`,
+                        "payload": `${verifDia} - ${verifHora}`
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${verifDia} - ${verifHora}`,
+                        "payload": `${verifDia} - ${verifHora}`
+                    },
+                ]
+            };
+        }
+        else if (horasMarcadas.length < 2) {
+            response = {
+                "text": `Seu horário marcado para dia ${verifDia} e ${verifHora} foi cancelado.`
+            };
+        } else {
+            response = {
+                "text": 'Desculpe, não encontramos horários agendados em seu nome.\n Certifique-se de estar logado na mesma conta que o senhor(a) fez o agendamento.'
+            };
+        }
+
+    }
 
 */

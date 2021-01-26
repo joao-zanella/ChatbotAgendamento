@@ -254,12 +254,38 @@ async function processar(msg, turno, sender_psid) {
 
         console.log(msg);
     } else if (turno == NOME && msg == 'Cancelar consulta') {
-        console.log('Entrou no cancelamento');
-        console.log(msg);
 
-        response = {
-            "text": `Qual horário deseja cancelar?`,
-        };
+        let horasMarcadas = [];
+        let verifHora = '13:30';
+        let verifDia = '22/01/2021';
+
+        if (horasMarcadas.length > 2) {
+            response = {
+                "text": 'Você tem horários marcados para os seguintes dias: ',
+                quick_replies: [
+                    {
+                        "content_type": "text",
+                        "title": `${verifDia} - ${verifHora}`,
+                        "payload": `${verifDia} - ${verifHora}`
+                    },
+                    {
+                        "content_type": "text",
+                        "title": `${verifDia} - ${verifHora}`,
+                        "payload": `${verifDia} - ${verifHora}`
+                    },
+                ]
+            };
+        }
+        else if (horasMarcadas.length < 2) {
+            response = {
+                "text": `Seu horário marcado para dia ${verifDia} e ${verifHora} foi cancelado.`
+            };
+        } else {
+            response = {
+                "text": 'Desculpe, não encontramos horários agendados em seu nome.\n Certifique-se de estar logado na mesma conta que o senhor(a) fez o agendamento.'
+            };
+        }
+
 
     } else if (turno == NOME && msg == 'Agendar consulta') {
         console.log('Entrou no caminho feliz');
