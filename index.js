@@ -289,6 +289,8 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == NOME && msg == 'Cancelar consulta') {
         turnoSave = CANCELAMENTO
 
+        await getDataEHora();
+
         if (horasMarcadas.length == 1) {
             response = {
                 "text": `Seu horário marcado para dia ${verifDia} e ${verifHora} foi cancelado.`
