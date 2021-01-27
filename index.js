@@ -70,6 +70,7 @@ const proximos13dias = () => new Promise((resolve, reject) => {
 
     }, (err, calendarResponse) => {
         const lista = calendarResponse.data.items;
+        console.log(lista);
 
         let diasDisponiveis = [];
 
@@ -139,7 +140,7 @@ const horariosLivresDiaEspecifico = (escolhido) => new Promise((resolve, reject)
 });
 
 const agendar = (nome, phone, eventId, sender_psid) => new Promise((resolve, reject) => {
-    console.log('ESTE É O EVENTID ' + eventId);
+
     const serviceAccountAuth = new google.auth.JWT({
         email: serviceAccount.client_email,
         key: serviceAccount.private_key,
@@ -164,16 +165,11 @@ const agendar = (nome, phone, eventId, sender_psid) => new Promise((resolve, rej
     });
 });
 
-const getSenderPsid = () => new Promise((resolve, reject) => {
+const getDataEHora = () => new Promise((resolve, reject) => {
 
     const hoje = new Date().toISOString();
     const hojeStr = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
-
-    const min = hojeStr;
-    const max = '2025-12-12T23:59:00.000Z';
-
-    console.log(min);
-    console.log(max);
+    const max = '2021-12-12T23:59:00.000Z';
 
     const serviceAccountAuth = new google.auth.JWT({
         email: serviceAccount.client_email,
@@ -185,7 +181,7 @@ const getSenderPsid = () => new Promise((resolve, reject) => {
         auth: serviceAccountAuth,
         calendarId: calendarId,
         timeMax: max,
-        timeMin: min,
+        timeMin: hojeStr,
         //timeMin: (new Date()).toISOString(),    
         showDeleted: false,
         maxResults: 20,
@@ -195,7 +191,9 @@ const getSenderPsid = () => new Promise((resolve, reject) => {
 
     }, (err, calendarResponse) => {
         const lista = calendarResponse.data.items;
+        console.log(lista);
 
+        //resolve(toRetObj);
     });
 });
 
@@ -289,31 +287,9 @@ async function processar(msg, turno, sender_psid) {
 
         console.log(msg);
     } else if (turno == NOME && msg == 'Cancelar consulta') {
-
         turnoSave = CANCELAMENTO
 
-        let horasMarcadas = ['1', '2'];
-        let verifHora = '13:30';
-        let verifDia = '22/01/2021';
-
-        if (horasMarcadas.length > 1) {
-            response = {
-                "text": 'Você tem horários marcados para os seguintes dias: ',
-                quick_replies: [
-                    {
-                        "content_type": "text",
-                        "title": `${verifDia} - ${verifHora} - ${horasMarcadas[0]}`,
-                        "payload": `${verifDia} - ${verifHora} - ${horasMarcadas[0]}`
-                    },
-                    {
-                        "content_type": "text",
-                        "title": `${verifDia} - ${verifHora} - ${horasMarcadas[1]}`,
-                        "payload": `${verifDia} - ${verifHora} - ${horasMarcadas[1]}`
-                    },
-                ]
-            };
-        }
-        else if (horasMarcadas.length == 1) {
+        if (horasMarcadas.length == 1) {
             response = {
                 "text": `Seu horário marcado para dia ${verifDia} e ${verifHora} foi cancelado.`
             };
@@ -323,6 +299,24 @@ async function processar(msg, turno, sender_psid) {
             };
         }
 
+        // if (horasMarcadas.length > 1) {
+        //     response = {
+        //         "text": 'Você tem horários marcados para os seguintes dias: ',
+        //         quick_replies: [
+        //             {
+        //                 "content_type": "text",
+        //                 "title": `${verifDia} - ${verifHora} - ${horasMarcadas[0]}`,
+        //                 "payload": `${verifDia} - ${verifHora} - ${horasMarcadas[0]}`
+        //             },
+        //             {
+        //                 "content_type": "text",
+        //                 "title": `${verifDia} - ${verifHora} - ${horasMarcadas[1]}`,
+        //                 "payload": `${verifDia} - ${verifHora} - ${horasMarcadas[1]}`
+        //             },
+        //         ]
+        //     };
+        // }
+        // else 
 
     } else if (turno == NOME && msg == 'Agendar consulta') {
         console.log('Entrou no caminho feliz');
