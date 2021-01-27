@@ -164,40 +164,40 @@ const agendar = (nome, phone, eventId, sender_psid) => new Promise((resolve, rej
     });
 });
 
-// const getSenderPsid = () => new Promise((resolve, reject) => {
+const getSenderPsid = () => new Promise((resolve, reject) => {
 
-//     const hoje = new Date().toISOString();
-//     const hojeStr = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
+    const hoje = new Date().toISOString();
+    const hojeStr = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
 
-//     const min = hojeStr;
-//     const max = '2025-12-12T23:59:00.000Z';
+    const min = hojeStr;
+    const max = '2025-12-12T23:59:00.000Z';
 
-//     console.log(min);
-//     console.log(max);
+    console.log(min);
+    console.log(max);
 
-//     const serviceAccountAuth = new google.auth.JWT({
-//         email: serviceAccount.client_email,
-//         key: serviceAccount.private_key,
-//         scopes: 'https://www.googleapis.com/auth/calendar'
-//     });
+    const serviceAccountAuth = new google.auth.JWT({
+        email: serviceAccount.client_email,
+        key: serviceAccount.private_key,
+        scopes: 'https://www.googleapis.com/auth/calendar'
+    });
 
-//     calendar.events.list({
-//         auth: serviceAccountAuth,
-//         calendarId: calendarId,
-//         timeMax: max,
-//         timeMin: min,
-//         //timeMin: (new Date()).toISOString(),    
-//         showDeleted: false,
-//         maxResults: 20,
-//         q: "HORARIO LIVRE",
-//         singleEvents: true,
-//         orderBy: 'startTime',
+    calendar.events.list({
+        auth: serviceAccountAuth,
+        calendarId: calendarId,
+        timeMax: max,
+        timeMin: min,
+        //timeMin: (new Date()).toISOString(),    
+        showDeleted: false,
+        maxResults: 20,
+        q: "HORARIO LIVRE",
+        singleEvents: true,
+        orderBy: 'startTime',
 
-//     }, (err, calendarResponse) => {
-//         const lista = calendarResponse.data.items;
+    }, (err, calendarResponse) => {
+        const lista = calendarResponse.data.items;
 
-//     });
-// });
+    });
+});
 
 app.post('/webhook', async (req, res) => {
 
