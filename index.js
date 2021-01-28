@@ -190,10 +190,11 @@ const getDataEHora = () => new Promise((resolve, reject) => {
         orderBy: 'startTime',
 
     }, (err, calendarResponse) => {
+        console.log(calendarResponse);
         const lista = calendarResponse.data.items;
         console.log(lista);
 
-        //resolve(toRetObj);
+        resolve(lista);
     });
 });
 
