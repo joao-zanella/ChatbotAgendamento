@@ -298,7 +298,7 @@ async function processar(msg, turno, sender_psid) {
 
         if (horasMarcadas.length == 1) {
             response = {
-                "text": `Seu horário marcado para dia ${verifDia} e ${verifHora} foi cancelado.`
+                "text": `Seu horário marcado para dia e foi cancelado.`
             };
         } else {
             response = {
