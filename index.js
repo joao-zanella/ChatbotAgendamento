@@ -207,11 +207,10 @@ app.post('/webhook', async (req, res) => {
 
             // Gets the body of the webhook event
             let webhook_event = entry.messaging[0];
-            console.log(webhook_event);
 
             // Get the sender PSID
             let sender_psid = webhook_event.sender.id;
-            console.log('Sender PSID: ' + sender_psid);
+            console.log('linha 213 Sender PSID: ' + sender_psid);
             let msg = "";
             if (webhook_event.message.quick_reply && webhook_event.message.quick_reply.payload) msg = webhook_event.message.quick_reply.payload;
             else if (webhook_event.message) msg = webhook_event.message.text;
@@ -261,8 +260,6 @@ app.get('/webhook', (req, res) => {
 });
 
 async function processar(msg, turno, sender_psid) {
-    console.log('SENDER_PSID:' + sender_psid);
-
     let response, turnoSave;
     if (turno == INICIO || SAUDACOES.includes(msg.toLowerCase())) {
         turnoSave = NOME
@@ -288,7 +285,6 @@ async function processar(msg, turno, sender_psid) {
         turnoSave = CANCELAMENTO
 
         let horaMarcada = await getSenderPsid(sender_psid);
-        console.log(horaMarcada);
 
         if (horasMarcadas.length == 1) {
             response = {
