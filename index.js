@@ -167,13 +167,8 @@ const agendar = (nome, phone, eventId, sender_psid) => new Promise((resolve, rej
 
 const getSenderPsid = (sender_psid) => new Promise((resolve, reject) => {
 
-    const hoje = new Date().toISOString();
-    const min = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
-    const max = '2022-12-12T23:59:00.000Z';
-
     const agoraMais1hora = new Date(((new Date()).getTime()) + (1000 * 60 * 60));
     const agoraMais365dias = new Date(((new Date()).getTime()) + (1000 * 60 * 60 * 24 * 365));
-
 
     const serviceAccountAuth = new google.auth.JWT({
         email: serviceAccount.client_email,
@@ -214,9 +209,7 @@ const getSenderPsid = (sender_psid) => new Promise((resolve, reject) => {
                     "payload": `${idEvento}`
                 },
             );
-
         }
-
         resolve(horasDisponiveis);
     });
 });
@@ -322,10 +315,17 @@ async function processar(msg, turno, sender_psid) {
                 "text": 'Você tem horários marcados para os seguintes dias. Qual deseja cancelar?',
                 quick_replies: horasMarcadas
             };
+
         } else {
             response = {
                 "text": 'Desculpe, não encontramos horários agendados em seu nome.\n Certifique-se de estar logado na mesma conta que o senhor(a) fez o agendamento.'
             };
+        }
+    } else if (turno == CANCELAMENTO && horasMarcadas.includes(msg)) {
+        turnoSave = FINALIZAR
+
+        response = {
+            "text": "Seu horário foi cancelado com sucesso! Agradecemos seu contato."
         }
 
     } else if (turno == NOME && msg == 'Agendar consulta') {
