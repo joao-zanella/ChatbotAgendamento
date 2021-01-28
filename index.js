@@ -171,8 +171,6 @@ const getSenderPsid = () => new Promise((resolve, reject) => {
     const min = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
     const max = '2021-12-12T23:59:00.000Z';
 
-    console.log(hojeStr);
-
     calendar.events.list({
         auth: serviceAccountAuth,
         calendarId: calendarId,
