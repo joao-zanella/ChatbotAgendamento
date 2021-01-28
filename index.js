@@ -147,6 +147,8 @@ const agendar = (nome, phone, eventId, sender_psid) => new Promise((resolve, rej
         scopes: 'https://www.googleapis.com/auth/calendar'
     });
 
+    console.log(eventId);
+
     const event = {
         summary: "AGENDADO",
         description: `Cliente: ${nome}\ Telefone: ${phone.replace("telefone:", "")} \n Código do cliente: ${sender_psid}`,
@@ -214,6 +216,30 @@ const getSenderPsid = (sender_psid) => new Promise((resolve, reject) => {
     });
 });
 
+const cancelar = (eventCancel) => new Promise((resolve, reject) => {
+    const serviceAccountAuth = new google.auth.JWT({
+        email: serviceAccount.client_email,
+        key: serviceAccount.private_key,
+        scopes: 'https://www.googleapis.com/auth/calendar'
+    });
+
+    const event = {
+        summary: "HORARIO CANCELADO",
+        description: '',
+        colorId: 11
+    };
+
+    calendar.events.patch({
+        auth: serviceAccountAuth,
+        calendarId: calendarId,
+        eventId: eventCancel,
+        resource: event
+    }, (err, calendarResponse) => {
+        if (err) resolve("Falha ao agendar.");
+        else resolve("Seu atendimento foi agendado com sucesso. Aguardamos você!");
+        console.log(err ? err : calendarResponse.data);
+    });
+});
 
 
 app.post('/webhook', async (req, res) => {
@@ -323,6 +349,8 @@ async function processar(msg, turno, sender_psid) {
         }
     } else if (turno == CANCELAMENTO) {
         turnoSave = FINALIZAR
+
+        const del = cancelar(msg);
 
         response = {
             "text": "Seu horário foi cancelado com sucesso! Agradecemos seu contato."
