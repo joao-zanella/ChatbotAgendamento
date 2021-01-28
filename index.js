@@ -201,13 +201,16 @@ const getSenderPsid = (sender_psid) => new Promise((resolve, reject) => {
         let horasDisponiveis = [];
 
         for (let i = 0; i < lista.length; i++) {
+            const vlSplit = lista[i].start.dateTime.substr(0, 10).split('-');
+            console.log(vlSplit);
+            const strAux = `${vlSplit[2]}/${vlSplit[1]}/${vlSplit[0]}`;
             const horarioItem = lista[i].start.dateTime.substr(11, 5);
             const idEvento = lista[i].id
             if (horasDisponiveis.length >= 13) break;
             horasDisponiveis.push(
                 {
                     "content_type": "text",
-                    "title": `${horarioItem}`,
+                    "title": `${strAux} às ${horarioItem}`,
                     "payload": `${idEvento}`
                 },
             );
