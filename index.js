@@ -202,7 +202,7 @@ const getSenderPsid = (sender_psid) => new Promise((resolve, reject) => {
 
         for (let i = 0; i < lista.length; i++) {
             const horarioItem = lista[i].start.dateTime.substr(11, 5);
-            const idEvento = list[i].id
+            const idEvento = lista[i].id
             if (horasDisponiveis.length >= 13) break;
             horasDisponiveis.push(
                 {
