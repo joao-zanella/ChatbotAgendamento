@@ -165,17 +165,13 @@ const agendar = (nome, phone, eventId, sender_psid) => new Promise((resolve, rej
     });
 });
 
-const getDataEHora = () => new Promise((resolve, reject) => {
+const getSenderPsid = () => new Promise((resolve, reject) => {
 
     const hoje = new Date().toISOString();
     const hojeStr = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
     const max = '2021-12-12T23:59:00.000Z';
 
-    const serviceAccountAuth = new google.auth.JWT({
-        email: serviceAccount.client_email,
-        key: serviceAccount.private_key,
-        scopes: 'https://www.googleapis.com/auth/calendar'
-    });
+    console.log(hojeStr);
 
     calendar.events.list({
         auth: serviceAccountAuth,
@@ -190,13 +186,15 @@ const getDataEHora = () => new Promise((resolve, reject) => {
         orderBy: 'startTime',
 
     }, (err, calendarResponse) => {
-        console.log(calendarResponse);
+
         const lista = calendarResponse.data.items;
         console.log(lista);
 
         resolve(lista);
     });
 });
+
+
 
 app.post('/webhook', async (req, res) => {
 
@@ -290,7 +288,7 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == NOME && msg == 'Cancelar consulta') {
         turnoSave = CANCELAMENTO
 
-        await getDataEHora();
+        await getSenderPsid();
 
         if (horasMarcadas.length == 1) {
             response = {
