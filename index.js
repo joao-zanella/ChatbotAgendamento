@@ -321,7 +321,7 @@ async function processar(msg, turno, sender_psid) {
                 "text": 'Desculpe, não encontramos horários agendados em seu nome.\n Certifique-se de estar logado na mesma conta que o senhor(a) fez o agendamento.'
             };
         }
-    } else if (turno == CANCELAMENTO && horasMarcadas.includes(msg)) {
+    } else if (turno == CANCELAMENTO) {
         turnoSave = FINALIZAR
 
         response = {
