@@ -168,7 +168,7 @@ const agendar = (nome, phone, eventId, sender_psid) => new Promise((resolve, rej
 const getSenderPsid = () => new Promise((resolve, reject) => {
 
     const hoje = new Date().toISOString();
-    const hojeStr = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
+    const min = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
     const max = '2021-12-12T23:59:00.000Z';
 
     console.log(hojeStr);
@@ -177,7 +177,7 @@ const getSenderPsid = () => new Promise((resolve, reject) => {
         auth: serviceAccountAuth,
         calendarId: calendarId,
         timeMax: max,
-        timeMin: hojeStr,
+        timeMin: min,
         //timeMin: (new Date()).toISOString(),    
         showDeleted: false,
         maxResults: 20,
