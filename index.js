@@ -197,9 +197,24 @@ const getSenderPsid = (sender_psid) => new Promise((resolve, reject) => {
         console.log(calendarResponse);
 
         const lista = calendarResponse.data.items;
-        console.log(lista);
 
-        resolve(lista);
+        let horasDisponiveis = [];
+
+        for (let i = 0; i < lista.length; i++) {
+            const horarioItem = lista[i].start.dateTime.substr(11, 5);
+            const idEvento = list[i].id
+            if (horasDisponiveis.length >= 13) break;
+            horasDisponiveis.push(
+                {
+                    "content_type": "text",
+                    "title": `${horarioItem}`,
+                    "payload": `${idEvento}`
+                },
+            );
+
+        }
+
+        resolve(horasDisponiveis);
     });
 });
 
@@ -301,216 +316,180 @@ async function processar(msg, turno, sender_psid) {
             };
         } else if (horasMarcadas.lenght > 1) {
             response = {
-                "text": 'Você tem horários marcados para os seguintes dias: ',
-                quick_replies: [
-                    {
-                        "content_type": "text",
-                        "title": `${horasMarcadas[0]}`,
-                        "payload": `${horasMarcadas[0]}`
-                    },
-                    {
-                        "content_type": "text",
-                        "title": `${horasMarcadas[1]}`,
-                        "payload": `${horasMarcadas[1]}`
-                    },
-                    {
-                        "content_type": "text",
-                        "title": `${horasMarcadas[2]}`,
-                        "payload": `${horasMarcadas[2]}`
-                    },
-                ]
+                "text": 'Você tem horários marcados para os seguintes dias. Qual deseja cancelar?',
+                quick_replies: horasMarcadas
+            };
+        } else {
+            response = {
+                "text": 'Desculpe, não encontramos horários agendados em seu nome.\n Certifique-se de estar logado na mesma conta que o senhor(a) fez o agendamento.'
             };
         }
-    } else {
+
+    } else if (turno == NOME && msg == 'Agendar consulta') {
+        console.log('Entrou no caminho feliz');
+        console.log(msg);
+        turnoSave = NOME;
+
         response = {
-            "text": 'Desculpe, não encontramos horários agendados em seu nome.\n Certifique-se de estar logado na mesma conta que o senhor(a) fez o agendamento.'
+            "text": `Olá! Bem vindo a Clínica Portal, informe seu nome para iniciarmos?`,
         };
+
+    } else if (turno == NOME) {
+        turnoSave = TELEFONE;
+
+        await storage.setItem('name', msg)
+
+        response = {
+            "text": `Ok ${msg}, por favor informe seu número de telefone.`
+        };
+
+    } else if (turno == TELEFONE) {
+
+        turnoSave = DATA;
+
+        await storage.setItem('phone', msg);
+
+        const retornoDias = await proximos13dias();
+        diasLivres = retornoDias;
+
+        diasLivres.forEach((item) => {
+            console.log(item);
+        });
+
+        response = {
+            "text": "Selecione uma data para executar o agendamento:",
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[0]}`,
+                    "payload": `${diasLivres[0]}`
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[1]}`,
+                    "payload": `${diasLivres[1]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[2]}`,
+                    "payload": `${diasLivres[2]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[3]}`,
+                    "payload": `${diasLivres[3]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[4]}`,
+                    "payload": `${diasLivres[4]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[5]}`,
+                    "payload": `${diasLivres[5]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[6]}`,
+                    "payload": `${diasLivres[6]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[7]}`,
+                    "payload": `${diasLivres[7]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[8]}`,
+                    "payload": `${diasLivres[8]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[9]}`,
+                    "payload": `${diasLivres[9]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[10]}`,
+                    "payload": `${diasLivres[10]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[11]}`,
+                    "payload": `${diasLivres[11]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": 'Selecionar outro dia',
+                    "payload": 'mudar intent',
+                }
+            ]
+        };
+
+    } else if (msg == 'Selecionar outro dia') {
+        turnoSave = DATA;
+
+        response = {
+            "text": "Por favor informe o dia desejado"
+        };
+
+    } else if (turno == DATA) {
+        turnoSave = HORA;
+
+        const pegaHoras = await horariosLivresDiaEspecifico(msg);
+        console.log(pegaHoras.horas);
+        console.log(pegaHoras.ids);
+
+        response = {
+            "text": `Os horários disponíveis para o dia selecionado são:`,
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[0]}`,
+                    "payload": `${pegaHoras.ids[0]}`
+                },
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[1]}`,
+                    "payload": `${pegaHoras.ids[1]}`
+                },
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[2]}`,
+                    "payload": `${pegaHoras.ids[2]}`
+                },
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[3]}`,
+                    "payload": `${pegaHoras.ids[3]}`
+                },
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[4]}`,
+                    "payload": `${pegaHoras.ids[4]}`
+                },
+                {
+                    "content_type": "text",
+                    "title": `${pegaHoras.horas[5]}`,
+                    "payload": `${pegaHoras.ids[5]}`
+                },
+            ]
+        };
+
+    } else if (turno == HORA) {
+        turnoSave = FINALIZAR;
+
+        let nome = await storage.getItem('name'); // msg
+        let phone = await storage.getItem('phone'); // msg
+
+        await agendar(nome, phone, msg, sender_psid);
+        response = {
+            'text': `Obrigado ${nome} seu horário foi agendado com sucesso!`
+        }
     }
 
-    // if (horasMarcadas.length > 1) {
-    //     response = {
-    //         "text": 'Você tem horários marcados para os seguintes dias: ',
-    //         quick_replies: [
-    //             {
-    //                 "content_type": "text",
-    //                 "title": `${verifDia} - ${verifHora} - ${horasMarcadas[0]}`,
-    //                 "payload": `${verifDia} - ${verifHora} - ${horasMarcadas[0]}`
-    //             },
-    //             {
-    //                 "content_type": "text",
-    //                 "title": `${verifDia} - ${verifHora} - ${horasMarcadas[1]}`,
-    //                 "payload": `${verifDia} - ${verifHora} - ${horasMarcadas[1]}`
-    //             },
-    //         ]
-    //     };
-    // }
-    // else 
-
-} else if (turno == NOME && msg == 'Agendar consulta') {
-    console.log('Entrou no caminho feliz');
-    console.log(msg);
-    turnoSave = NOME;
-
-    response = {
-        "text": `Olá! Bem vindo a Clínica Portal, informe seu nome para iniciarmos?`,
-    };
-
-} else if (turno == NOME) {
-    turnoSave = TELEFONE;
-
-    await storage.setItem('name', msg)
-
-    response = {
-        "text": `Ok ${msg}, por favor informe seu número de telefone.`
-    };
-
-} else if (turno == TELEFONE) {
-
-    turnoSave = DATA;
-
-    await storage.setItem('phone', msg);
-
-    const retornoDias = await proximos13dias();
-    diasLivres = retornoDias;
-
-    diasLivres.forEach((item) => {
-        console.log(item);
-    });
-
-    response = {
-        "text": "Selecione uma data para executar o agendamento:",
-        "quick_replies": [
-            {
-                "content_type": "text",
-                "title": `${diasLivres[0]}`,
-                "payload": `${diasLivres[0]}`
-            },
-            {
-                "content_type": "text",
-                "title": `${diasLivres[1]}`,
-                "payload": `${diasLivres[1]}`,
-            },
-            {
-                "content_type": "text",
-                "title": `${diasLivres[2]}`,
-                "payload": `${diasLivres[2]}`,
-            },
-            {
-                "content_type": "text",
-                "title": `${diasLivres[3]}`,
-                "payload": `${diasLivres[3]}`,
-            },
-            {
-                "content_type": "text",
-                "title": `${diasLivres[4]}`,
-                "payload": `${diasLivres[4]}`,
-            },
-            {
-                "content_type": "text",
-                "title": `${diasLivres[5]}`,
-                "payload": `${diasLivres[5]}`,
-            },
-            {
-                "content_type": "text",
-                "title": `${diasLivres[6]}`,
-                "payload": `${diasLivres[6]}`,
-            },
-            {
-                "content_type": "text",
-                "title": `${diasLivres[7]}`,
-                "payload": `${diasLivres[7]}`,
-            },
-            {
-                "content_type": "text",
-                "title": `${diasLivres[8]}`,
-                "payload": `${diasLivres[8]}`,
-            },
-            {
-                "content_type": "text",
-                "title": `${diasLivres[9]}`,
-                "payload": `${diasLivres[9]}`,
-            },
-            {
-                "content_type": "text",
-                "title": `${diasLivres[10]}`,
-                "payload": `${diasLivres[10]}`,
-            },
-            {
-                "content_type": "text",
-                "title": `${diasLivres[11]}`,
-                "payload": `${diasLivres[11]}`,
-            },
-            {
-                "content_type": "text",
-                "title": 'Selecionar outro dia',
-                "payload": 'mudar intent',
-            }
-        ]
-    };
-
-} else if (msg == 'Selecionar outro dia') {
-    turnoSave = DATA;
-
-    response = {
-        "text": "Por favor informe o dia desejado"
-    };
-
-} else if (turno == DATA) {
-    turnoSave = HORA;
-
-    const pegaHoras = await horariosLivresDiaEspecifico(msg);
-    console.log(pegaHoras.horas);
-    console.log(pegaHoras.ids);
-
-    response = {
-        "text": `Os horários disponíveis para o dia selecionado são:`,
-        "quick_replies": [
-            {
-                "content_type": "text",
-                "title": `${pegaHoras.horas[0]}`,
-                "payload": `${pegaHoras.ids[0]}`
-            },
-            {
-                "content_type": "text",
-                "title": `${pegaHoras.horas[1]}`,
-                "payload": `${pegaHoras.ids[1]}`
-            },
-            {
-                "content_type": "text",
-                "title": `${pegaHoras.horas[2]}`,
-                "payload": `${pegaHoras.ids[2]}`
-            },
-            {
-                "content_type": "text",
-                "title": `${pegaHoras.horas[3]}`,
-                "payload": `${pegaHoras.ids[3]}`
-            },
-            {
-                "content_type": "text",
-                "title": `${pegaHoras.horas[4]}`,
-                "payload": `${pegaHoras.ids[4]}`
-            },
-            {
-                "content_type": "text",
-                "title": `${pegaHoras.horas[5]}`,
-                "payload": `${pegaHoras.ids[5]}`
-            },
-        ]
-    };
-
-} else if (turno == HORA) {
-    turnoSave = FINALIZAR;
-
-    let nome = await storage.getItem('name'); // msg
-    let phone = await storage.getItem('phone'); // msg
-
-    await agendar(nome, phone, msg, sender_psid);
-    response = {
-        'text': `Obrigado ${nome} seu horário foi agendado com sucesso!`
-    }
-}
-
-return { response, turnoSave };
+    return { response, turnoSave };
 }
 
 function handlePostback(sender_psid, received_postback) {
