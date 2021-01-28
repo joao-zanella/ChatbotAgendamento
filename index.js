@@ -314,7 +314,7 @@ async function processar(msg, turno, sender_psid) {
             response = {
                 "text": `Seu horário marcado para dia e foi cancelado.`
             };
-        } else if (horasMarcadas.lenght > 1) {
+        } else if (horasMarcadas.length > 1) {
             response = {
                 "text": 'Você tem horários marcados para os seguintes dias. Qual deseja cancelar?',
                 quick_replies: horasMarcadas
