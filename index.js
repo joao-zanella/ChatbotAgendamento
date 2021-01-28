@@ -294,7 +294,7 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == NOME && msg == 'Cancelar consulta') {
         turnoSave = CANCELAMENTO
 
-        let horaMarcada = await getSenderPsid(sender_psid);
+        let horasMarcadas = await getSenderPsid(sender_psid);
 
         if (horasMarcadas.length == 1) {
             response = {
