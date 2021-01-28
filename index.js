@@ -171,11 +171,21 @@ const getSenderPsid = (sender_psid) => new Promise((resolve, reject) => {
     const min = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
     const max = '2022-12-12T23:59:00.000Z';
 
+    const agoraMais1hora = new Date(((new Date()).getTime()) + (1000 * 60 * 60));
+    const agoraMais365dias = new Date(((new Date()).getTime()) + (1000 * 60 * 60 * 24 * 365));
+
+
+    const serviceAccountAuth = new google.auth.JWT({
+        email: serviceAccount.client_email,
+        key: serviceAccount.private_key,
+        scopes: 'https://www.googleapis.com/auth/calendar'
+    });
+
     calendar.events.list({
         auth: serviceAccountAuth,
         calendarId: calendarId,
-        timeMax: max,
-        timeMin: min,
+        timeMax: agoraMais365dias.toISOString(),
+        timeMin: agoraMais1hora.toISOString(),
         //timeMin: (new Date()).toISOString(),    
         showDeleted: false,
         maxResults: 20,
