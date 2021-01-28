@@ -165,11 +165,11 @@ const agendar = (nome, phone, eventId, sender_psid) => new Promise((resolve, rej
     });
 });
 
-const getSenderPsid = () => new Promise((resolve, reject) => {
+const getSenderPsid = (sender_psid) => new Promise((resolve, reject) => {
 
     const hoje = new Date().toISOString();
     const min = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
-    const max = '2021-12-12T23:59:00.000Z';
+    const max = '2022-12-12T23:59:00.000Z';
 
     calendar.events.list({
         auth: serviceAccountAuth,
@@ -179,11 +179,12 @@ const getSenderPsid = () => new Promise((resolve, reject) => {
         //timeMin: (new Date()).toISOString(),    
         showDeleted: false,
         maxResults: 20,
-        q: "HORARIO LIVRE",
+        q: sender_psid,
         singleEvents: true,
         orderBy: 'startTime',
 
     }, (err, calendarResponse) => {
+        console.log(calendarResponse);
 
         const lista = calendarResponse.data.items;
         console.log(lista);
@@ -286,7 +287,8 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == NOME && msg == 'Cancelar consulta') {
         turnoSave = CANCELAMENTO
 
-        await getSenderPsid();
+        let horaMarcada = await getSenderPsid(sender_psid);
+        console.log(horaMarcada);
 
         if (horasMarcadas.length == 1) {
             response = {
