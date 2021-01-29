@@ -225,7 +225,7 @@ const cancelar = (eventCancel) => new Promise((resolve, reject) => {
     const event = {
         summary: "HORARIO DISPONIVEL",
         description: '',
-        colorId: 9
+        colorId: 11
     };
 
     console.log('EventCancel: ' + eventCancel);
