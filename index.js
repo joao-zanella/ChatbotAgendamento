@@ -228,6 +228,8 @@ const cancelar = (eventCancel) => new Promise((resolve, reject) => {
         colorId: 1
     };
 
+    console.log('EventCancel: ' + eventCancel);
+
     calendar.events.patch({
         auth: serviceAccountAuth,
         calendarId: calendarId,
@@ -365,7 +367,7 @@ async function processar(msg, turno, sender_psid) {
 
         let cancel = await storage.getItem('cancel'); //diaCancel
 
-        let cancelFunc = await cancelar(cancel);
+        await cancelar(cancel);
 
         response = {
             "text": "Seu horário foi cancelado com sucesso! Agradecemos seu contato."
