@@ -222,9 +222,9 @@ const cancelar = (eventCancel) => new Promise((resolve, reject) => {
     });
 
     const event = {
-        summary: "HORARIO CANCELADO",
+        summary: "HORARIO DISPONIVEL",
         description: '',
-        colorId: 11
+        colorId: 1
     };
 
     calendar.events.patch({
@@ -355,7 +355,7 @@ async function processar(msg, turno, sender_psid) {
                 "text": 'Desculpe, não encontramos horários agendados em seu nome.\n Certifique-se de estar logado na mesma conta que o senhor(a) fez o agendamento.'
             };
         }
-    } else if (turno == CANCELAMENTO) {
+    } else if (turno == CANCELAMENTO || msg == "Confirmar") {
         turnoSave = FINALIZAR
 
         const del = cancelar(msg);
