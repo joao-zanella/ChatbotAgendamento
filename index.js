@@ -335,7 +335,7 @@ async function processar(msg, turno, sender_psid) {
 
         if (horasMarcadas.length == 1) {
             response = {
-                "text": `Selecione o botão "Confirmar" para cancelar sua consulta marcada para dia ${horasMarcadas[0]}.`,
+                "text": `Selecione o botão "Confirmar" para cancelar sua consulta marcada para dia ${horasMarcadas.title}.`,
                 quick_replies: [
                     {
                         "content_type": "text",
