@@ -366,7 +366,8 @@ async function processar(msg, turno, sender_psid) {
         let cancel = await storage.getItem('cancel'); //diaCancel
         console.log(cancel);
 
-        await cancelar(cancel);
+        let cancelFunc = await cancelar(cancel);
+        console.log(cancelFunc);
 
         response = {
             "text": "Seu horário foi cancelado com sucesso! Agradecemos seu contato."
