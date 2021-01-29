@@ -43,6 +43,7 @@ const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5, CANCEL
 const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa'];
 let diasLivres = [];
 
+
 const proximos13dias = () => new Promise((resolve, reject) => {
 
     const serviceAccountAuth = new google.auth.JWT({
@@ -329,13 +330,13 @@ async function processar(msg, turno, sender_psid) {
         turnoSave = CANCELAMENTO
 
         let horasMarcadas = await getSenderPsid(sender_psid);
-        console.log('\n\n\n');
-        console.log(horasMarcadas);
-        console.log('\n\n\n');
 
         if (horasMarcadas.length == 1) {
+
+            let diaCancel = horasMarcadas[0].title;
+            await storage.setItem('cancel', diaCancel);
             response = {
-                "text": `Selecione o botão "Confirmar" para cancelar sua consulta marcada para dia ${horasMarcadas[0].title}.`,
+                "text": `Selecione o botão "Confirmar" para cancelar sua consulta marcada para dia ${diaCancel}.`,
                 quick_replies: [
                     {
                         "content_type": "text",
@@ -344,25 +345,41 @@ async function processar(msg, turno, sender_psid) {
                     },
                 ]
             };
+
         } else if (horasMarcadas.length > 1) {
+
             response = {
                 "text": 'Você tem horários marcados para os seguintes dias. Qual deseja cancelar?',
                 quick_replies: horasMarcadas
             };
 
         } else {
+
             response = {
                 "text": 'Desculpe, não encontramos horários agendados em seu nome.\n Certifique-se de estar logado na mesma conta que o senhor(a) fez o agendamento.'
             };
+
         }
-    } else if (turno == CANCELAMENTO || msg == "Confirmar") {
+    } else if (turno == CANCELAMENTO && msg == "Confirmar") {
+        turnoSave = FINALIZAR;
+
+        let cancel = await storage.getItem('cancel'); //diaCancel
+        console.log(cancel);
+
+        await cancelar(cancel);
+
+        response = {
+            "text": "Seu horário foi cancelado com sucesso! Agradecemos seu contato."
+        };
+
+    } else if (turno == CANCELAMENTO) {
         turnoSave = FINALIZAR
 
         await cancelar(msg);
 
         response = {
             "text": "Seu horário foi cancelado com sucesso! Agradecemos seu contato."
-        }
+        };
 
     } else if (turno == NOME && msg == 'Agendar consulta') {
         console.log('Entrou no caminho feliz');
