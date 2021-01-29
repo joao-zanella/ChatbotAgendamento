@@ -358,7 +358,7 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == CANCELAMENTO || msg == "Confirmar") {
         turnoSave = FINALIZAR
 
-        const del = cancelar(msg);
+        await cancelar(msg);
 
         response = {
             "text": "Seu horário foi cancelado com sucesso! Agradecemos seu contato."
