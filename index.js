@@ -335,7 +335,14 @@ async function processar(msg, turno, sender_psid) {
 
         if (horasMarcadas.length == 1) {
             response = {
-                "text": `Seu horário marcado para dia e foi cancelado.`
+                "text": `Selecione o botão "Confirmar" para cancelar sua consulta marcada para dia ${horasMarcadas[0]}.`,
+                quick_replies: [
+                    {
+                        "content_type": "text",
+                        "title": `Confirmar`,
+                        "payload": `Confirmar`
+                    },
+                ]
             };
         } else if (horasMarcadas.length > 1) {
             response = {
