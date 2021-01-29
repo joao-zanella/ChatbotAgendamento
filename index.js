@@ -191,8 +191,6 @@ const getSenderPsid = (sender_psid) => new Promise((resolve, reject) => {
         orderBy: 'startTime',
 
     }, (err, calendarResponse) => {
-        console.log(calendarResponse);
-
         const lista = calendarResponse.data.items;
 
         let horasDisponiveis = [];
@@ -331,10 +329,11 @@ async function processar(msg, turno, sender_psid) {
         turnoSave = CANCELAMENTO
 
         let horasMarcadas = await getSenderPsid(sender_psid);
+        console.log(horasMarcadas);
 
         if (horasMarcadas.length == 1) {
             response = {
-                "text": `Seu horário marcado para dia e foi cancelado.`
+                "text": `Seu horário marcado para  dia e foi cancelado.`
             };
         } else if (horasMarcadas.length > 1) {
             response = {
