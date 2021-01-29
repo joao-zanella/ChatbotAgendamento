@@ -365,9 +365,6 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == CANCELAMENTO && msg == "Confirmar") {
         turnoSave = FINALIZAR;
 
-        let cancel = await storage.getItem('cancel'); //diaCancel
-        let formatCancel = cancel.slice(0, 10);
-
         console.log(formatCancel);
 
         await cancelar(formatCancel);
@@ -379,6 +376,7 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == CANCELAMENTO) {
         turnoSave = FINALIZAR
 
+        console.log('msg linha 379 ' + msg);
         await cancelar(msg);
 
         response = {
