@@ -225,7 +225,7 @@ const cancelar = (eventCancel) => new Promise((resolve, reject) => {
     const event = {
         summary: "HORARIO DISPONIVEL",
         description: '',
-        colorId: 1
+        colorId: 9
     };
 
     console.log('EventCancel: ' + eventCancel);
@@ -332,18 +332,20 @@ async function processar(msg, turno, sender_psid) {
         turnoSave = CANCELAMENTO
 
         let horasMarcadas = await getSenderPsid(sender_psid);
+        console.log(horasMarcadas);
 
         if (horasMarcadas.length == 1) {
 
             let diaCancel = horasMarcadas[0].title;
-            await storage.setItem('cancel', diaCancel);
+            let eventId = horasMarcadas[0].payload;
+
             response = {
                 "text": `Selecione o botão "Confirmar" para cancelar sua consulta marcada para dia ${diaCancel}.`,
                 quick_replies: [
                     {
                         "content_type": "text",
                         "title": `Confirmar`,
-                        "payload": `Confirmar`
+                        "payload": `${eventId}`
                     },
                 ]
             };
@@ -362,21 +364,10 @@ async function processar(msg, turno, sender_psid) {
             };
 
         }
-    } else if (turno == CANCELAMENTO && msg == "Confirmar") {
-        turnoSave = FINALIZAR;
-
-        console.log(formatCancel);
-
-        await cancelar(formatCancel);
-
-        response = {
-            "text": "Seu horário foi cancelado com sucesso! Agradecemos seu contato."
-        };
 
     } else if (turno == CANCELAMENTO) {
         turnoSave = FINALIZAR
 
-        console.log('msg linha 379 ' + msg);
         await cancelar(msg);
 
         response = {
