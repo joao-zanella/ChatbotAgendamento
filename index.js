@@ -393,10 +393,14 @@ async function processar(msg, turno, sender_psid) {
     } else if (turno == NOME) {
         turnoSave = TELEFONE;
 
-        await storage.setItem('name', msg)
+
+        let name = msg.charAt(0).toUpperCase() + msg.slice(1);
+        console.log(name);
+
+        await storage.setItem('name', name)
 
         response = {
-            "text": `Ok ${msg}, por favor informe seu número de telefone.`
+            "text": `Ok ${name}, por favor informe seu número de telefone.`
         };
 
     } else if (turno == TELEFONE) {
