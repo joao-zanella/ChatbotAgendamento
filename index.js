@@ -88,6 +88,7 @@ const proximos13dias = () => new Promise((resolve, reject) => {
                     },
                 );
             }
+            if (diasDisponiveis.length >= 13) break;
         }
         console.log('dias disponiveis ' + diasDisponiveis);
         resolve(diasDisponiveis);
@@ -248,6 +249,7 @@ const cancelar = (eventCancel) => new Promise((resolve, reject) => {
     });
 });
 
+
 app.post('/webhook', async (req, res) => {
 
     let body = req.body;
@@ -390,7 +392,6 @@ async function processar(msg, turno, sender_psid) {
 
     } else if (turno == NOME) {
         turnoSave = TELEFONE;
-
         let name = msg.charAt(0).toUpperCase() + msg.slice(1);
         console.log(name);
 
@@ -408,11 +409,76 @@ async function processar(msg, turno, sender_psid) {
 
         const retornoDias = await proximos13dias();
         diasLivres = retornoDias;
-        console.log(diasLivres);
 
         response = {
             "text": "Selecione uma data para executar o agendamento:",
-            "quick_replies": diasLivres
+            "quick_replies": [
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[0]}`,
+                    "payload": `${diasLivres[0]}`
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[1]}`,
+                    "payload": `${diasLivres[1]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[2]}`,
+                    "payload": `${diasLivres[2]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[3]}`,
+                    "payload": `${diasLivres[3]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[4]}`,
+                    "payload": `${diasLivres[4]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[5]}`,
+                    "payload": `${diasLivres[5]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[6]}`,
+                    "payload": `${diasLivres[6]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[7]}`,
+                    "payload": `${diasLivres[7]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[8]}`,
+                    "payload": `${diasLivres[8]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[9]}`,
+                    "payload": `${diasLivres[9]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[10]}`,
+                    "payload": `${diasLivres[10]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": `${diasLivres[11]}`,
+                    "payload": `${diasLivres[11]}`,
+                },
+                {
+                    "content_type": "text",
+                    "title": 'Selecionar outro dia',
+                    "payload": 'mudar intent',
+                }
+            ]
         };
 
     } else if (msg == 'Selecionar outro dia') {
