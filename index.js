@@ -79,15 +79,7 @@ const proximos13dias = () => new Promise((resolve, reject) => {
             console.log(vlSplit);
             const strAux = `${vlSplit[2]}/${vlSplit[1]}/${vlSplit[0]}`;
             console.log(strAux);
-            if (diasDisponiveis.length < 13 && !diasDisponiveis.includes(strAux)) {
-                diasDisponiveis.push(
-                    {
-                        "content_type": "text",
-                        "title": `${strAux}`,
-                        "payload": `${strAux}`
-                    },
-                );
-            }
+            if (diasDisponiveis.length < 13 && !diasDisponiveis.includes(strAux)) diasDisponiveis.push(strAux);
             if (diasDisponiveis.length >= 13) break;
         }
         console.log('dias disponiveis ' + diasDisponiveis);
