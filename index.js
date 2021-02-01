@@ -218,6 +218,7 @@ const getSenderPsid = (sender_psid) => new Promise((resolve, reject) => {
                 },
             );
         }
+        console.log('HorasDisponiveis ' + horasDisponiveis);
         resolve(horasDisponiveis);
     });
 });
