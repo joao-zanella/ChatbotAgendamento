@@ -40,7 +40,7 @@ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 // caminho feliz
 const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5, CANCELAMENTO = 6, INICIO = 7;
 
-const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa', 'oie'];
+const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa', 'oie', 'eae'];
 let diasLivres = [];
 
 const proximos13dias = () => new Promise((resolve, reject) => {
@@ -223,9 +223,9 @@ const cancelar = (eventCancel) => new Promise((resolve, reject) => {
     });
 
     const event = {
-        summary: "HORARIO DISPONIVEL",
+        summary: "HORARIO LIVRE",
         description: '',
-        colorId: 1
+        colorId: 3
     };
 
     console.log('EventCancel: ' + eventCancel);
