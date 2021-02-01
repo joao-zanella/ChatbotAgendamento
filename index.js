@@ -76,18 +76,11 @@ const proximos13dias = () => new Promise((resolve, reject) => {
 
         for (let i = 0; i < lista.length; i++) {
             const vlSplit = lista[i].start.dateTime.substr(0, 10).split('-');
+            console.log(vlSplit);
             const strAux = `${vlSplit[2]}/${vlSplit[1]}/${vlSplit[0]}`;
-            if (horasDisponiveis.length >= 13) break;
-            if (horasDisponiveis.lenght < 13) {
-                horasDisponiveis.push(
-                    {
-                        "content_type": "text",
-                        "title": `${strAux}`,
-                        "payload": `${strAux}`
-                    },
-                );
-            }
-
+            console.log(strAux);
+            if (diasDisponiveis.length < 13 && !diasDisponiveis.includes(strAux)) diasDisponiveis.push(strAux);
+            if (diasDisponiveis.length >= 13) break;
         }
         console.log('dias disponiveis ' + diasDisponiveis);
         resolve(diasDisponiveis);
