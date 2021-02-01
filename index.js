@@ -40,9 +40,8 @@ app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 // caminho feliz
 const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5, CANCELAMENTO = 6, INICIO = 7;
 
-const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa'];
+const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa', 'oie'];
 let diasLivres = [];
-
 
 const proximos13dias = () => new Promise((resolve, reject) => {
 
@@ -80,7 +79,15 @@ const proximos13dias = () => new Promise((resolve, reject) => {
             console.log(vlSplit);
             const strAux = `${vlSplit[2]}/${vlSplit[1]}/${vlSplit[0]}`;
             console.log(strAux);
-            if (diasDisponiveis.length < 13 && !diasDisponiveis.includes(strAux)) diasDisponiveis.push(strAux);
+            if (diasDisponiveis.length < 13 && !diasDisponiveis.includes(strAux)) {
+                diasDisponiveis.push(
+                    {
+                        "content_type": "text",
+                        "title": `${strAux}`,
+                        "payload": `${strAux}`
+                    },
+                );
+            }
             if (diasDisponiveis.length >= 13) break;
         }
         console.log('dias disponiveis ' + diasDisponiveis);
@@ -225,7 +232,7 @@ const cancelar = (eventCancel) => new Promise((resolve, reject) => {
     const event = {
         summary: "HORARIO DISPONIVEL",
         description: '',
-        colorId: 11
+        colorId: 1
     };
 
     console.log('EventCancel: ' + eventCancel);
@@ -539,23 +546,6 @@ async function processar(msg, turno, sender_psid) {
     }
 
     return { response, turnoSave };
-}
-
-function handlePostback(sender_psid, received_postback) {
-    let response;
-
-    // Get the payload for the postback
-    let payload = received_postback.payload;
-    let message = received_postback.text;
-    if (payload) {
-        console.log(payload);
-    }
-    if (payload === 'sim' || "Sim" || "Sim!" || 'sim!' || "s") {
-        response = { "text": "Obrigado !!!!!" }
-    } else if (payload === 'nao' || "Não" || "Não!" || "não" || "n") {
-        response = { "text": "Tente enviar outra." }
-    }
-    callSendAPI(sender_psid, response);
 }
 
 function callSendAPI(sender_psid, response) {
