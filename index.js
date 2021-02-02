@@ -8,7 +8,6 @@ const
     storage = require('node-persist'), //storage local
     { google } = require('googleapis');
 
-
 const calendarId = "ufmp7a0cef8kjm7vj9jkpt7lsc@group.calendar.google.com";
 const serviceAccount = {
     "type": "service_account",
@@ -284,7 +283,7 @@ app.post('/webhook', async (req, res) => {
 app.get('/webhook', (req, res) => {
 
     // Your verify token. Should be a random string.
-    let VERIFY_TOKEN = "qwerty"
+    let VERIFY_TOKEN = "ytrewq"
 
     // Parse the query params
     let mode = req.query['hub.mode'];
