@@ -308,7 +308,7 @@ app.get('/webhook', (req, res) => {
 });
 
 app.get('/continue', (req, res) => {
-    res.send('Ola');
+    res.send('Hi');
 });
 
 async function processar(msg, turno, sender_psid) {
