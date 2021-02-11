@@ -1,5 +1,4 @@
 'use strict';
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const
     express = require('express'),
     bodyParser = require('body-parser'),
@@ -21,7 +20,7 @@ const serviceAccount = {
     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wehbookum%40webhookum.iam.gserviceaccount.com"
 };
-
+const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
 const serviceAccountAuth = new google.auth.JWT({
     email: serviceAccount.client_email,
     key: serviceAccount.private_key,
