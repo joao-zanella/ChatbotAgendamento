@@ -22,7 +22,6 @@ const serviceAccount = {
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wehbookum%40webhookum.iam.gserviceaccount.com"
 };
 
-
 const serviceAccountAuth = new google.auth.JWT({
     email: serviceAccount.client_email,
     key: serviceAccount.private_key,
@@ -33,7 +32,7 @@ const calendar = google.calendar('v3');
 
 const iniciarBanco = async () => await storage.init(); //função que inicia o banco local
 
-app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
+app.listen(process.env.PORT || 3000, () => console.log('webhook is listening'));
 
 // STATES
 
@@ -241,7 +240,6 @@ const cancelar = (eventCancel) => new Promise((resolve, reject) => {
         console.log(err ? err : calendarResponse.data);
     });
 });
-
 
 app.post('/webhook', async (req, res) => {
 
