@@ -304,10 +304,6 @@ app.get('/webhook', (req, res) => {
     }
 });
 
-app.get('/continue', (req, res) => {
-    res.send('Hi');
-});
-
 async function processar(msg, turno, sender_psid) {
     let response, turnoSave;
     if (turno == INICIO || SAUDACOES.includes(msg.toLowerCase())) {
