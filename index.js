@@ -21,224 +21,224 @@ const
 //     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wehbookum%40webhookum.iam.gserviceaccount.com"
 // };
 const PAGE_ACCESS_TOKEN = 'EAAellojyLaEBAJ1UyNzu6Pp3tfbvGGXyjaEjM17fWQ9mVdDdVAHfAFdSDfy0ToPff0JZC09QF04ZBN3FWZBGEwqrUsSKLBwbakRKHZBtm5x1IxSEyZCvTWaGTIBg8AO2IMZCZBlechSZAFimPyvMH908wRcBpTLSQwcixgwB8uJ5SahdFvtkubHqBaH07747yWUZD';
-// const serviceAccountAuth = new google.auth.JWT({
-//     email: serviceAccount.client_email,
-//     key: serviceAccount.private_key,
-//     scopes: 'https://www.googleapis.com/auth/calendar'
-// });
+const serviceAccountAuth = new google.auth.JWT({
+    email: serviceAccount.client_email,
+    key: serviceAccount.private_key,
+    scopes: 'https://www.googleapis.com/auth/calendar'
+});
 
-// const calendar = google.calendar('v3');
+const calendar = google.calendar('v3');
 
-// const iniciarBanco = async () => await storage.init(); //função que inicia o banco local
+const iniciarBanco = async () => await storage.init(); //função que inicia o banco local
 
 app.listen(process.env.PORT || 3000, () => console.log('webhook is listening'));
 
 // STATES
 
-// caminho feliz
-// const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5, CANCELAMENTO = 6, INICIO = 7;
+//caminho feliz
+const OLA = 0, NOME = 1, TELEFONE = 2, DATA = 3, HORA = 4, FINALIZAR = 5, CANCELAMENTO = 6, INICIO = 7;
 
-// const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa', 'oie', 'eae'];
-// let diasLivres = [];
+const SAUDACOES = ['boa tarde', 'bom dia', 'boa noite', 'ola', 'olá', 'oi', 'oii', 'opa', 'oie', 'eae'];
+let diasLivres = [];
 
-// const proximos13dias = () => new Promise((resolve, reject) => {
+const proximos13dias = () => new Promise((resolve, reject) => {
 
-//     const serviceAccountAuth = new google.auth.JWT({
-//         email: serviceAccount.client_email,
-//         key: serviceAccount.private_key,
-//         scopes: 'https://www.googleapis.com/auth/calendar'
-//     });
+    const serviceAccountAuth = new google.auth.JWT({
+        email: serviceAccount.client_email,
+        key: serviceAccount.private_key,
+        scopes: 'https://www.googleapis.com/auth/calendar'
+    });
 
-//     const agoraMais1hora = new Date(((new Date()).getTime()) + (1000 * 60 * 60));
-//     const agoraMais30dias = new Date(((new Date()).getTime()) + (1000 * 60 * 60 * 24 * 30));
+    const agoraMais1hora = new Date(((new Date()).getTime()) + (1000 * 60 * 60));
+    const agoraMais30dias = new Date(((new Date()).getTime()) + (1000 * 60 * 60 * 24 * 30));
 
-//     console.log('Executando função proximos13dias');
+    console.log('Executando função proximos13dias');
 
-//     calendar.events.list({
-//         auth: serviceAccountAuth,
-//         calendarId: calendarId,
-//         timeMax: agoraMais30dias.toISOString(),
-//         timeMin: agoraMais1hora.toISOString(),
-//         //timeMin: (new Date()).toISOString(),    
-//         showDeleted: false,
-//         maxResults: 240,
-//         q: "HORARIO LIVRE",
-//         singleEvents: true,
-//         orderBy: 'startTime',
+    calendar.events.list({
+        auth: serviceAccountAuth,
+        calendarId: calendarId,
+        timeMax: agoraMais30dias.toISOString(),
+        timeMin: agoraMais1hora.toISOString(),
+        //timeMin: (new Date()).toISOString(),    
+        showDeleted: false,
+        maxResults: 240,
+        q: "HORARIO LIVRE",
+        singleEvents: true,
+        orderBy: 'startTime',
 
-//     }, (err, calendarResponse) => {
-//         const lista = calendarResponse.data.items;
-//         console.log(lista);
+    }, (err, calendarResponse) => {
+        const lista = calendarResponse.data.items;
+        console.log(lista);
 
-//         let diasDisponiveis = [];
+        let diasDisponiveis = [];
 
-//         for (let i = 0; i < lista.length; i++) {
-//             const vlSplit = lista[i].start.dateTime.substr(0, 10).split('-');
-//             console.log(vlSplit);
-//             const strAux = `${vlSplit[2]}/${vlSplit[1]}/${vlSplit[0]}`;
-//             console.log(strAux);
-//             if (diasDisponiveis.length < 13 && !diasDisponiveis.includes(strAux)) diasDisponiveis.push(strAux);
-//             if (diasDisponiveis.length >= 13) break;
-//         }
-//         console.log('dias disponiveis ' + diasDisponiveis);
-//         resolve(diasDisponiveis);
-//     });
-// });
+        for (let i = 0; i < lista.length; i++) {
+            const vlSplit = lista[i].start.dateTime.substr(0, 10).split('-');
+            console.log(vlSplit);
+            const strAux = `${vlSplit[2]}/${vlSplit[1]}/${vlSplit[0]}`;
+            console.log(strAux);
+            if (diasDisponiveis.length < 13 && !diasDisponiveis.includes(strAux)) diasDisponiveis.push(strAux);
+            if (diasDisponiveis.length >= 13) break;
+        }
+        console.log('dias disponiveis ' + diasDisponiveis);
+        resolve(diasDisponiveis);
+    });
+});
 
-// const horariosLivresDiaEspecifico = (escolhido) => new Promise((resolve, reject) => {
+const horariosLivresDiaEspecifico = (escolhido) => new Promise((resolve, reject) => {
 
-//     console.log('Executando horariosLivresDiaEspecifico');
-//     const hoje = new Date().toISOString();
-//     const hojeStr = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
-//     const agoraMais1hora = new Date(((new Date()).getTime()) + (1000 * 60 * 60));
+    console.log('Executando horariosLivresDiaEspecifico');
+    const hoje = new Date().toISOString();
+    const hojeStr = `${hoje.substring(8, 10)}/${hoje.substring(5, 7)}/${hoje.substring(0, 4)}`;
+    const agoraMais1hora = new Date(((new Date()).getTime()) + (1000 * 60 * 60));
 
-//     const auxEsc = escolhido.split('/');
-//     const min = (escolhido == hojeStr ? agoraMais1hora : `${auxEsc[2]}-${auxEsc[1]}-${auxEsc[0]}T00:00:00.000Z`);
-//     const max = `${auxEsc[2]}-${auxEsc[1]}-${auxEsc[0]}T23:59:00.000Z`;
+    const auxEsc = escolhido.split('/');
+    const min = (escolhido == hojeStr ? agoraMais1hora : `${auxEsc[2]}-${auxEsc[1]}-${auxEsc[0]}T00:00:00.000Z`);
+    const max = `${auxEsc[2]}-${auxEsc[1]}-${auxEsc[0]}T23:59:00.000Z`;
 
-//     console.log(auxEsc);
+    console.log(auxEsc);
 
-//     const serviceAccountAuth = new google.auth.JWT({
-//         email: serviceAccount.client_email,
-//         key: serviceAccount.private_key,
-//         scopes: 'https://www.googleapis.com/auth/calendar'
-//     });
+    const serviceAccountAuth = new google.auth.JWT({
+        email: serviceAccount.client_email,
+        key: serviceAccount.private_key,
+        scopes: 'https://www.googleapis.com/auth/calendar'
+    });
 
-//     calendar.events.list({
-//         auth: serviceAccountAuth,
-//         calendarId: calendarId,
-//         timeMax: max,
-//         timeMin: min,
-//         //timeMin: (new Date()).toISOString(),    
-//         showDeleted: false,
-//         maxResults: 20,
-//         q: "HORARIO LIVRE",
-//         singleEvents: true,
-//         orderBy: 'startTime',
+    calendar.events.list({
+        auth: serviceAccountAuth,
+        calendarId: calendarId,
+        timeMax: max,
+        timeMin: min,
+        //timeMin: (new Date()).toISOString(),    
+        showDeleted: false,
+        maxResults: 20,
+        q: "HORARIO LIVRE",
+        singleEvents: true,
+        orderBy: 'startTime',
 
-//     }, (err, calendarResponse) => {
-//         const lista = calendarResponse.data.items;
+    }, (err, calendarResponse) => {
+        const lista = calendarResponse.data.items;
 
-//         let horasDisponiveis = [];
-//         let idsHorasDisponiveis = [];
+        let horasDisponiveis = [];
+        let idsHorasDisponiveis = [];
 
-//         for (let i = 0; i < lista.length; i++) {
-//             const horarioItem = lista[i].start.dateTime.substr(11, 5);
-//             horasDisponiveis.push(horarioItem);
-//             idsHorasDisponiveis.push(lista[i].id);
-//         }
-//         console.log(horasDisponiveis);
-//         console.log(idsHorasDisponiveis);
-//         const toRetObj = {
-//             horas: horasDisponiveis,
-//             ids: idsHorasDisponiveis
-//         };
-//         resolve(toRetObj);
-//     });
-// });
+        for (let i = 0; i < lista.length; i++) {
+            const horarioItem = lista[i].start.dateTime.substr(11, 5);
+            horasDisponiveis.push(horarioItem);
+            idsHorasDisponiveis.push(lista[i].id);
+        }
+        console.log(horasDisponiveis);
+        console.log(idsHorasDisponiveis);
+        const toRetObj = {
+            horas: horasDisponiveis,
+            ids: idsHorasDisponiveis
+        };
+        resolve(toRetObj);
+    });
+});
 
-// const agendar = (nome, phone, eventId, sender_psid) => new Promise((resolve, reject) => {
+const agendar = (nome, phone, eventId, sender_psid) => new Promise((resolve, reject) => {
 
-//     const serviceAccountAuth = new google.auth.JWT({
-//         email: serviceAccount.client_email,
-//         key: serviceAccount.private_key,
-//         scopes: 'https://www.googleapis.com/auth/calendar'
-//     });
+    const serviceAccountAuth = new google.auth.JWT({
+        email: serviceAccount.client_email,
+        key: serviceAccount.private_key,
+        scopes: 'https://www.googleapis.com/auth/calendar'
+    });
 
-//     console.log(eventId);
+    console.log(eventId);
 
-//     const event = {
-//         summary: "AGENDADO",
-//         description: `Cliente: ${nome}\ Telefone: ${phone.replace("telefone:", "")} \n Código do cliente: ${sender_psid}`,
-//         colorId: 9
-//     };
+    const event = {
+        summary: "AGENDADO",
+        description: `Cliente: ${nome}\ Telefone: ${phone.replace("telefone:", "")} \n Código do cliente: ${sender_psid}`,
+        colorId: 9
+    };
 
-//     calendar.events.patch({
-//         auth: serviceAccountAuth,
-//         calendarId: calendarId,
-//         eventId: eventId,
-//         resource: event
-//     }, (err, calendarResponse) => {
-//         if (err) resolve("Falha ao agendar.");
-//         else resolve("Seu atendimento foi agendado com sucesso. Aguardamos você!");
-//         console.log(err ? err : calendarResponse.data);
-//     });
-// });
+    calendar.events.patch({
+        auth: serviceAccountAuth,
+        calendarId: calendarId,
+        eventId: eventId,
+        resource: event
+    }, (err, calendarResponse) => {
+        if (err) resolve("Falha ao agendar.");
+        else resolve("Seu atendimento foi agendado com sucesso. Aguardamos você!");
+        console.log(err ? err : calendarResponse.data);
+    });
+});
 
-// const getSenderPsid = (sender_psid) => new Promise((resolve, reject) => {
+const getSenderPsid = (sender_psid) => new Promise((resolve, reject) => {
 
-//     const agoraMais1hora = new Date(((new Date()).getTime()) + (1000 * 60 * 60));
-//     const agoraMais365dias = new Date(((new Date()).getTime()) + (1000 * 60 * 60 * 24 * 365));
+    const agoraMais1hora = new Date(((new Date()).getTime()) + (1000 * 60 * 60));
+    const agoraMais365dias = new Date(((new Date()).getTime()) + (1000 * 60 * 60 * 24 * 365));
 
-//     const serviceAccountAuth = new google.auth.JWT({
-//         email: serviceAccount.client_email,
-//         key: serviceAccount.private_key,
-//         scopes: 'https://www.googleapis.com/auth/calendar'
-//     });
+    const serviceAccountAuth = new google.auth.JWT({
+        email: serviceAccount.client_email,
+        key: serviceAccount.private_key,
+        scopes: 'https://www.googleapis.com/auth/calendar'
+    });
 
-//     calendar.events.list({
-//         auth: serviceAccountAuth,
-//         calendarId: calendarId,
-//         timeMax: agoraMais365dias.toISOString(),
-//         timeMin: agoraMais1hora.toISOString(),
-//         //timeMin: (new Date()).toISOString(),    
-//         showDeleted: false,
-//         maxResults: 20,
-//         q: sender_psid,
-//         singleEvents: true,
-//         orderBy: 'startTime',
+    calendar.events.list({
+        auth: serviceAccountAuth,
+        calendarId: calendarId,
+        timeMax: agoraMais365dias.toISOString(),
+        timeMin: agoraMais1hora.toISOString(),
+        //timeMin: (new Date()).toISOString(),    
+        showDeleted: false,
+        maxResults: 20,
+        q: sender_psid,
+        singleEvents: true,
+        orderBy: 'startTime',
 
-//     }, (err, calendarResponse) => {
-//         const lista = calendarResponse.data.items;
+    }, (err, calendarResponse) => {
+        const lista = calendarResponse.data.items;
 
-//         let horasDisponiveis = [];
+        let horasDisponiveis = [];
 
-//         for (let i = 0; i < lista.length; i++) {
-//             const vlSplit = lista[i].start.dateTime.substr(0, 10).split('-');
-//             console.log(vlSplit);
-//             const strAux = `${vlSplit[2]}/${vlSplit[1]}/${vlSplit[0]}`;
-//             const horarioItem = lista[i].start.dateTime.substr(11, 5);
-//             const idEvento = lista[i].id
-//             if (horasDisponiveis.length >= 13) break;
-//             horasDisponiveis.push(
-//                 {
-//                     "content_type": "text",
-//                     "title": `${strAux} às ${horarioItem}`,
-//                     "payload": `${idEvento}`
-//                 },
-//             );
-//         }
-//         console.log('HorasDisponiveis ' + horasDisponiveis);
-//         resolve(horasDisponiveis);
-//     });
-// });
+        for (let i = 0; i < lista.length; i++) {
+            const vlSplit = lista[i].start.dateTime.substr(0, 10).split('-');
+            console.log(vlSplit);
+            const strAux = `${vlSplit[2]}/${vlSplit[1]}/${vlSplit[0]}`;
+            const horarioItem = lista[i].start.dateTime.substr(11, 5);
+            const idEvento = lista[i].id
+            if (horasDisponiveis.length >= 13) break;
+            horasDisponiveis.push(
+                {
+                    "content_type": "text",
+                    "title": `${strAux} às ${horarioItem}`,
+                    "payload": `${idEvento}`
+                },
+            );
+        }
+        console.log('HorasDisponiveis ' + horasDisponiveis);
+        resolve(horasDisponiveis);
+    });
+});
 
-// const cancelar = (eventCancel) => new Promise((resolve, reject) => {
-//     const serviceAccountAuth = new google.auth.JWT({
-//         email: serviceAccount.client_email,
-//         key: serviceAccount.private_key,
-//         scopes: 'https://www.googleapis.com/auth/calendar'
-//     });
+const cancelar = (eventCancel) => new Promise((resolve, reject) => {
+    const serviceAccountAuth = new google.auth.JWT({
+        email: serviceAccount.client_email,
+        key: serviceAccount.private_key,
+        scopes: 'https://www.googleapis.com/auth/calendar'
+    });
 
-//     const event = {
-//         summary: "HORARIO LIVRE",
-//         description: '',
-//         colorId: 3
-//     };
+    const event = {
+        summary: "HORARIO LIVRE",
+        description: '',
+        colorId: 3
+    };
 
-//     console.log('EventCancel: ' + eventCancel);
+    console.log('EventCancel: ' + eventCancel);
 
-//     calendar.events.patch({
-//         auth: serviceAccountAuth,
-//         calendarId: calendarId,
-//         eventId: eventCancel,
-//         resource: event
-//     }, (err, calendarResponse) => {
-//         if (err) resolve("Falha ao agendar.");
-//         else resolve("Seu atendimento foi agendado com sucesso. Aguardamos você!");
-//         console.log(err ? err : calendarResponse.data);
-//     });
-// });
+    calendar.events.patch({
+        auth: serviceAccountAuth,
+        calendarId: calendarId,
+        eventId: eventCancel,
+        resource: event
+    }, (err, calendarResponse) => {
+        if (err) resolve("Falha ao agendar.");
+        else resolve("Seu atendimento foi agendado com sucesso. Aguardamos você!");
+        console.log(err ? err : calendarResponse.data);
+    });
+});
 
 app.post('/webhook', async (req, res) => {
 
