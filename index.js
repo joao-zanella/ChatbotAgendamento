@@ -21,11 +21,11 @@ const
 //     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wehbookum%40webhookum.iam.gserviceaccount.com"
 // };
 const PAGE_ACCESS_TOKEN = 'EAAellojyLaEBAJ1UyNzu6Pp3tfbvGGXyjaEjM17fWQ9mVdDdVAHfAFdSDfy0ToPff0JZC09QF04ZBN3FWZBGEwqrUsSKLBwbakRKHZBtm5x1IxSEyZCvTWaGTIBg8AO2IMZCZBlechSZAFimPyvMH908wRcBpTLSQwcixgwB8uJ5SahdFvtkubHqBaH07747yWUZD';
-const serviceAccountAuth = new google.auth.JWT({
-    email: serviceAccount.client_email,
-    key: serviceAccount.private_key,
-    scopes: 'https://www.googleapis.com/auth/calendar'
-});
+// const serviceAccountAuth = new google.auth.JWT({
+//     email: serviceAccount.client_email,
+//     key: serviceAccount.private_key,
+//     scopes: 'https://www.googleapis.com/auth/calendar'
+// });
 
 const calendar = google.calendar('v3');
 
@@ -536,28 +536,28 @@ app.get('/webhook', (req, res) => {
 //     return { response, turnoSave };
 // }
 
-// function callSendAPI(sender_psid, response) {
-//     // Construct the message body
-//     let request_body = {
-//         "recipient": {
-//             "id": sender_psid
-//         },
-//         "message": response
-//     }
+function callSendAPI(sender_psid, response) {
+    // Construct the message body
+    let request_body = {
+        "recipient": {
+            "id": sender_psid
+        },
+        "message": response
+    }
 
-//     // Send the HTTP request to the Messenger Platform
-//     request({
-//         "uri": "https://graph.facebook.com/v2.6/me/messages",
-//         "qs": { "access_token": PAGE_ACCESS_TOKEN },
-//         "method": "POST",
-//         "json": request_body
-//     }, (err, res, body) => {
-//         if (!err) {
-//             console.log('message sent!')
-//         } else {
-//             console.error("Unable to send message:" + err);
-//         }
-//     });
-// }
+    // Send the HTTP request to the Messenger Platform
+    request({
+        "uri": "https://graph.facebook.com/v2.6/me/messages",
+        "qs": { "access_token": PAGE_ACCESS_TOKEN },
+        "method": "POST",
+        "json": request_body
+    }, (err, res, body) => {
+        if (!err) {
+            console.log('message sent!')
+        } else {
+            console.error("Unable to send message:" + err);
+        }
+    });
+}
 
-// iniciarBanco();
+iniciarBanco();
