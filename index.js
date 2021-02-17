@@ -6,6 +6,8 @@ const
   bodyParser = require('body-parser'),
   app = express().use(bodyParser.json()); // creates express http server
 
+
+  const PAGE_ACCESS_TOKEN="EAAellojyLaEBANwWJbojFpjbLn3ycWKG7ZBKVmNHeQnQJbtV3ybs3JeD1s35PaiDQWJCGpnIJZBaBdEiW9qqcxlnebUil4wZBBkFmbxpZBzbgmqZAnzPhdzuRhj9hNH0lqvZBQkXxZC18Kcbgr9LGl3mcPnRIJwfxGWNEspEHXhl9QcmkbETltpurWQLmZCk7r8ZD"
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
