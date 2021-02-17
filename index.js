@@ -7,25 +7,25 @@ const
     storage = require('node-persist'), //storage local
     { google } = require('googleapis');
 
-// const calendarId = "ufmp7a0cef8kjm7vj9jkpt7lsc@group.calendar.google.com";
-// const serviceAccount = {
-//     "type": "service_account",
-//     "project_id": "webhookum",
-//     "private_key_id": "cce193fda2eac459a4f38978308cd69c66dc4cae",
-//     "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDU5QzExPG2RhwJ\n84iWEuxdDf6gkPw6yG2R/ruPpiRNUR07ru5JnfKpjTKxzZSSd4WOX59/EzFTvBE8\nZJ/hTzqDKOrbrQWrzzjfStf22idF94YFTn7SOvU/FLM/C8xAeyzNYpHD8arf8pmK\nLzc79wsxnoHWHue8zzABy4tbKdWxWtPYE4PzoXDswXEFjXf3zaAmMYUtZ1xu5MCN\nAIdMfvTdKsZAdKVCqgdMC65i/4+FbPTpv+diad57YcI4fx4H7RVTcwbVc9Qyptrc\nqewqO+js2fJBTUeYMfa88T0+VFkRrHJEDOxxjP67zA5pakJfIrsAwLcCryemVxYO\n4Mx+hbu/AgMBAAECggEAE8QxKM3TrBBGBy3WLH+U9C4vSi+GnltAl8cLxBJxbr+i\nvrQHCiJrnDlwulhzkcZzdIdv/XJF6K0z+SRV7ICY1q0EYqFlvuYjtNEJTIaZvIx2\n+Y7TBeg/yqZnNBR/gix4OZjhdCIVMutz567AP/A32QNgsQWNOkG5sS5PAd0DAGSF\nRgkyvpLgpdiTQECyQSA3zB5VXzLFrnJhWtx2t0ooEgOC2DzMtHejlg1cDC6GqpCv\nU4UZ/IDgmGuCnExVBsZCeH7EKnqD5tU2+JNWL5EEq5CiX1TF8GvYzPkGwjQZbxCJ\nW+1CnKyudlL8lT1U9LeTFabu7uByqfo+/YIJznJ2XQKBgQDwMijfT+Qe2JUR0Ff9\nDeCPY5/FzQSwJKvr+um+Lev8mLA1e5ZttSPCu/zm1hz15M/DCbXIm4SkSL0R5pDK\nTWCraswOUXTfxGPT+KV+5fYN2aush8OyPolDyeTsXRr81LkWlteYtr0HKFHosonn\nFCiwZvPwbAYmQgAGvXEl1lOjxQKBgQDi5wfpzuoDOhBKueJ1RtCUPckAliPg/Vx3\nbXHwH5UJhhfmJnuMB2DHksYN3VgrT65fKCdWvffIqyWGgG/Pen03KNKkPEbhsbDn\n3VJqvxfMVtq/mCBUUe8MO7+b+a5HdGjXATFSVICdKBAb9UzvjUmit0cIaS20iz1A\nCJoC2A/lswKBgA1twHs7rDVNRohIbaLoM7XQjA4y+CAg7Lu0u3y2dIsavj8/OZnI\nlsc8W1dMgTH+KN9um4srpq7Ioklt6opk6RKsVdw3EaGxCSPAsv/1O1xq3v42WOqO\nNH5luza7vdaEzhRFOqh/DvJnfqzTzoHszpmOJ/U5FN7usbGuxbSn1uVBAoGBAOKJ\nFJ57ZanZE6D3mz/Jdr86PG7od2POsL3PuDyr22mJxlySuTChwR8fy7rV7Yw4XnhE\np5nzyeo/7RQvMPJtcYxbpoowX/g/JscncXx/0uvBH17ALC7jKo4FLRU1n6lZcL6Q\nQ0TWdx3wfLzdGHXmksjwwOuFzwr9JSbEL7d9Lcn/AoGAfk3pK7olzMaVDvg28ufQ\nSLySkeFLfiz4nNbvOwGRgU6VCXQVH7MCIwLob1/z50YucDWeY8xrj19iCYgwC4sB\n4AORwz3mbSbGhICt7mbKjYqF89OGxoV9xhFUdkPtLBdYN2EyjkSGohCoTywjUxg5\neDkJ4ElcZNFhgllsrzHilCw=\n-----END PRIVATE KEY-----\n",
-//     "client_email": "wehbookum@webhookum.iam.gserviceaccount.com",
-//     "client_id": "106543008042038730045",
-//     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-//     "token_uri": "https://oauth2.googleapis.com/token",
-//     "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-//     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wehbookum%40webhookum.iam.gserviceaccount.com"
-// };
+const calendarId = "ufmp7a0cef8kjm7vj9jkpt7lsc@group.calendar.google.com";
+const serviceAccount = {
+    "type": "service_account",
+    "project_id": "webhookum",
+    "private_key_id": "cce193fda2eac459a4f38978308cd69c66dc4cae",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDU5QzExPG2RhwJ\n84iWEuxdDf6gkPw6yG2R/ruPpiRNUR07ru5JnfKpjTKxzZSSd4WOX59/EzFTvBE8\nZJ/hTzqDKOrbrQWrzzjfStf22idF94YFTn7SOvU/FLM/C8xAeyzNYpHD8arf8pmK\nLzc79wsxnoHWHue8zzABy4tbKdWxWtPYE4PzoXDswXEFjXf3zaAmMYUtZ1xu5MCN\nAIdMfvTdKsZAdKVCqgdMC65i/4+FbPTpv+diad57YcI4fx4H7RVTcwbVc9Qyptrc\nqewqO+js2fJBTUeYMfa88T0+VFkRrHJEDOxxjP67zA5pakJfIrsAwLcCryemVxYO\n4Mx+hbu/AgMBAAECggEAE8QxKM3TrBBGBy3WLH+U9C4vSi+GnltAl8cLxBJxbr+i\nvrQHCiJrnDlwulhzkcZzdIdv/XJF6K0z+SRV7ICY1q0EYqFlvuYjtNEJTIaZvIx2\n+Y7TBeg/yqZnNBR/gix4OZjhdCIVMutz567AP/A32QNgsQWNOkG5sS5PAd0DAGSF\nRgkyvpLgpdiTQECyQSA3zB5VXzLFrnJhWtx2t0ooEgOC2DzMtHejlg1cDC6GqpCv\nU4UZ/IDgmGuCnExVBsZCeH7EKnqD5tU2+JNWL5EEq5CiX1TF8GvYzPkGwjQZbxCJ\nW+1CnKyudlL8lT1U9LeTFabu7uByqfo+/YIJznJ2XQKBgQDwMijfT+Qe2JUR0Ff9\nDeCPY5/FzQSwJKvr+um+Lev8mLA1e5ZttSPCu/zm1hz15M/DCbXIm4SkSL0R5pDK\nTWCraswOUXTfxGPT+KV+5fYN2aush8OyPolDyeTsXRr81LkWlteYtr0HKFHosonn\nFCiwZvPwbAYmQgAGvXEl1lOjxQKBgQDi5wfpzuoDOhBKueJ1RtCUPckAliPg/Vx3\nbXHwH5UJhhfmJnuMB2DHksYN3VgrT65fKCdWvffIqyWGgG/Pen03KNKkPEbhsbDn\n3VJqvxfMVtq/mCBUUe8MO7+b+a5HdGjXATFSVICdKBAb9UzvjUmit0cIaS20iz1A\nCJoC2A/lswKBgA1twHs7rDVNRohIbaLoM7XQjA4y+CAg7Lu0u3y2dIsavj8/OZnI\nlsc8W1dMgTH+KN9um4srpq7Ioklt6opk6RKsVdw3EaGxCSPAsv/1O1xq3v42WOqO\nNH5luza7vdaEzhRFOqh/DvJnfqzTzoHszpmOJ/U5FN7usbGuxbSn1uVBAoGBAOKJ\nFJ57ZanZE6D3mz/Jdr86PG7od2POsL3PuDyr22mJxlySuTChwR8fy7rV7Yw4XnhE\np5nzyeo/7RQvMPJtcYxbpoowX/g/JscncXx/0uvBH17ALC7jKo4FLRU1n6lZcL6Q\nQ0TWdx3wfLzdGHXmksjwwOuFzwr9JSbEL7d9Lcn/AoGAfk3pK7olzMaVDvg28ufQ\nSLySkeFLfiz4nNbvOwGRgU6VCXQVH7MCIwLob1/z50YucDWeY8xrj19iCYgwC4sB\n4AORwz3mbSbGhICt7mbKjYqF89OGxoV9xhFUdkPtLBdYN2EyjkSGohCoTywjUxg5\neDkJ4ElcZNFhgllsrzHilCw=\n-----END PRIVATE KEY-----\n",
+    "client_email": "wehbookum@webhookum.iam.gserviceaccount.com",
+    "client_id": "106543008042038730045",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/wehbookum%40webhookum.iam.gserviceaccount.com"
+};
 const PAGE_ACCESS_TOKEN = 'EAAellojyLaEBAJ1UyNzu6Pp3tfbvGGXyjaEjM17fWQ9mVdDdVAHfAFdSDfy0ToPff0JZC09QF04ZBN3FWZBGEwqrUsSKLBwbakRKHZBtm5x1IxSEyZCvTWaGTIBg8AO2IMZCZBlechSZAFimPyvMH908wRcBpTLSQwcixgwB8uJ5SahdFvtkubHqBaH07747yWUZD';
-// const serviceAccountAuth = new google.auth.JWT({
-//     email: serviceAccount.client_email,
-//     key: serviceAccount.private_key,
-//     scopes: 'https://www.googleapis.com/auth/calendar'
-// });
+const serviceAccountAuth = new google.auth.JWT({
+    email: serviceAccount.client_email,
+    key: serviceAccount.private_key,
+    scopes: 'https://www.googleapis.com/auth/calendar'
+});
 
 const calendar = google.calendar('v3');
 
@@ -276,6 +276,30 @@ app.post('/webhook', async (req, res) => {
     }
 
 });
+
+// Creates the endpoint for our webhook 
+app.post('/webhook', (req, res) => {  
+ 
+    let body = req.body;
+  
+    // Checks this is an event from a page subscription
+    if (body.object === 'page') {
+  
+      // Iterates over each entry - there may be multiple if batched
+      body.entry.forEach(function(entry) {
+  
+        let webhook_event = entry.messaging[0];
+        console.log(webhook_event);
+      });
+  
+      // Returns a '200 OK' response to all requests
+      res.status(200).send('EVENT_RECEIVED');
+    } else {
+      // Returns a '404 Not Found' if event is not from a page subscription
+      res.sendStatus(404);
+    }
+  
+  });
 
 app.get('/webhook', (req, res) => {
 
